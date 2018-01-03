@@ -14,9 +14,9 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="btn-group pull-right m-t-15">
-                <a href="{{ route('posts.index') }}" class="btn btn-primary waves-effect waves-light"><span class="m-r-5"><i class="fa fa-list"></i></span> List</a>
+                <a href="{{ route('videos.index') }}" class="btn btn-primary waves-effect waves-light"><span class="m-r-5"><i class="fa fa-list"></i></span> List</a>
             </div>
-            <h4 class="page-title">Tạo mới Post</h4>
+            <h4 class="page-title">Tạo mới Video</h4>
         </div>
     </div>
 
@@ -25,7 +25,7 @@
             <div class="card-box">
                 <div class="row">
                     <div class="col-sm-12">
-                        {!! Form::open(['route' => ['posts.store'], 'method' => 'post', 'role' => 'form', 'class' => 'form-horizontal', 'files' => true]) !!}
+                        {!! Form::open(['route' => ['videos.store'], 'method' => 'post', 'role' => 'form', 'class' => 'form-horizontal', 'files' => true]) !!}
                         @include('layouts.partials.errors')
 
                         <div class="form-group">
@@ -35,13 +35,13 @@
                             </div>
                         </div>
 
-
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Description</label>
+                            <label class="col-md-3 control-label">URL</label>
                             <div class="col-md-9">
-                                {!! Form::textarea('desc', null, ['id' => 'desc', 'class' => 'form-control', 'placeholder' => 'Description']) !!}
+                                {!! Form::text('url', null, ['id' => 'url', 'class' => 'form-control', 'placeholder' => 'Video Url']) !!}
                             </div>
                         </div>
+
 
                         <h4>SEO Part</h4>
 
@@ -72,21 +72,14 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Category</label>
-                            <div class="col-md-9">
-                                {!! Form::select('category_id', ['' => 'Chọn chuyên mục'] + \App\Lib\Helpers::categoryList(), null, ['id' => 'category_id',  'class' => 'form-control select2', 'data-placeholder' => 'Chọn chuyên mục...']) !!}
-                            </div>
-
-                        </div>
-
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Content</label>
+                            <label class="col-md-3 control-label">Video Code</label>
                             <div class="col-md-9">
-                                {!! Form::textarea('content', null, ['class' => 'form-control ckeditor']) !!}
+                                {!! Form::textarea('code', null, ['class' => 'form-control']) !!}
                             </div>
                         </div>
+
 
                         <div class="form-group">
                             <label class="col-md-3 control-label">Tags</label>

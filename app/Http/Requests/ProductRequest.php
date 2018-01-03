@@ -2,12 +2,13 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Post;
+use App\Lib\Helpers;
+use App\Models\Product;
 use App\Models\Tag;
 use Illuminate\Foundation\Http\FormRequest;
 use Intervention\Image\Facades\Image;
 
-class PostRequest extends FormRequest
+class ProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,7 +29,6 @@ class PostRequest extends FormRequest
     {
         $rules = [
             'title' => 'required',
-            'category_id' => 'required',
         ];
 
         return $rules;
@@ -37,8 +37,7 @@ class PostRequest extends FormRequest
     public function messages()
     {
         return [
-            'title.required' => 'Vui lòng không để trống tên bài viết',
-            'category_id.required' => 'Vui lòng chọn chuyên mục cho bài viết',
+            'title.required' => 'Vui lòng thêm tên sản phẩm',
         ];
     }
 
@@ -72,16 +71,29 @@ class PostRequest extends FormRequest
             $data['image'] = $filename;
         }
 
-        $post = Post::create($data);
+        $productAttributes = Helpers::getProductAttributes();
 
-        $post->tags()->sync($tagIds);
+        $additions = [];
+
+        if ($productAttributes) {
+            foreach ($productAttributes as $productAttribute) {
+                $additions[$productAttribute] = $data[$productAttribute];
+                unset($data[$productAttribute]);
+            }
+        }
+
+        $data['additions'] = $additions ? json_encode($additions, true) : '';
+
+        $product = Product::create($data);
+
+        $product->tags()->sync($tagIds);
 
         return $this;
     }
 
     public function save($id)
     {
-        $post = Post::findOrFail($id);
+        $product = Product::findOrFail($id);
 
         $data = $this->all();
 
@@ -111,8 +123,21 @@ class PostRequest extends FormRequest
             $data['image'] = $filename;
         }
 
-        $post->update($data);
-        $post->tags()->sync($tagIds);
+        $productAttributes = Helpers::getProductAttributes();
+
+        $additions = [];
+
+        if ($productAttributes) {
+            foreach ($productAttributes as $productAttribute) {
+                $additions[$productAttribute] = $data[$productAttribute];
+                unset($data[$productAttribute]);
+            }
+        }
+
+        $data['additions'] = $additions ? json_encode($additions, true) : '';
+
+        $product->update($data);
+        $product->tags()->sync($tagIds);
 
         return $this;
     }

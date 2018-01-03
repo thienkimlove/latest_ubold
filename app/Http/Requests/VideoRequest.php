@@ -2,12 +2,12 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Post;
 use App\Models\Tag;
+use App\Models\Video;
 use Illuminate\Foundation\Http\FormRequest;
 use Intervention\Image\Facades\Image;
 
-class PostRequest extends FormRequest
+class VideoRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,7 +28,6 @@ class PostRequest extends FormRequest
     {
         $rules = [
             'title' => 'required',
-            'category_id' => 'required',
         ];
 
         return $rules;
@@ -37,8 +36,7 @@ class PostRequest extends FormRequest
     public function messages()
     {
         return [
-            'title.required' => 'Vui lòng không để trống tên bài viết',
-            'category_id.required' => 'Vui lòng chọn chuyên mục cho bài viết',
+            'title.required' => 'Vui lòng thêm tiêu đề cho video',
         ];
     }
 
@@ -72,16 +70,16 @@ class PostRequest extends FormRequest
             $data['image'] = $filename;
         }
 
-        $post = Post::create($data);
+        $video = Video::create($data);
 
-        $post->tags()->sync($tagIds);
+        $video->tags()->sync($tagIds);
 
         return $this;
     }
 
     public function save($id)
     {
-        $post = Post::findOrFail($id);
+        $video = Video::findOrFail($id);
 
         $data = $this->all();
 
@@ -111,8 +109,8 @@ class PostRequest extends FormRequest
             $data['image'] = $filename;
         }
 
-        $post->update($data);
-        $post->tags()->sync($tagIds);
+        $video->update($data);
+        $video->tags()->sync($tagIds);
 
         return $this;
     }

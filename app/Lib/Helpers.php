@@ -18,7 +18,12 @@ class Helpers {
 
     public static function getModules($content = 'posts')
     {
-        return config('system.modules.'.$content);
+        return config('system.modules.'.env('DB_DATABASE').'.'.$content) ?  config('system.modules.'.env('DB_DATABASE').'.'.$content) : [];
+    }
+
+    public static function getProductAttributes()
+    {
+        return config('system.product_attributes.'.env('DB_DATABASE')) ?  config('system.product_attributes.'.env('DB_DATABASE')) : [];
     }
 
     public static function roleList()

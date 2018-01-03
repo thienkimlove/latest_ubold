@@ -14,9 +14,9 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="btn-group pull-right m-t-15">
-                <a href="{{ route('posts.index') }}" class="btn btn-primary waves-effect waves-light"><span class="m-r-5"><i class="fa fa-list"></i></span> List</a>
+                <a href="{{ route('products.index') }}" class="btn btn-primary waves-effect waves-light"><span class="m-r-5"><i class="fa fa-list"></i></span> List</a>
             </div>
-            <h4 class="page-title">Tạo mới Post</h4>
+            <h4 class="page-title">Tạo mới Product</h4>
         </div>
     </div>
 
@@ -25,21 +25,13 @@
             <div class="card-box">
                 <div class="row">
                     <div class="col-sm-12">
-                        {!! Form::open(['route' => ['posts.store'], 'method' => 'post', 'role' => 'form', 'class' => 'form-horizontal', 'files' => true]) !!}
+                        {!! Form::open(['route' => ['products.store'], 'method' => 'post', 'role' => 'form', 'class' => 'form-horizontal', 'files' => true]) !!}
                         @include('layouts.partials.errors')
 
                         <div class="form-group">
                             <label class="col-md-3 control-label">Title</label>
                             <div class="col-md-9">
                                 {!! Form::text('title', null, ['id' => 'title', 'class' => 'form-control', 'placeholder' => 'Title']) !!}
-                            </div>
-                        </div>
-
-
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Description</label>
-                            <div class="col-md-9">
-                                {!! Form::textarea('desc', null, ['id' => 'desc', 'class' => 'form-control', 'placeholder' => 'Description']) !!}
                             </div>
                         </div>
 
@@ -72,14 +64,6 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Category</label>
-                            <div class="col-md-9">
-                                {!! Form::select('category_id', ['' => 'Chọn chuyên mục'] + \App\Lib\Helpers::categoryList(), null, ['id' => 'category_id',  'class' => 'form-control select2', 'data-placeholder' => 'Chọn chuyên mục...']) !!}
-                            </div>
-
-                        </div>
-
 
                         <div class="form-group">
                             <label class="col-md-3 control-label">Content</label>
@@ -89,12 +73,50 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-3 control-label">Content Tab1</label>
+                            <div class="col-md-9">
+                                {!! Form::textarea('content_tab1', null, ['class' => 'form-control ckeditor']) !!}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Content Tab2</label>
+                            <div class="col-md-9">
+                                {!! Form::textarea('content_tab2', null, ['class' => 'form-control ckeditor']) !!}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Content Tab3</label>
+                            <div class="col-md-9">
+                                {!! Form::textarea('content_tab3', null, ['class' => 'form-control ckeditor']) !!}
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
                             <label class="col-md-3 control-label">Tags</label>
                             <div class="col-md-9">
                                 {!! Form::select('tags[]', \App\Lib\Helpers::tagList(), null, ['id' => 'tags', 'class' => 'form-control select2', 'multiple']) !!}
                             </div>
 
                         </div>
+
+                        @if (\App\Lib\Helpers::getProductAttributes())
+                            <h4>Attribute Part</h4>
+
+                            <div class="card-box">
+                                @foreach (\App\Lib\Helpers::getProductAttributes() as $attribute)
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">{{$attribute}}</label>
+                                        <div class="col-md-9">
+                                            {!! Form::text($attribute, null, ['id' => $attribute, 'class' => 'form-control', 'placeholder' => $attribute]) !!}
+                                        </div>
+                                    </div>
+
+                                @endforeach
+                            </div>
+                        @endif
 
 
                         <div class="form-group">

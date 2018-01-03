@@ -12,7 +12,19 @@
 
 
                 <li class="has-submenu">
-                    <a href="{{url('/posts')}}"><i class="md md-album"></i>Posts</a>
+                    <a href="{{url('/posts')}}"><i class="md md-edit"></i>Posts</a>
+                </li>
+
+                <li class="has-submenu">
+                    <a href="{{url('/questions')}}"><i class="md md-done"></i>Questions</a>
+                </li>
+
+                <li class="has-submenu">
+                    <a href="{{url('/videos')}}"><i class="md md-class"></i>Videos</a>
+                </li>
+
+                <li class="has-submenu">
+                    <a href="{{url('/products')}}"><i class="md md-pages"></i>Products</a>
                 </li>
 
                 @if ($currentUser->isAdmin())

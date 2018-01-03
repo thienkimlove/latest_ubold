@@ -8,8 +8,22 @@
          0 => 'Inactive'
      ],
      'modules' => [
-         'posts' => [
-             'right_index' => 'Right Index'
+         'cagaileo' => [
+             'posts' => [
+                 'right_index' => 'Right Index'
+             ],
+         ]
+     ],
+
+     'product_attributes' => [
+         'cagaileo' => [
+             'congdung',
+             'xuatxu',
+             'giayphep',
+             'quycach',
+             'tinhtrang',
+             'giacu',
+             'giamoi',
          ],
      ],
  ];

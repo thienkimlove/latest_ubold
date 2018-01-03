@@ -2,12 +2,12 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Post;
+use App\Models\Question;
 use App\Models\Tag;
 use Illuminate\Foundation\Http\FormRequest;
 use Intervention\Image\Facades\Image;
 
-class PostRequest extends FormRequest
+class QuestionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,7 +28,7 @@ class PostRequest extends FormRequest
     {
         $rules = [
             'title' => 'required',
-            'category_id' => 'required',
+            'question' => 'required',
         ];
 
         return $rules;
@@ -37,8 +37,8 @@ class PostRequest extends FormRequest
     public function messages()
     {
         return [
-            'title.required' => 'Vui lòng không để trống tên bài viết',
-            'category_id.required' => 'Vui lòng chọn chuyên mục cho bài viết',
+            'title.required' => 'Vui lòng thêm tiêu đề cho câu hỏi',
+            'question.required' => 'Vui lòng thêm câu hỏi',
         ];
     }
 
@@ -72,16 +72,16 @@ class PostRequest extends FormRequest
             $data['image'] = $filename;
         }
 
-        $post = Post::create($data);
+        $question = Question::create($data);
 
-        $post->tags()->sync($tagIds);
+        $question->tags()->sync($tagIds);
 
         return $this;
     }
 
     public function save($id)
     {
-        $post = Post::findOrFail($id);
+        $question = Question::findOrFail($id);
 
         $data = $this->all();
 
@@ -91,7 +91,6 @@ class PostRequest extends FormRequest
                 $tagIds[] = Tag::firstOrCreate(['name' => $tag])->id;
             }
         }
-
 
         if (! isset($this->status)) {
             $data['status'] = 0;
@@ -111,8 +110,8 @@ class PostRequest extends FormRequest
             $data['image'] = $filename;
         }
 
-        $post->update($data);
-        $post->tags()->sync($tagIds);
+        $question->update($data);
+        $question->tags()->sync($tagIds);
 
         return $this;
     }

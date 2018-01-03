@@ -45,7 +45,7 @@ jQuery(document).ready(function () {
     });
 
     // Select2
-    $(".select2").select2();
+    $(".select2").select2({tags : true});
 
     $(".select2-limiting").select2({
         maximumSelectionLength: 2

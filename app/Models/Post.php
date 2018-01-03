@@ -88,10 +88,10 @@ class Post extends \Eloquent
             ->addColumn('avatar', function ($post) {
                 return $post->image ? '<img src="'.url('img/cache/small/'.$post->image).'" />' : '';
             })
-            ->addColumn('tags', function ($user) {
+            ->addColumn('tags', function ($post) {
                 $tags = '';
 
-                foreach ($user->tags as $tag) {
+                foreach ($post->tags as $tag) {
                     $tags .= '&nbsp;&nbsp;<span style="background-color: #e3e3e3">' . $tag->name . '</span>';
                 }
 

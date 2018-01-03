@@ -54,5 +54,14 @@ Route::group(['middleware' => 'acl'], function() {
     Route::post('modules.add', ['uses' => 'ModulesController@add', 'as' => 'modules.add']);
     Route::post('modules.remove', ['uses' => 'ModulesController@remove', 'as' => 'modules.remove']);
 
+    Route::get('questions.dataTables', ['uses' => 'QuestionsController@datatables', 'as' => 'questions.dataTables']);
+    Route::resource('questions', 'QuestionsController');
+
+    Route::get('videos.dataTables', ['uses' => 'VideosController@datatables', 'as' => 'videos.dataTables']);
+    Route::resource('videos', 'VideosController');
+
+    Route::get('products.dataTables', ['uses' => 'ProductsController@datatables', 'as' => 'products.dataTables']);
+    Route::resource('products', 'ProductsController');
+
 });
 

@@ -5,7 +5,7 @@
     <link href="/vendor/ubold/assets/plugins/bootstrap-tagsinput/css/bootstrap-tagsinput.css" rel="stylesheet" />
     <link href="/vendor/ubold/assets/plugins/switchery/css/switchery.min.css" rel="stylesheet" />
     <link href="/vendor/ubold/assets/plugins/multiselect/css/multi-select.css"  rel="stylesheet" type="text/css" />
-    <link href="/vendor/select2/select2.min.css" rel="stylesheet" type="text/css" />
+    <link href="/vendor/ubold/assets/plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
     <link href="/vendor/ubold/assets/plugins/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" />
     <link href="/vendor/ubold/assets/plugins/bootstrap-touchspin/css/jquery.bootstrap-touchspin.min.css" rel="stylesheet" />
 @endsection
@@ -135,7 +135,8 @@
     <script src="/vendor/ubold/assets/plugins/switchery/js/switchery.min.js"></script>
     <script type="text/javascript" src="/vendor/ubold/assets/plugins/multiselect/js/jquery.multi-select.js"></script>
     <script type="text/javascript" src="/vendor/ubold/assets/plugins/jquery-quicksearch/jquery.quicksearch.js"></script>
-    <script src="/vendor/select2/select2.min.js" type="text/javascript"></script>
+    <script src="/vendor/ubold/assets/plugins/select2/js/select2.min.js" type="text/javascript"></script>
+
     <script src="/vendor/ubold/assets/plugins/bootstrap-select/js/bootstrap-select.min.js" type="text/javascript"></script>
 
     <script src="/vendor/ubold/assets/plugins/bootstrap-filestyle/js/bootstrap-filestyle.min.js" type="text/javascript"></script>
@@ -148,14 +149,13 @@
     <script type="text/javascript" src="/vendor/ubold/assets/plugins/autocomplete/countries.js"></script>
     <script type="text/javascript" src="/vendor/ubold/assets/pages/autocomplete.js"></script>
 
-    <script type="text/javascript" src="/vendor/ubold/assets/pages/jquery.form-advanced.init.js"></script>
 @endsection
 
 @section('inline_scripts')
     <script>
         (function($){
-            $('.select2').select2();
-
+            $('.select2').select2({tags : true});
+            $(":file").filestyle({input: false});
         })(jQuery);
     </script>
 @endsection

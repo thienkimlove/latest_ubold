@@ -14,9 +14,9 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="btn-group pull-right m-t-15">
-                <a href="{{ route('posts.index') }}" class="btn btn-primary waves-effect waves-light"><span class="m-r-5"><i class="fa fa-list"></i></span> List</a>
+                <a href="{{ route('videos.index') }}" class="btn btn-primary waves-effect waves-light"><span class="m-r-5"><i class="fa fa-list"></i></span> List</a>
             </div>
-            <h4 class="page-title">Tạo mới Post</h4>
+            <h4 class="page-title">Chi tiết Video</h4>
         </div>
     </div>
 
@@ -25,23 +25,23 @@
             <div class="card-box">
                 <div class="row">
                     <div class="col-sm-12">
-                        {!! Form::open(['route' => ['posts.store'], 'method' => 'post', 'role' => 'form', 'class' => 'form-horizontal', 'files' => true]) !!}
+                        {!! Form::open(['route' => ['videos.update', $video->id], 'method' => 'put', 'role' => 'form', 'class' => 'form-horizontal', 'files' => true]) !!}
                         @include('layouts.partials.errors')
 
                         <div class="form-group">
                             <label class="col-md-3 control-label">Title</label>
                             <div class="col-md-9">
-                                {!! Form::text('title', null, ['id' => 'title', 'class' => 'form-control', 'placeholder' => 'Title']) !!}
+                                {!! Form::text('title', $video->title, ['id' => 'title', 'class' => 'form-control', 'placeholder' => 'Title']) !!}
                             </div>
                         </div>
-
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Description</label>
+                            <label class="col-md-3 control-label">Url</label>
                             <div class="col-md-9">
-                                {!! Form::textarea('desc', null, ['id' => 'desc', 'class' => 'form-control', 'placeholder' => 'Description']) !!}
+                                {!! Form::text('url', $video->url, ['id' => 'url', 'class' => 'form-control', 'placeholder' => 'Người hỏi']) !!}
                             </div>
                         </div>
+
 
                         <h4>SEO Part</h4>
 
@@ -50,7 +50,7 @@
                             <div class="form-group">
                                 <label class="col-md-3 control-label">SEO Title</label>
                                 <div class="col-md-9">
-                                    {!! Form::text('seo_title', null, ['id' => 'seo_title', 'class' => 'form-control', 'placeholder' => 'SEO Title']) !!}
+                                    {!! Form::text('seo_title', $video->seo_title, ['id' => 'seo_title', 'class' => 'form-control', 'placeholder' => 'SEO Title']) !!}
                                 </div>
                             </div>
 
@@ -58,7 +58,7 @@
                             <div class="form-group">
                                 <label class="col-md-3 control-label">SEO Description</label>
                                 <div class="col-md-9">
-                                    {!! Form::textarea('seo_desc', null, ['id' => 'seo_desc', 'class' => 'form-control', 'placeholder' => 'SEO Description']) !!}
+                                    {!! Form::textarea('seo_desc', $video->seo_desc, ['id' => 'seo_desc', 'class' => 'form-control', 'placeholder' => 'SEO Description']) !!}
                                 </div>
                             </div>
 
@@ -68,30 +68,26 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label">Image</label>
                             <div class="col-md-9">
+                                @if ($video->image)
+                                    <p><img src="/img/cache/small/{{$video->image}}" /></p>
+                                @endif
                                 {!! Form::file('avatar', null, ['class' => 'form-control']) !!}
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Category</label>
-                            <div class="col-md-9">
-                                {!! Form::select('category_id', ['' => 'Chọn chuyên mục'] + \App\Lib\Helpers::categoryList(), null, ['id' => 'category_id',  'class' => 'form-control select2', 'data-placeholder' => 'Chọn chuyên mục...']) !!}
-                            </div>
-
-                        </div>
-
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Content</label>
+                            <label class="col-md-3 control-label">Code</label>
                             <div class="col-md-9">
-                                {!! Form::textarea('content', null, ['class' => 'form-control ckeditor']) !!}
+                                {!! Form::textarea('code', $video->code, ['class' => 'form-control']) !!}
                             </div>
                         </div>
+
 
                         <div class="form-group">
                             <label class="col-md-3 control-label">Tags</label>
                             <div class="col-md-9">
-                                {!! Form::select('tags[]', \App\Lib\Helpers::tagList(), null, ['id' => 'tags', 'class' => 'form-control select2', 'multiple']) !!}
+                                {!! Form::select('tags[]', \App\Lib\Helpers::tagList(), $video->tags->pluck('name', 'name')->all(), ['id' => 'tags', 'class' => 'form-control select2', 'multiple']) !!}
                             </div>
 
                         </div>
@@ -100,8 +96,15 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label">Trạng thái</label>
                             <div class="col-md-9">
-                                {!! Form::checkbox('status', '1', 1, ['data-plugin' => 'switchery', 'data-color' => '#81c868']) !!}
+                                {!! Form::checkbox('status', '1', $video->status, ['data-plugin' => 'switchery', 'data-color' => '#81c868']) !!}
                                 <span class="lbl"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Ngày tạo</label>
+                            <div class="col-md-9">
+                                <p class="form-control-static">{{ $video->created_at }}</p>
                             </div>
                         </div>
 
@@ -118,7 +121,6 @@
         </div>
     </div>
 @endsection
-
 @section('scripts')
     <script src="/vendor/ubold/assets/plugins/bootstrap-tagsinput/js/bootstrap-tagsinput.min.js"></script>
     <script src="/vendor/ubold/assets/plugins/switchery/js/switchery.min.js"></script>
