@@ -7,4 +7,9 @@
          1 => 'Active',
          0 => 'Inactive'
      ],
+     'modules' => [
+         'posts' => [
+             'right_index' => 'Right Index'
+         ],
+     ],
  ];

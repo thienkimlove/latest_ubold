@@ -2,15 +2,39 @@
 
 namespace App\Lib;
 
+use App\Models\Category;
+use App\Models\Position;
 use App\Models\Role;
+use App\Models\Tag;
 use Carbon\Carbon;
 
 
 class Helpers {
 
+    public static function tagList()
+    {
+        return Tag::pluck('name','name')->all();
+    }
+
+    public static function getModules($content = 'posts')
+    {
+        return config('system.modules.'.$content);
+    }
+
     public static function roleList()
     {
        return Role::pluck('name', 'id')->all();
+    }
+
+    public static function positionList()
+    {
+        return Position::pluck('name', 'id')->all();
+    }
+
+
+    public static function categoryList()
+    {
+        return Category::whereNull('parent_id')->pluck('name', 'id')->all();
     }
 
 

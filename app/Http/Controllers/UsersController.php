@@ -11,14 +11,6 @@ use App\Http\Requests\UserRequest;
 class UsersController extends Controller
 {
 
-    public $model = 'users';
-
-    public $validator = [
-        'name' => 'required',
-        'email' => 'required|unique:users',
-    ];
-
-
     public function index()
     {
         return view('users.index');

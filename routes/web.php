@@ -34,5 +34,25 @@ Route::group(['middleware' => 'acl'], function() {
     Route::put('roles/{id}/permissions', ['uses' => 'RolePermissionsController@update', 'as' => 'rolePermissions.update']);
     Route::resource('permissions', 'PermissionsController', ['only' => ['index']]);
 
+
+    Route::get('positions.dataTables', ['uses' => 'PositionsController@datatables', 'as' => 'positions.dataTables']);
+    Route::resource('positions', 'PositionsController');
+
+    Route::get('banners.dataTables', ['uses' => 'BannersController@datatables', 'as' => 'banners.dataTables']);
+    Route::resource('banners', 'BannersController');
+
+    Route::get('categories.dataTables', ['uses' => 'CategoriesController@datatables', 'as' => 'categories.dataTables']);
+    Route::resource('categories', 'CategoriesController');
+
+
+    Route::get('posts.dataTables', ['uses' => 'PostsController@datatables', 'as' => 'posts.dataTables']);
+    Route::resource('posts', 'PostsController');
+
+    Route::get('tags.dataTables', ['uses' => 'TagsController@datatables', 'as' => 'tags.dataTables']);
+    Route::resource('tags', 'TagsController');
+
+    Route::post('modules.add', ['uses' => 'ModulesController@add', 'as' => 'modules.add']);
+    Route::post('modules.remove', ['uses' => 'ModulesController@remove', 'as' => 'modules.remove']);
+
 });
 
