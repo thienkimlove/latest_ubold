@@ -56,11 +56,11 @@ return [
 
         'static' => [
             'driver' => 'mysql',
-            'host' => '42.112.31.173',
+            'host' => 'localhost',
             'port' => '3306',
             'database' => 'static',
-            'username' => 'tieungao',
-            'password' => 'tieungao123',
+            'username' => 'root',
+            'password' => 'tieungao',
             'unix_socket' => '',
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',

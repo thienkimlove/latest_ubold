@@ -30,12 +30,12 @@
                     @endforeach
                     <!-- /paging -->
                     <div class="boxPaging">
-                        @include('pagination.default', ['paginate' => $posts])
+                        @include('frontend.cagaileo.pagination', ['paginate' => $posts])
                     </div><!--//news-list-->
                 </div>
                 @foreach ($middleIndexBanner as $banner)
                     <div class="box-adv-center">
-                        <a href="{{$banner->url}}"><img src="{{url('files/images/'.$banner->image)}}" alt=""></a>
+                        <a href="{{$banner->url}}"><img src="{{url('files/'.$banner->image)}}" alt=""></a>
                     </div><!--//box-adv-center-->
                 @endforeach
             </div><!--//col-left-->

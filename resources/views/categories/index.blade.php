@@ -146,6 +146,29 @@
                 datatable.draw();
                 e.preventDefault();
             });
+
+            datatable.on('click', '[id^="btn-module-"]', function (e) {
+                e.preventDefault();
+
+                var url = $(this).data('url');
+                var type = $(this).data('type');
+                var content = $(this).data('content');
+                var value = $(this).data('value');
+
+                $.ajax({
+                    url : url,
+                    type : 'POST',
+                    data : { type : type, content : content, value : value },
+                    beforeSend: function (xhr) {
+                        var token = $('meta[name="csrf_token"]').attr('content');
+                        if (token) {
+                            return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                        }
+                    }
+                }).always(function (data) {
+                    window.location.reload();
+                });
+            });
         });
 
         $.ajaxSetup({

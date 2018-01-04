@@ -83,14 +83,16 @@ Route::group(['middleware' => 'acl'], function() {
 #frontend
 
 if (env('DB_DATABASE') == 'cagaileo') {
-    Route::get('/', 'CLController@index');
-    Route::get('lien-he', 'CLController@contact');
-    Route::get('video/{value?}', 'CLController@video');
-    Route::get('phan-phoi/{slug?}', 'CLController@delivery');
-    Route::post('save_question', 'CLController@saveQuestion');
-    Route::get('tag/{value}', 'CLController@tag');
-    Route::get('search', 'CLController@search');
-    Route::get('product/{value?}', 'CLController@product');
-    Route::get('cau-hoi-thuong-gap/{value?}', 'CLController@question');
-    Route::get('{value}', 'CLController@main');
+    Route::get('/', 'CLController@index')->name('frontend.index');
+    Route::get('lien-he', 'CLController@contact')->name('frontend.contact');
+    Route::get('video/{value?}', 'CLController@video')->name('frontend.video');
+    Route::get('phan-phoi/{slug?}', 'CLController@delivery')->name('frontend.delivery');
+    Route::post('save_question', 'CLController@saveQuestion')->name('frontend.saveQuestion');
+    Route::post('saveOrder', 'CLController@saveOrder')->name('frontend.saveOrder');
+    Route::get('tag/{value}', 'CLController@tag')->name('frontend.tag');
+    Route::get('search', 'CLController@search')->name('frontend.search');
+    Route::get('product/{value?}', 'CLController@product')->name('frontend.product');
+    Route::get('cau-hoi-thuong-gap/{value?}', 'CLController@question')->name('frontend.question');
+    Route::get('/ajaxStore', 'CLController@ajaxStore')->name('frontend.ajaxStore');
+    Route::get('{value}', 'CLController@main')->name('frontend.main');
 }

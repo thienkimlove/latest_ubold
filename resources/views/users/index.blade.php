@@ -79,10 +79,8 @@
                 <table id="dataTables-users" class="table table-striped table-bordered table-actions-bar">
                     <thead>
                     <tr>
-                        <th width="10%">Tên người dùng</th>
-                        <th width="10%">Email</th>
-                        <th width="15%">Desc</th>
-                        <th width="10%">Avatar</th>
+                        <th width="20%">Tên người dùng</th>
+                        <th width="20%">Email</th>
                         <th width="10%">Phân quyền</th>
                         <th width="15%">Trạng thái</th>
                         <th width="10%">Ngày tạo</th>
@@ -145,14 +143,12 @@
                 columns: [
                     {data: 'name', name: 'name'},
                     {data: 'email', name: 'email'},
-                    {data: 'desc', name: 'desc'},
-                    {data: 'avatar', name: 'avatar'},
                     {data: 'roles', name: 'roles', orderable: false, searchable: false},
                     {data: 'status', name: 'status'},
                     {data: 'created_at', name: 'created_at'},
                     {data: 'action', name: 'action', orderable: false, searchable: false}
                 ],
-                order: [[6, 'desc']]
+                order: [[1, 'desc']]
             });
 
             $('#search-form').on('submit', function(e) {

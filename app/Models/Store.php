@@ -3,12 +3,14 @@
 namespace App\Models;
 
 use Cviebrock\EloquentSluggable\Sluggable;
+use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 use DataTables;
 
 class Store extends \Eloquent
 {
 
     use Sluggable;
+    use SluggableScopeHelpers;
 
     public function sluggable()
     {

@@ -156,6 +156,6 @@ var google_remarketing_only = true;
 <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/964027423/?guid=ON&amp;script=0"/>
 </div>
 </noscript>
-
+@yield('frontend_script')
 </body>
 </html>

@@ -45,7 +45,7 @@
                 </div>
                 <!-- /paging -->
                 <div class="boxPaging">
-                    @include('pagination.default', ['paginate' => $products])
+                    @include('frontend.cagaileo.pagination', ['paginate' => $products])
                 </div><!--//news-list-->
                 <ul class="listAdv cf">
                     <li>

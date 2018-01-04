@@ -6,13 +6,13 @@
             <ul class="breadcrumbs cf">
                 <li><a href="{{url('/')}}">Trang chủ</a></li>
                 <li><a href="{{url('phan-phoi')}}">Phân phối</a></li>
-                <li>{{config('delivery')['city'][$delivery->city]}}</li>
+                <li>{{$province->name}}</li>
             </ul>
             <div class="col-left">
                 <div class="box-uses">
                     <article class="detail delivery-detail">
                         <h3 class="note-pp-chitiet">
-                            Danh sách đại lý, nhà thuốc phân phối tại <span class="district">{{config('delivery')['city'][$delivery->city]}}</span> <br>
+                            Danh sách đại lý, nhà thuốc phân phối tại <span class="district">{{$province->name}}</span> <br>
                             Để mua sản phẩm tại các tỉnh thành khác, vui lòng click: <a href="{{url('phan-phoi')}}" title="Điểm bán hàng toàn quốc" target="_blank">ĐIỂM BÁN HÀNG TOÀN QUỐC</a>
                             <br>
                             Các nhà thuốc được in đậm là các nhà thuốc chắc chắn còn hàng. Nếu không tìm thấy điểm bán hàng thuận tiện, hãy gọi đến Hotline (miễn cước)
@@ -24,26 +24,15 @@
                                 <span>Mời Quý khách chọn Quận/ Huyện để xem điểm bán Giải Độc Gan</span>
                             </div>
                             <div class="choose-dis">
-                                <select name="" id="">
+                                <select name="district_id" id="district_id">
                                     <option value="0">Chọn Quận/ Huyện</option>
-                                    <option value="1">Hà Nội</option>
-                                    <option value="1">Hà Nội</option>
-                                    <option value="1">Hà Nội</option>
-                                    <option value="1">Hà Nội</option>
-                                    <option value="1">Hà Nội</option>
-                                    <option value="1">Hà Nội</option>
-                                    <option value="1">Hà Nội</option>
-                                    <option value="1">Hà Nội</option>
-                                    <option value="1">Hà Nội</option>
-                                    <option value="1">Hà Nội</option>
-                                    <option value="1">Hà Nội</option>
-                                    <option value="1">Hà Nội</option>
-                                    <option value="1">Hà Nội</option>
-                                    <option value="1">Hà Nội</option>
+                                    @foreach ($province->districts as $district)
+                                        <option value="{{$district->id}}">{{$district->name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
-                            <div class="show-name-store">
-                                {!! $delivery->content !!}
+                            <div class="show-name-store" id="show_store">
+
                             </div>
                         </div>
                         <ul class="listButton rs">
@@ -56,10 +45,10 @@
                         </ul>
                     </article>
                     <div class="social-follow">
-                        <div class="fb-share-button" data-href="{{url('phan-phoi', $delivery->id)}}" data-layout="button_count" data-mobile-iframe="true"></div>
+                        <div class="fb-share-button" data-href="{{url('phan-phoi', $province->slug)}}" data-layout="button_count" data-mobile-iframe="true"></div>
                     </div>
                     <div class="comment-post">
-                        <div class="fb-comments" data-href="{{url('phan-phoi', $delivery->id)}}" data-numposts="5"></div>
+                        <div class="fb-comments" data-href="{{url('phan-phoi', $province->slug)}}" data-numposts="5"></div>
                     </div>
                 </div>
             </div><!--//col-left-->
@@ -68,4 +57,25 @@
         </div><!--//layout-home-->
         <div class="clear"></div>
     </section>
+@endsection
+
+@section('frontend_script')
+    <script>
+        function getStore() {
+            var  district_id = $('#district_id').val();
+            $('#show_store').html('');
+            if (district_id) {
+                $.get('/ajaxStore', { 'district_id' : district_id }, function(res){
+                    $('#show_store').html(res.html);
+                });
+            }
+        }
+        $(function(){
+            getStore();
+            $('#district_id').change(function(){
+                getStore();
+                return false;
+            });
+        });
+    </script>
 @endsection

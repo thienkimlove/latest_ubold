@@ -12,6 +12,8 @@ class Setting extends \Eloquent
         'value',
     ];
 
+    public $timestamps = false;
+
 
     public static function getDataTables($request)
     {

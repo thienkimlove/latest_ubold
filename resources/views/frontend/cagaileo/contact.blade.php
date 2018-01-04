@@ -14,7 +14,7 @@
                     <div class="box-intro">
                         <div class="some-intro">
                             <div class="pro-img">
-                                <img src="http://www.giaidocgan.vn/frontend/cagaileo/images/bs-img.jpg" alt="" width="206" height="199">
+                                <img src="http://www.giaidocgan.vn/frontend/images/bs-img.jpg" alt="" width="206" height="199">
                             </div>
                             <div class="text">
                                 Vui lòng gọi điện đến tổng đài tư vấn miễn cước 1800 1258 để được các Dược sĩ nhiều năm kinh nghiệm tư vấn trực tiếp.
@@ -75,10 +75,10 @@
                     </div>
                     <ul class="listButton rs">
                         <li class="ilocal rs"><a href="{{url('phan-phoi')}}">
-                                <img src="http://www.giaidocgan.vn/frontend/cagaileo/images/diem-ban-green-3.png" alt="Điểm bán sản phẩm" width="244" height="74">
+                                <img src="http://www.giaidocgan.vn/frontend/images/diem-ban-green-3.png" alt="Điểm bán sản phẩm" width="244" height="74">
                             </a></li>
                         <li class="icall rs"><a href="tel:0912571190">
-                                <img src="http://www.giaidocgan.vn/frontend/cagaileo/images/tu-van-green-3.png" alt="Tư vấn miễn phí" width="244" height="74">
+                                <img src="http://www.giaidocgan.vn/frontend/images/tu-van-green-3.png" alt="Tư vấn miễn phí" width="244" height="74">
                             </a></li>
                     </ul>
                 </div>

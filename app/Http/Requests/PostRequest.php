@@ -63,11 +63,11 @@ class PostRequest extends FormRequest
 
             $filename = $this->file('avatar')->getClientOriginalName();
 
-            if (file_exists(public_path('files/images/'. $filename))) {
+            if (file_exists(public_path('files/'. $filename))) {
                 $filename = substr(uniqid(), 0, 4).'_'.$filename;
             }
 
-            Image::make($this->file('avatar')->getRealPath())->save(public_path('files/images/'. $filename));
+            Image::make($this->file('avatar')->getRealPath())->save(public_path('files/'. $filename));
 
             $data['image'] = $filename;
         }
@@ -102,11 +102,11 @@ class PostRequest extends FormRequest
 
             $filename = $this->file('avatar')->getClientOriginalName();
 
-            if (file_exists(public_path('files/images/'. $filename))) {
+            if (file_exists(public_path('files/'. $filename))) {
                 $filename = substr(uniqid(), 0, 4).'_'.$filename;
             }
 
-            Image::make($this->file('avatar')->getRealPath())->save(public_path('files/images/'. $filename));
+            Image::make($this->file('avatar')->getRealPath())->save(public_path('files/'. $filename));
 
             $data['image'] = $filename;
         }

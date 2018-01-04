@@ -41,10 +41,10 @@
                    @if ($headerCategories->count() > 0)
                     @foreach ($headerCategories as $headerCategory)
                         <li>
-                            <a class="{{(isset($page) && ($page == $headerCategory->slug || in_array($page, $headerCategory->subCategories->lists('slug')->all()))) ? 'active' : ''}}" href="{{url($headerCategory->slug)}}">{{$headerCategory->name}}</a>
-                            @if ($headerCategory->subCategories->count() > 0)
+                            <a class="{{(isset($page) && ($page == $headerCategory->slug || in_array($page, $headerCategory->children->pluck('slug')->all()))) ? 'active' : ''}}" href="{{url($headerCategory->slug)}}">{{$headerCategory->name}}</a>
+                            @if ($headerCategory->children->count() > 0)
                                 <ul>
-                                    @foreach ($headerCategory->subCategories as $childCategory)
+                                    @foreach ($headerCategory->children as $childCategory)
                                         <li><a class="{{(isset($page) && $page == $childCategory->slug) ? 'active' : ''}}" href="{{url($childCategory->slug)}}">{{$childCategory->name}}</a></li>
                                     @endforeach
                                 </ul>
@@ -78,7 +78,7 @@
         @foreach ($headerIndexBanners as $banner)
             <div class="item">
                 <a class="thumb" href="{{$banner->url}}" title="">
-                    <img src="{{url('files/images/'.$banner->image)}}"/>
+                    <img src="{{url('files/'.$banner->image)}}"/>
                 </a>
             </div>
         @endforeach
@@ -88,12 +88,12 @@
 
 <div class="banner-ads left">
     <a href="javascript:void(0)" title="" target="_blank">
-        <img src="http://www.giaidocgan.vn/frontend/cagaileo/images/ads.jpg" alt="" width="171" height="454">
+        <img src="http://www.giaidocgan.vn/frontend/images/ads.jpg" alt="" width="171" height="454">
     </a>
 </div>
 <div class="btn-group-fix banner-ads">
-    <a href="javascript:void(0)" title="Fanpage"><img src="http://www.giaidocgan.vn/frontend/cagaileo/images/fb-icon.png" alt="Fanpage" width="63" height="63"></a>
-    <a href="tel:0912571190" title="Gọi tư vấn"><img src="http://www.giaidocgan.vn/frontend/cagaileo/images/call-icon.png" alt="Gọi tư vấn" width="63" height="63"></a>
-    <a href="javascript:void(0)" title="Mua hàng"><img src="http://www.giaidocgan.vn/frontend/cagaileo/images/cart-icon.png" alt="Giỏ hàng" width="63" height="63"></a>
-    <a href="phanphoi.html" title="Điểm bán sản phẩm"><img src="http://www.giaidocgan.vn/frontend/cagaileo/images/location-icon.png" alt="Điểm bán sản phẩm" width="63" height="63"></a>
+    <a href="javascript:void(0)" title="Fanpage"><img src="http://www.giaidocgan.vn/frontend/images/fb-icon.png" alt="Fanpage" width="63" height="63"></a>
+    <a href="tel:0912571190" title="Gọi tư vấn"><img src="http://www.giaidocgan.vn/frontend/images/call-icon.png" alt="Gọi tư vấn" width="63" height="63"></a>
+    <a href="javascript:void(0)" title="Mua hàng"><img src="http://www.giaidocgan.vn/frontend/images/cart-icon.png" alt="Giỏ hàng" width="63" height="63"></a>
+    <a href="{{url('phan-phoi')}}" title="Điểm bán sản phẩm"><img src="http://www.giaidocgan.vn/frontend/images/location-icon.png" alt="Điểm bán sản phẩm" width="63" height="63"></a>
 </div>

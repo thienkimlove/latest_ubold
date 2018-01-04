@@ -4,12 +4,14 @@ namespace App\Models;
 
 use App\Lib\Helpers;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 use DataTables;
 
 class Question extends \Eloquent
 {
 
     use Sluggable;
+    use SluggableScopeHelpers;
 
     public function sluggable()
     {
@@ -40,12 +42,18 @@ class Question extends \Eloquent
         return $this->belongsToMany(Tag::class);
     }
 
+    public function scopePublish($query)
+    {
+        $query->where('status', true);
+    }
+
+
 
     public static function getDataTables($request)
     {
         $question = static::select('*')->with('tags');
 
-        $modules = Module::where('content', 'questions')->pluck('value', 'type')->all();
+        $modules = Module::where('content', 'questions')->get();
 
         return DataTables::of($question)
             ->filter(function ($query) use ($request) {
@@ -64,7 +72,17 @@ class Question extends \Eloquent
 
                 foreach (Helpers::getModules('questions') as $key => $value) {
                     $i ++;
-                    if (isset($modules[$key]) && $modules[$key] == $question->id) {
+
+                    $inModule = false;
+
+                    foreach ($modules as $module) {
+                        if ($module->type == $key && $module->value == $question->id) {
+                            $inModule = true;
+                        }
+                    }
+
+
+                    if ($inModule) {
                         $response .= '<a class="table-action-btn" data-type="'.$key.'" data-content="questions" data-value="'.$question->id.'" data-url="' . route('modules.remove') . '" id="btn-module-'.$i.'-' . $question->id . '"  title="Off '.$value.'" href="javascript:;"><i class="fa fa-unlock text-danger"></i></a>';
                     } else {
                         $response .= '<a class="table-action-btn" data-type="'.$key.'" data-content="questions" data-value="'.$question->id.'" data-url="' . route('modules.add') . '" id="btn-module-'.$i.'-' . $question->id . '"  title="On '.$value.'" href="javascript:;"><i class="fa fa-lock text-success"></i></a>';

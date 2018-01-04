@@ -4,12 +4,14 @@ namespace App\Models;
 
 use App\Lib\Helpers;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 use DataTables;
 
 class Product extends \Eloquent
 {
 
     use Sluggable;
+    use SluggableScopeHelpers;
 
     public function sluggable()
     {
@@ -46,7 +48,7 @@ class Product extends \Eloquent
     {
         $product = static::select('*')->with('tags');
 
-        $modules = Module::where('content', 'products')->pluck('value', 'type')->all();
+        $modules = Module::where('content', 'products')->get();
 
         return DataTables::of($product)
             ->filter(function ($query) use ($request) {
@@ -61,11 +63,22 @@ class Product extends \Eloquent
             ->addColumn('action', function ($product) use ($modules) {
                 $response = '<a class="table-action-btn" title="Chỉnh sửa product" href="' . route('products.edit', $product->id) . '"><i class="fa fa-pencil text-success"></i></a>';
 
+
                 $i = 0;
 
                 foreach (Helpers::getModules('products') as $key => $value) {
-                    $i ++;
-                    if (isset($modules[$key]) && $modules[$key] == $product->id) {
+
+                    $i++;
+
+                    $inModule = false;
+
+                    foreach ($modules as $module) {
+                        if ($module->type == $key && $module->value == $product->id) {
+                           $inModule = true;
+                        }
+                    }
+
+                    if ($inModule) {
                         $response .= '<a class="table-action-btn" data-type="'.$key.'" data-content="products" data-value="'.$product->id.'" data-url="' . route('modules.remove') . '" id="btn-module-'.$i.'-' . $product->id . '"  title="Off '.$value.'" href="javascript:;"><i class="fa fa-unlock text-danger"></i></a>';
                     } else {
                         $response .= '<a class="table-action-btn" data-type="'.$key.'" data-content="products" data-value="'.$product->id.'" data-url="' . route('modules.add') . '" id="btn-module-'.$i.'-' . $product->id . '"  title="On '.$value.'" href="javascript:;"><i class="fa fa-lock text-success"></i></a>';

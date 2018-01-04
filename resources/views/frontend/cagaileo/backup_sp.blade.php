@@ -36,7 +36,7 @@
             <div class="data">
                 @foreach ($middleIndexBanner as $banner)
                     <div class="item full">
-                        <a href="{{$banner->url}}"><img src="{{url('files/images/'.$banner->image)}}" alt=""></a>
+                        <a href="{{$banner->url}}"><img src="{{url('files/'.$banner->image)}}" alt=""></a>
                     </div>
                 @endforeach
             </div>

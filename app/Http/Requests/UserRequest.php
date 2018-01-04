@@ -59,15 +59,19 @@ class UserRequest extends FormRequest
             $data['status'] = 0;
         }
 
+        if (! isset($this->password)) {
+            $data['password'] = md5(time());
+        }
+
         if ($this->hasFile('avatar') && $this->file('avatar')->isValid()) {
 
             $filename = $this->file('avatar')->getClientOriginalName();
 
-            if (file_exists(public_path('files/images/'. $filename))) {
+            if (file_exists(public_path('files/'. $filename))) {
                 $filename = substr(uniqid(), 0, 4).'_'.$filename;
             }
 
-            Image::make($this->file('avatar')->getRealPath())->save(public_path('files/images/'. $filename));
+            Image::make($this->file('avatar')->getRealPath())->save(public_path('files/'. $filename));
 
             $data['image'] = $filename;
         }
@@ -92,11 +96,11 @@ class UserRequest extends FormRequest
 
             $filename = $this->file('avatar')->getClientOriginalName();
 
-            if (file_exists(public_path('files/images/'. $filename))) {
+            if (file_exists(public_path('files/'. $filename))) {
                 $filename = substr(uniqid(), 0, 4).'_'.$filename;
             }
 
-            Image::make($this->file('avatar')->getRealPath())->save(public_path('files/images/'. $filename));
+            Image::make($this->file('avatar')->getRealPath())->save(public_path('files/'. $filename));
 
             $data['image'] = $filename;
 

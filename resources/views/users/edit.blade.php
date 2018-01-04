@@ -42,22 +42,6 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Avatar</label>
-                            <div class="col-md-9">
-                                @if ($user->image)
-                                    <p><img src="/img/cache/small/{{$user->image}}" /></p>
-                                @endif
-                                {!! Form::file('avatar', null, ['class' => 'form-control']) !!}
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Description</label>
-                            <div class="col-md-9">
-                                {!! Form::textarea('desc', $user->desc, ['class' => 'form-control ckeditor']) !!}
-                            </div>
-                        </div>
 
 
                         <div class="form-group">

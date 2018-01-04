@@ -117,6 +117,18 @@ class User extends EloquentUser implements
         return Sentinel::inRole('admin');
     }
 
+    public static function create(array $attributes = [])
+    {
+        $static = new static();
+
+        return Sentinel::register(
+            array_merge($attributes, [
+                'password' => bcrypt(str_random(32)),
+            ]), true)
+            ->setActivation(true)
+            ->updateRoles($static->getRoleIds($attributes));
+    }
+
     public function update(array $attributes = [], array $options = [])
     {
         if (empty($attributes['password'])) {

@@ -42,20 +42,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Avatar</label>
-                            <div class="col-md-9">
-                                {!! Form::file('avatar', null, ['class' => 'form-control']) !!}
-                            </div>
-                        </div>
 
-
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Description</label>
-                            <div class="col-md-9">
-                                {!! Form::textarea('desc', null, ['class' => 'form-control ckeditor']) !!}
-                            </div>
-                        </div>
 
                         <div class="form-group">
                             <label class="col-md-3 control-label">Roles</label>

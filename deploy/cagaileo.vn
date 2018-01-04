@@ -1,10 +1,10 @@
 server {
     listen 80;
 
-    root /var/www/html/generation/public;
+    root /var/www/html/v2_latest/public;
     index index.php index.html index.htm;
 
-    server_name cagaileo.vn;
+    server_name local.cagaileo.vn;
     access_log /var/log/nginx/cagaileo.vn_access.log;
     error_log /var/log/nginx/cagaileo.vn_error.log;
     location / {
@@ -18,8 +18,7 @@ server {
         fastcgi_index index.php;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         fastcgi_param DB_DATABASE cagaileo;
-        fastcgi_param GOOGLE_CALLBACK http://cagaileo.vn/callback;
-        fastcgi_param RATE_CRON 1;
+        fastcgi_param GOOGLE_CALLBACK http://local.cagaileo.vn/callback;
         include fastcgi_params;
         fastcgi_read_timeout 300000;
     }

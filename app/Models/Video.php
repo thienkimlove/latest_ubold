@@ -4,12 +4,14 @@ namespace App\Models;
 
 use App\Lib\Helpers;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 use DataTables;
 
 class Video extends \Eloquent
 {
 
     use Sluggable;
+    use SluggableScopeHelpers;
 
     public function sluggable()
     {
@@ -43,8 +45,7 @@ class Video extends \Eloquent
     {
         $video = static::select('*')->with('tags');
 
-        $modules = Module::where('content', 'videos')->pluck('value', 'type')->all();
-
+        $modules = Module::where('content', 'videos')->get();
         return DataTables::of($video)
             ->filter(function ($query) use ($request) {
                 if ($request->filled('title')) {
@@ -62,7 +63,17 @@ class Video extends \Eloquent
 
                 foreach (Helpers::getModules('videos') as $key => $value) {
                     $i ++;
-                    if (isset($modules[$key]) && $modules[$key] == $video->id) {
+
+                    $inModule = false;
+
+                    foreach ($modules as $module) {
+                        if ($module->type == $key && $module->value == $video->id) {
+                            $inModule = true;
+                        }
+                    }
+
+
+                    if ($inModule) {
                         $response .= '<a class="table-action-btn" data-type="'.$key.'" data-content="videos" data-value="'.$video->id.'" data-url="' . route('modules.remove') . '" id="btn-module-'.$i.'-' . $video->id . '"  title="Off '.$value.'" href="javascript:;"><i class="fa fa-unlock text-danger"></i></a>';
                     } else {
                         $response .= '<a class="table-action-btn" data-type="'.$key.'" data-content="videos" data-value="'.$video->id.'" data-url="' . route('modules.add') . '" id="btn-module-'.$i.'-' . $video->id . '"  title="On '.$value.'" href="javascript:;"><i class="fa fa-lock text-success"></i></a>';

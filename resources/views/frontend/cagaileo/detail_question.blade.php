@@ -29,16 +29,16 @@
                     @endif
                     <ul class="listButton rs">
                         <li class="ilocal rs"><a href="{{url('phan-phoi')}}">
-                                <img src="http://www.giaidocgan.vn/frontend/cagaileo/images/diem-ban-green-3.png" alt="Điểm bán sản phẩm" width="244" height="74">
+                                <img src="http://www.giaidocgan.vn/frontend/images/diem-ban-green-3.png" alt="Điểm bán sản phẩm" width="244" height="74">
                             </a></li>
                         <li class="icall rs"><a href="tel:0912571190">
-                                <img src="http://www.giaidocgan.vn/frontend/cagaileo/images/tu-van-green-3.png" alt="Tư vấn miễn phí" width="244" height="74">
+                                <img src="http://www.giaidocgan.vn/frontend/images/tu-van-green-3.png" alt="Tư vấn miễn phí" width="244" height="74">
                             </a></li>
                     </ul>
                     @foreach ($middleIndexBanner as $banner)
                         <div class="ads">
                             <a href="javascript:void(0)" title="Quảng cáo" target="_blank">
-                                <img src="{{url('files/images/'.$banner->image)}}" alt="" class="imgFull" width="658" height="136">
+                                <img src="{{url('files/'.$banner->image)}}" alt="" class="imgFull" width="658" height="136">
                             </a>
                         </div>
                     @endforeach

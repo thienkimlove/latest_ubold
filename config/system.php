@@ -12,9 +12,11 @@
              'categories' => [
                  'index_1' => 'Top Category Index',
                  'index_2' => 'Second Category Index',
+                 'index_3' => 'Third Category Index',
              ],
              'products' => [
                  'hot_index' => 'Hot Product Index',
+                 'hot_below' => 'Hot Product Below',
              ],
          ]
      ],

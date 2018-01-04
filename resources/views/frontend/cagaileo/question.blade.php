@@ -12,7 +12,7 @@
                 <div class="box-intro">
                     <div class="some-intro">
                         <div class="pro-img">
-                            <img src="http://www.giaidocgan.vn/frontend/cagaileo/images/bs-img.jpg" alt="" width="206" height="199">
+                            <img src="http://www.giaidocgan.vn/frontend/images/bs-img.jpg" alt="" width="206" height="199">
                         </div>
                         <div class="text">
                             Vui lòng gọi điện đến tổng đài tư vấn miễn cước 1800 1258 để được các Dược sĩ nhiều
@@ -87,7 +87,7 @@
                                     </div>
                                     <span class="answer">Trả lời</span>
                                     <div class="answer-faq">
-                                        <img src="http://www.giaidocgan.vn/frontend/cagaileo/images/bs-img.jpg" alt="" width="58" height="58" class="faq-icon">
+                                        <img src="http://www.giaidocgan.vn/frontend/images/bs-img.jpg" alt="" width="58" height="58" class="faq-icon">
                                         <div class="text">
                                             {{$question->answer}}
                                         </div>
@@ -99,12 +99,12 @@
                     @endforeach
                     <!-- /paging -->
                     <div class="boxPaging">
-                        @include('pagination.default', ['paginate' => $questions])
+                        @include('frontend.cagaileo.pagination', ['paginate' => $questions])
                     </div><!--//news-list-->
                 </div>
             @foreach ($middleIndexBanner as $banner)
                 <div class="box-banner">
-                    <img src="{{url('files/images/'.$banner->image)}}" alt="">
+                    <img src="{{url('files/'.$banner->image)}}" alt="">
                 </div>
             @endforeach
 

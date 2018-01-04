@@ -15,13 +15,13 @@
                     <div class="menu-tabs">
                         <div class="menu-tabs">
                             <ul class="news-type">
-                                @foreach ($topIndexCategory->subCategories as $k=>$sub)
+                                @foreach ($topIndexCategory->children as $k=>$sub)
                                     <li>
                                         <a href="javascript:void(0)" rel="nofollow" data-type="tab" data-content="tab-{{$k}}" data-parent="news-type" data-reset="news-home" title="{{$sub->name}}">
                                             {{$sub->name}}
                                         </a>
                                     </li>
-                                    @if ($k < ($topIndexCategory->subCategories->count() - 1))
+                                    @if ($k < ($topIndexCategory->children->count() - 1))
                                         <li class="line">|</li>
                                     @endif
                                 @endforeach
@@ -46,7 +46,7 @@
                      @endforeach
                 </div>
 
-                @foreach ($topIndexCategory->subCategories as $k=>$sub)
+                @foreach ($topIndexCategory->children as $k=>$sub)
 
                     <div class="news-home" id="tab-{{$k}}" style="display: none">
                         @foreach ($sub->list_posts->splice(0, 3) as $post)
@@ -116,12 +116,12 @@
                         </div>
                         <div class="menu-tabs">
                             <ul class="news-type">
-                                @foreach ($secondIndexCategory->subCategories as $k=>$sub)
+                                @foreach ($secondIndexCategory->children as $k=>$sub)
                                     <li>
                                         <a href="javascript:void(0)" rel="nofollow" data-type="tab" data-content="tab-2nd-{{$k}}" data-parent="news-type" data-reset="news-list" title="{{$sub->name}}">
                                             {{$sub->name}}</a>
                                     </li>
-                                    @if ($k < ($secondIndexCategory->subCategories->count() - 1))
+                                    @if ($k < ($secondIndexCategory->children->count() - 1))
                                         <li class="line">|</li>
                                     @endif
                                 @endforeach
@@ -158,7 +158,7 @@
                             @endforeach
                         </div>
                     </div><!--//news-list-->
-                    @foreach ($secondIndexCategory->subCategories as $k=>$sub)
+                    @foreach ($secondIndexCategory->children as $k=>$sub)
                         <div class="news-list cf" id="tab-2nd-{{$k}}">
                             @foreach ($sub->list_posts->splice(0, 2) as $post)
                                 <article class="item">
@@ -188,7 +188,7 @@
                 @endif
                 @foreach ($middleIndexBanner as $banner)
                     <div class="box-adv-center">
-                        <a href="{{$banner->url}}"><img src="{{url('files/images/'.$banner->image)}}" alt=""></a>
+                        <a href="{{$banner->url}}"><img src="{{url('files/'.$banner->image)}}" alt=""></a>
                     </div><!--//box-adv-center-->
                 @endforeach
 

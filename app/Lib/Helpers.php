@@ -60,7 +60,7 @@ class Helpers {
 
     public static function categoryList()
     {
-        return Category::whereNull('parent_id')->pluck('name', 'id')->all();
+        return Category::pluck('name', 'id')->all();
     }
 
 

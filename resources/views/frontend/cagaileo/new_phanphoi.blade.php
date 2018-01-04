@@ -9,7 +9,7 @@
                 <div class="steps">
                     <h2 class="rs"><a href="/" title="Trang chủ">Trang chủ</a></h2>
                     <span>|</span>
-                    <h3 class="rs"><a href="{{url('new_phanphoi')}}" title="Phân phối">Phân phối</a></h3>
+                    <h3 class="rs"><a href="{{url('phan-phoi')}}" title="Phân phối">Phân phối</a></h3>
                 </div>
                 <div class="delivery">
                     <h3 class="note-pp">
@@ -20,31 +20,35 @@
                             <span class="number">1</span>
                             Điền thông tin đặt hàng online - giao hàng, thu tiền tại nhà <a href="#">[ ĐẶT HÀNG NGAY ]</a>
                         </div>
-                        {!! Form::open(array('url' => 'save_question')) !!}
-                        <div  id="order_online">
+                        <form action="{{url('saveOrder')}}" id="order_online" method="POST">
                             <div class="row1">
-                                <input type="text" name="ask_person" class="txt-name" placeholder="Họ tên">
-                                <input type="text" name="ask_address" class="txt-add" placeholder="Địa chỉ">
+                                <input type="text" id="name" name="name" placeholder="Họ tên">
+                                <input type="text" id="address" name="address" placeholder="Địa chỉ">
+                                <input type="hidden" name="_token" value="{{csrf_token()}}" />
                             </div>
                             <div class="row2">
-                                <input type="text" name="ask_phone" class="txt-phone" placeholder="Điện thoại">
-                                <select name="product">
-                                    <option value="0">Chọn sản phẩm</option>
-                                    <option value="1">Giải độc gan</option>
-                                    <option value="1">Giải độc gan</option>
-                                    <option value="1">Giải độc gan</option>
-                                    <option value="1">Giải độc gan</option>
-                                    <option value="1">Giải độc gan</option>
+                                <input type="number" id="phone" name="phone" placeholder="Điện thoại">
+                                <select name="product_id" id="product_id">
+                                    <option>Chọn sản phẩm</option>
+                                    @foreach (\App\Lib\Helpers::productList() as $id => $product)
+                                        <option value="{{$id}}">{{$product}}</option>
+                                    @endforeach
                                 </select>
                             </div>
-                            <div class="row3 btn-form">
-                                <input type="text" name="question" class="txt-content" placeholder="Ghi chú">
-                                <input type="number" placeholder="Số lượng" class="sl-onl"> <label for="">hộp</label>
-                                <button class="btn-order-onl btn-submit" type="submit">ĐẶT MUA HÀNG</button>
+                            <div class="row3">
+                                <input type="hidden" name="redirect_url" value="{{request()->fullUrl()}}" />
+                                <input type="text" id="note" name="note" placeholder="Ghi chú">
+                                <input type="number" id="quantity" name="quantity" placeholder="Số lượng" class="sl-onl"> <label for="">hộp</label>
+                                <button id="delivery_form_submit" class="btn-order-onl">ĐẶT MUA HÀNG</button>
                             </div>
-                            <div class="error">Điền đầy đủ các thông tin</div>
-                        </div>
-                        {!! Form::close() !!}
+
+                            @if (isset($success_delivery_form_message) && $success_delivery_form_message)
+                                <div class="error" id="delivery_form_message">Bạn đã đặt hàng thành công. Chúng tôi sẽ gọi lại cho bạn để xác nhận đơn hàng. Cảm ơn bạn.</div>
+                            @else
+                                <div class="error" id="delivery_form_message" style="display: none"></div>
+                            @endif
+
+                        </form>
                     </div>
                     <div class="note2 note">
                         <div class="title">
@@ -70,18 +74,19 @@
                         </div>
                     </div>
                     <div class="places">
-                        @foreach ($totalDeliveries as $area => $cities)
+                        @foreach ($provinces->groupBy('domain') as $key => $values)
                             <div class="places1">
-                                <span class="captain">{{$area}}</span>
+                                <span class="captain">{{$key}}</span>
                                 <div class="provines">
-                                    @foreach ($cities->chunk(6) as $partCities)
-                                        @foreach ($partCities as $city)
-                                            <a href="{{url('phan-phoi/'. $city->id)}}" title="{{config('delivery')['city'][$city->city]}}" target="_blank">{{config('delivery')['city'][$city->city]}}</a>
+                                    @foreach ($values->chunk(6) as $partProvinces)
+                                        @foreach ($partProvinces as $partProvince)
+                                            <a href="{{url('phan-phoi', $partProvince->slug)}}" title="">{{$partProvince->name}}</a>
                                         @endforeach
                                     @endforeach
                                 </div>
                             </div>
                         @endforeach
+
                     </div>
                 </div>
             </div>
@@ -92,4 +97,29 @@
         </div><!--//layout-home-->
         <div class="clear"></div>
     </section><!--//section-->
+@endsection
+
+@section('frontend_script')
+    <script>
+        $(function(){
+            $('#delivery_form_submit').click(function(e){
+                e.preventDefault();
+
+                var name = $('#name').val();
+                var address = $('#address').val();
+                var phone = $('#phone').val();
+                var product_id = $('#product_id').val();
+                var quantity = $('#quantity').val();
+
+                if (!name || !address || !phone || !product_id || !quantity) {
+                    $('#delivery_form_message').html('Bạn vui lòng điền đầy đủ các thông tin').show();
+                } else {
+                    $('#order_online').submit();
+                }
+
+                return false;
+            });
+        });
+    </script>
+
 @endsection

@@ -28,3 +28,25 @@
  
  - Grant : User roles do not have this permission but user have.
  
+### Transfer database
+
+```$xslt
+TRUNCATE TABLE cagaileo.posts;
+
+
+INSERT into cagaileo.posts (`id`,`title`, `slug`, `seo_title`, `seo_desc`, `desc`, `content`, `category_id`, `status`, `views`, `image`,  `created_at`, `updated_at`)
+  select id, `title`, `slug`, `seo_title`, null, `desc`, `content`, `category_id`, `status`, `views`, `image`,`created_at`, `updated_at` from caleo.posts
+  
+  TRUNCATE TABLE cagaileo.products;
+  
+  
+  INSERT into cagaileo.products (`id`,`title`, `slug`, `seo_title`, `seo_desc`, `image`, `status`, `views`, `content`, `content_tab1`, `content_tab2`, `content_tab3`, `additions`,`created_at`, `updated_at`)
+    select id, `title`, `slug`, `seo_title`, null, `image`, 1, 0, null, `content_tab1`, `content_tab2`, `content_tab3`, null, `created_at`, `updated_at` from caleo.products
+    
+    TRUNCATE TABLE cagaileo.questions;
+    
+    
+    INSERT into cagaileo.questions (`id`,`title`, `slug`, `seo_title`, `seo_desc`,`question`, `answer`, `short_answer`, `person`,  `image`, `status`, `views`, `created_at`, `updated_at`)
+      select id, `title`, `slug`, `seo_title`, null, `question`, `answer`, null, `ask_person`, `image`, 1, 0, `created_at`, `updated_at` from caleo.questions
+``` 
+ 

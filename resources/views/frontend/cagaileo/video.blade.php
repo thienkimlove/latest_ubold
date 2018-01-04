@@ -34,7 +34,7 @@
                 @endforeach
                 <!-- /paging -->
                 <div class="boxPaging">
-                    @include('pagination.default', ['paginate' => $videos])
+                    @include('frontend.cagaileo.pagination', ['paginate' => $videos])
                 </div><!--//news-list-->
                 <div class="clear"></div>
             </div><!--//box-media-->

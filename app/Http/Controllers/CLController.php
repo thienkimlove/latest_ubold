@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Lib\Helpers;
 use App\Models\Banner;
 use App\Models\Category;
+use App\Models\Order;
 use App\Models\Post;
 use App\Models\Product;
 use App\Models\Province;
+use App\Models\Question;
 use App\Models\Setting;
+use App\Models\Store;
 use App\Models\Tag;
 use App\Models\Video;
 use Illuminate\Http\Request;
@@ -20,6 +23,7 @@ class CLController extends Controller
     {
         $defaultLogo = null;
         $settings = Setting::pluck('value', 'name')->all();
+
         switch ($case) {
             default :
                 return [
@@ -244,6 +248,9 @@ class CLController extends Controller
             ], $province));
         } else {
             $provinces = Province::orderBy('id')->get();
+
+            $deliveryProducts = Product::all();
+
             $success_delivery_form_message = null;
 
             if (session()->has('success_delivery_form_message')) {
@@ -251,9 +258,18 @@ class CLController extends Controller
                 session()->forget('success_delivery_form_message');
             }
 
-            return view('frontend.cagaileo.new_phanphoi', compact('provinces', 'page', 'success_delivery_form_message'));
+            return view('frontend.cagaileo.new_phanphoi', compact('provinces', 'page', 'deliveryProducts', 'success_delivery_form_message'))->with($this->generateMeta('phan-phoi'));
         }
 
+    }
+
+    public function ajaxStore(Request $request)
+    {
+        $districtId = $request->input('district_id');
+        $stores = Store::where('district_id', $districtId)->get();
+        $html = view('frontend.cagaileo.store_list', compact('stores'))->render();
+
+        return response()->json(['html' => $html]);
     }
 
     public function saveQuestion(Request $request)
@@ -273,10 +289,45 @@ class CLController extends Controller
         return redirect(url('/'));
     }
 
+    public function saveOrder(Request $request)
+    {
+        $data = $request->all();
+        $redirectUrl = null;
+
+        if (isset($data['redirect_url'])) {
+            $redirectUrl = $data['redirect_url'];
+            unset($data['redirect_url']);
+        }
+
+        if (!empty($data['name']) && !empty($data['address']) && !empty($data['product_id']) && !empty($data['quantity']) && !empty($data['phone'])) {
+
+            Order::create([
+                'name' => $data['name'],
+                'address' => $data['address'],
+                'phone' => $data['phone'],
+                'product_id' => $data['product_id'],
+                'quantity' => $data['quantity'],
+                'note' => (isset($data['note'])) ? $data['note'] : '',
+                'status' => 0
+            ]);
+        }
+
+
+        if ($redirectUrl) {
+            session()->put('success_delivery_form_message', true);
+            return redirect()->to($redirectUrl);
+        }
+
+        return redirect('/');
+
+    }
+
     public function tag($value)
     {
         $page = 'tag';
-        $middleIndexBanner = Banner::where('status', true)->where('position', 'middle_index')->get();
+        $middleIndexBanner = Banner::where('status', true)->whereHas('position', function($q){
+            $q->where('name', 'middle_index');
+        })->get();
 
         $tag = Tag::where('slug', $value)->get();
 
@@ -307,11 +358,16 @@ class CLController extends Controller
     public function search(Request $request) 
     {
         if ($request->input('q')) {
-            $middleIndexBanner = Banner::where('status', true)->where('position', 'middle_index')->get();
+
+            $middleIndexBanner = Banner::where('status', true)->whereHas('position', function($q){
+                $q->where('name', 'middle_index');
+            })->get();
+
+
             $keyword = $request->input('q');
             $posts = Post::publish()->where('title', 'LIKE', '%' . $keyword . '%')->paginate(10);
 
-            return view('frontend.search', compact('posts', 'keyword', 'middleIndexBanner'))->with($this->generateMeta('tag', [
+            return view('frontend.cagaileo.search', compact('posts', 'keyword', 'middleIndexBanner'))->with($this->generateMeta('tag', [
                 'title' => 'Tìm kiếm cho từ khóa ' . $keyword,
                 'desc' => 'Tìm kiếm cho từ khóa ' . $keyword,
                 'keywords' => $keyword,
@@ -323,20 +379,38 @@ class CLController extends Controller
     {
         $page = 'product';
 
-        $middleIndexBanner = Banner::where('status', true)->where('position', 'middle_index')->get();
+
+
+        $middleIndexBanner = Banner::where('status', true)->whereHas('position', function($q){
+            $q->where('name', 'middle_index');
+        })->get();
+
+
         $meta_title = $meta_desc = $meta_keywords = null;
         if ($value) {
             $product = Product::where('slug', $value)->first();
-            $advProduct = Banner::where('status', true)->where('position', 'top_product_detail')->get();
+
+
+            $advProduct = Banner::where('status', true)->whereHas('position', function($q){
+                $q->where('name', 'top_product_detail');
+            })->get();
+
+
+
+
             $meta_title = ($product->seo_title) ? $product->seo_title : $product->title;
             $meta_desc = $product->desc;
             $meta_keywords = $product->keywords;
-            $hotProducts = Product::where('hot_below', true)
+
+            $hotBelowModules = Helpers::getModuleValues('products', 'hot_below');
+
+
+            $hotProducts = Product::whereIn('id', $hotBelowModules)
                 ->where('id', '<>', $product->id)
                 ->latest('updated_at')
                 ->limit(5)
                 ->get();
-            return view('frontend.product_detail', compact(
+            return view('frontend.cagaileo.product_detail', compact(
                 'product',
                 'middleIndexBanner',
                 'page',
@@ -351,7 +425,7 @@ class CLController extends Controller
 
           $products = Product::paginate(9);
 
-            return view('frontend.product', compact('products', 'middleIndexBanner', 'page'))->with($this->generateMeta('product', [
+            return view('frontend.cagaileo.product', compact('products', 'middleIndexBanner', 'page'))->with($this->generateMeta('product', [
                 'title' => $meta_title,
                 'desc' => $meta_desc,
                 'keywords' => $meta_keywords,
@@ -362,7 +436,11 @@ class CLController extends Controller
 
     public function question($value = null)
     {
-        $middleIndexBanner = Banner::where('status', true)->where('position', 'middle_index')->get();
+        $middleIndexBanner = Banner::where('status', true)->whereHas('position', function($q){
+            $q->where('name', 'middle_index');
+        })->get();
+
+
         $page = 'cau-hoi-thuong-gap';
         $mainQuestion = null;
         $meta_title = $meta_desc = $meta_keywords = null;
@@ -372,7 +450,7 @@ class CLController extends Controller
             $meta_desc = $mainQuestion->desc;
             $meta_keywords = $mainQuestion->keywords;
 
-            return view('frontend.detail_question', compact('mainQuestion', 'middleIndexBanner', 'page'))->with($this->generateMeta('cau-hoi-thuong-gap', [
+            return view('frontend.cagaileo.detail_question', compact('mainQuestion', 'middleIndexBanner', 'page'))->with($this->generateMeta('cau-hoi-thuong-gap', [
                 'title' => $meta_title,
                 'desc' => $meta_desc,
                 'keywords' => $meta_keywords,
@@ -380,7 +458,7 @@ class CLController extends Controller
 
         }
         $questions = Question::publish()->paginate(10);
-        return view('frontend.question', compact('questions', 'mainQuestion', 'middleIndexBanner', 'page'))->with($this->generateMeta('cau-hoi-thuong-gap', [
+        return view('frontend.cagaileo.question', compact('questions', 'mainQuestion', 'middleIndexBanner', 'page'))->with($this->generateMeta('cau-hoi-thuong-gap', [
             'title' => $meta_title,
             'desc' => $meta_desc,
             'keywords' => $meta_keywords,
@@ -390,8 +468,10 @@ class CLController extends Controller
     public function main($value)
     {
 
-        $middleIndexBanner = Banner::where('status', true)->where('position', 'middle_index')->get();
-        
+        $middleIndexBanner = Banner::where('status', true)->whereHas('position', function($q){
+            $q->where('name', 'middle_index');
+        })->get();
+
         if (preg_match('/([a-z0-9\-]+)\.html/', $value, $matches)) {
 
             $post = Post::where('slug', $matches[1])->first();
@@ -406,7 +486,7 @@ class CLController extends Controller
             
             $page = $post->category->slug;
 
-            return view('frontend.post', compact('post', 'latestNews', 'middleIndexBanner', 'page'))->with($this->generateMeta('post', [
+            return view('frontend.cagaileo.post', compact('post', 'latestNews', 'middleIndexBanner', 'page'))->with($this->generateMeta('post', [
                 'title' => ($post->seo_title) ? $post->seo_title : $post->title,
                 'desc' => $post->desc,
                 'keyword' => ($post->tagList) ? implode(',', $post->tagList) : null,
@@ -414,7 +494,7 @@ class CLController extends Controller
         } else {
             $category = Category::where('slug', $value)->first();
 
-            if ($category->subCategories->count() == 0) {
+            if ($category->children->count() == 0) {
                 //child categories
                 $posts = Post::publish()
                     ->where('category_id', $category->id)
@@ -424,7 +504,7 @@ class CLController extends Controller
             } else {
                 //parent categories
                 $posts = Post::publish()
-                    ->whereIn('category_id', $category->subCategories->lists('id')->all())
+                    ->whereIn('category_id', $category->children->pluck('id')->all())
                     ->latest('updated_at')
                     ->paginate(10);
 
@@ -432,7 +512,7 @@ class CLController extends Controller
             
             $page = $category->slug;
 
-            return view('frontend.category', compact(
+            return view('frontend.cagaileo.category', compact(
                 'category', 'posts', 'page','middleIndexBanner'
             ))->with($this->generateMeta('category', [
                 'title' => ($category->seo_name) ?  $category->seo_name : $category->name,
