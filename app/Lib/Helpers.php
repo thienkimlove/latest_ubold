@@ -3,7 +3,10 @@
 namespace App\Lib;
 
 use App\Models\Category;
+use App\Models\District;
+use App\Models\Module;
 use App\Models\Position;
+use App\Models\Product;
 use App\Models\Role;
 use App\Models\Tag;
 use Carbon\Carbon;
@@ -14,6 +17,14 @@ class Helpers {
     public static function tagList()
     {
         return Tag::pluck('name','name')->all();
+    }
+
+    public static function getModuleValues($content, $type)
+    {
+        return Module::where('content', $content)
+            ->where('type', $type)
+            ->pluck('value')
+            ->all();
     }
 
     public static function getModules($content = 'posts')
@@ -34,6 +45,16 @@ class Helpers {
     public static function positionList()
     {
         return Position::pluck('name', 'id')->all();
+    }
+
+    public static function districtList()
+    {
+        return District::pluck('name', 'id')->all();
+    }
+
+    public static function productList()
+    {
+        return Product::pluck('title', 'id')->all();
     }
 
 

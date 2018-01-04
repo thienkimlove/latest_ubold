@@ -22,46 +22,75 @@ Route::group(['middleware' => 'acl'], function() {
     Route::get('/admin', 'BasicController@index')->name('index');
     Route::post('ajax', 'BasicController@ajax')->name('ajax');
     // User & Roles
-    Route::get('users.dataTables', ['uses' => 'UsersController@datatables', 'as' => 'users.dataTables']);
+    Route::get('users.dataTables', ['uses' => 'UsersController@dataTables', 'as' => 'users.dataTables']);
     Route::resource('users', 'UsersController');
 
     Route::get('users/{id}/permissions', ['uses' => 'UserPermissionsController@index', 'as' => 'userPermissions.index']);
     Route::put('users/{id}/permissions', ['uses' => 'UserPermissionsController@update', 'as' => 'userPermissions.update']);
 
-    Route::get('roles/dataTables', ['uses' => 'RolesController@datatables', 'as' => 'roles.dataTables']);
+    Route::get('roles/dataTables', ['uses' => 'RolesController@dataTables', 'as' => 'roles.dataTables']);
     Route::resource('roles', 'RolesController');
     Route::get('roles/{id}/permissions', ['uses' => 'RolePermissionsController@index', 'as' => 'rolePermissions.index']);
     Route::put('roles/{id}/permissions', ['uses' => 'RolePermissionsController@update', 'as' => 'rolePermissions.update']);
     Route::resource('permissions', 'PermissionsController', ['only' => ['index']]);
 
 
-    Route::get('positions.dataTables', ['uses' => 'PositionsController@datatables', 'as' => 'positions.dataTables']);
+    Route::get('positions.dataTables', ['uses' => 'PositionsController@dataTables', 'as' => 'positions.dataTables']);
     Route::resource('positions', 'PositionsController');
 
-    Route::get('banners.dataTables', ['uses' => 'BannersController@datatables', 'as' => 'banners.dataTables']);
+    Route::get('banners.dataTables', ['uses' => 'BannersController@dataTables', 'as' => 'banners.dataTables']);
     Route::resource('banners', 'BannersController');
 
-    Route::get('categories.dataTables', ['uses' => 'CategoriesController@datatables', 'as' => 'categories.dataTables']);
+    Route::get('categories.dataTables', ['uses' => 'CategoriesController@dataTables', 'as' => 'categories.dataTables']);
     Route::resource('categories', 'CategoriesController');
 
 
-    Route::get('posts.dataTables', ['uses' => 'PostsController@datatables', 'as' => 'posts.dataTables']);
+    Route::get('posts.dataTables', ['uses' => 'PostsController@dataTables', 'as' => 'posts.dataTables']);
     Route::resource('posts', 'PostsController');
 
-    Route::get('tags.dataTables', ['uses' => 'TagsController@datatables', 'as' => 'tags.dataTables']);
+    Route::get('tags.dataTables', ['uses' => 'TagsController@dataTables', 'as' => 'tags.dataTables']);
     Route::resource('tags', 'TagsController');
 
     Route::post('modules.add', ['uses' => 'ModulesController@add', 'as' => 'modules.add']);
     Route::post('modules.remove', ['uses' => 'ModulesController@remove', 'as' => 'modules.remove']);
 
-    Route::get('questions.dataTables', ['uses' => 'QuestionsController@datatables', 'as' => 'questions.dataTables']);
+    Route::get('questions.dataTables', ['uses' => 'QuestionsController@dataTables', 'as' => 'questions.dataTables']);
     Route::resource('questions', 'QuestionsController');
 
-    Route::get('videos.dataTables', ['uses' => 'VideosController@datatables', 'as' => 'videos.dataTables']);
+    Route::get('videos.dataTables', ['uses' => 'VideosController@dataTables', 'as' => 'videos.dataTables']);
     Route::resource('videos', 'VideosController');
 
-    Route::get('products.dataTables', ['uses' => 'ProductsController@datatables', 'as' => 'products.dataTables']);
+    Route::get('products.dataTables', ['uses' => 'ProductsController@dataTables', 'as' => 'products.dataTables']);
     Route::resource('products', 'ProductsController');
+
+    Route::get('stores.dataTables', ['uses' => 'StoresController@dataTables', 'as' => 'stores.dataTables']);
+    Route::resource('stores', 'StoresController');
+
+    Route::get('orders.dataTables', ['uses' => 'OrdersController@dataTables', 'as' => 'orders.dataTables']);
+    Route::get('orders.export', 'OrdersController@export')->name('orders.export');
+
+    Route::resource('orders', 'OrdersController');
+
+    Route::get('contacts.dataTables', ['uses' => 'ContactsController@dataTables', 'as' => 'contacts.dataTables']);
+    Route::resource('contacts', 'ContactsController');
+
+    Route::get('settings.dataTables', ['uses' => 'SettingsController@dataTables', 'as' => 'settings.dataTables']);
+    Route::resource('settings', 'SettingsController');
 
 });
 
+
+#frontend
+
+if (env('DB_DATABASE') == 'cagaileo') {
+    Route::get('/', 'CLController@index');
+    Route::get('lien-he', 'CLController@contact');
+    Route::get('video/{value?}', 'CLController@video');
+    Route::get('phan-phoi/{slug?}', 'CLController@delivery');
+    Route::post('save_question', 'CLController@saveQuestion');
+    Route::get('tag/{value}', 'CLController@tag');
+    Route::get('search', 'CLController@search');
+    Route::get('product/{value?}', 'CLController@product');
+    Route::get('cau-hoi-thuong-gap/{value?}', 'CLController@question');
+    Route::get('{value}', 'CLController@main');
+}

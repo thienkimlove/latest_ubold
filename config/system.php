@@ -9,8 +9,12 @@
      ],
      'modules' => [
          'cagaileo' => [
-             'posts' => [
-                 'right_index' => 'Right Index'
+             'categories' => [
+                 'index_1' => 'Top Category Index',
+                 'index_2' => 'Second Category Index',
+             ],
+             'products' => [
+                 'hot_index' => 'Hot Product Index',
              ],
          ]
      ],
@@ -25,5 +29,11 @@
              'giacu',
              'giamoi',
          ],
+     ],
+
+     'customer_content_status' => [
+         0 => 'Vừa tiếp nhận',
+         1 => 'Đang xử lý',
+         2 => 'Đã hoàn thành'
      ],
  ];

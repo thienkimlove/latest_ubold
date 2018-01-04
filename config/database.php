@@ -54,6 +54,21 @@ return [
             'engine' => null,
         ],
 
+        'static' => [
+            'driver' => 'mysql',
+            'host' => '42.112.31.173',
+            'port' => '3306',
+            'database' => 'static',
+            'username' => 'tieungao',
+            'password' => 'tieungao123',
+            'unix_socket' => '',
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
+        ],
+
         'mysql' => [
             'driver' => 'mysql',
             'host' => env('DB_HOST', '127.0.0.1'),

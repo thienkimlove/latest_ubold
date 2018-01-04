@@ -54,42 +54,67 @@ return array(
         'small' => 'Intervention\Image\Templates\Small',
         'medium' => 'Intervention\Image\Templates\Medium',
         'large' => 'Intervention\Image\Templates\Large',
-        '507x310' => function($image) {
-            return $image->fit(507, 310);
+
+         //cagaileo
+        '120x120' => function($image) {
+            return $image->fit(120, 120);
         },
-        '226x148' => function($image) {
-            return $image->fit(226, 148);
+        '100x80' => function($image) {
+            return $image->fit(100, 80);
         },
-        '301x183' => function($image) {
-            return $image->fit(301, 183);
+        '130x80' => function($image) {
+            return $image->fit(130, 80);
         },
-        '126x90' => function($image) {
-            return $image->fit(126, 90);
+        '303x130' => function($image) {
+            return $image->fit(303, 130);
+        },
+        '400x289' => function($image) {
+            return $image->fit(400, 289);
+        },
+        '320x180' => function($image) {
+            return $image->fit(320, 180);
+        },
+        '188x125' => function($image) {
+            return $image->fit(188, 125);
+        },
+        '274x174' => function($image) {
+            return $image->fit(274, 174);
+        },
+        '310x230' => function($image) {
+            return $image->fit(310, 230);
+        },
+        '300x177' => function($image) {
+            return $image->fit(300, 177);
+        },
+        '105x69' => function($image) {
+            return $image->fit(105, 69);
+        },
+        '218x128' => function($image) {
+            return $image->fit(218, 128);
+        },
+        '110x70' => function($image) {
+            return $image->fit(110, 70);
+        },
+        '212x126' => function($image) {
+            return $image->fit(212, 126);
+        },
+        '287x143' => function($image) {
+            return $image->fit(287, 143);
+        },
+        '188x188' => function($image) {
+            return $image->fit(188, 188);
+        },
+        '130x130' => function($image) {
+            return $image->fit(130, 130);
+        },
+        '200x200' => function($image) {
+            return $image->fit(200, 200);
+        },
+        '93x93' => function($image) {
+            return $image->fit(93, 93);
         },
 
-        '326x203' => function($image) {
-            return $image->fit(326, 203);
-        },
-
-        '120x84' => function($image) {
-            return $image->fit(120, 84);
-        },
-
-        '114x114' => function($image) {
-            return $image->fit(114, 114);
-        },
-
-        '276x157' => function($image) {
-            return $image->fit(276, 157);
-        },
-
-        '58x58' => function($image) {
-            return $image->fit(58, 58);
-        },
-
-        '190x129' => function($image) {
-            return $image->fit(190, 129);
-        },
+        //cagaileo
     ),
 
     /*
