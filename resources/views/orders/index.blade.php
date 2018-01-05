@@ -35,7 +35,7 @@
             </div>
             <ol class="breadcrumb">
                 <li class="active">
-                    Danh sách Order
+                    Danh sách Đơn hàng
                 </li>
             </ol>
         </div>
@@ -54,14 +54,14 @@
                             </div>
 
                             <div class="form-group m-l-10">
-                                <label class="sr-only" for="">Product</label>
+                                <label class="sr-only" for="">Sản phẩm</label>
                                 {!! Form::select('product_id', ['' => '--- Chọn Product ---'] + \App\Lib\Helpers::productList(), null, ['class' => 'form-control']) !!}
                             </div>
 
 
                             <div class="form-group m-l-10">
-                                <label class="sr-only" for="">Status</label>
-                                {!! Form::select('status', ['' => '--- Chọn Status ---'] + config('system.customer_content_status'), null, ['class' => 'form-control']) !!}
+                                <label class="sr-only" for="">Trạng thái</label>
+                                {!! Form::select('status', ['' => '--- Chọn Trạng thái ---'] + config('system.customer_content_status'), null, ['class' => 'form-control']) !!}
                             </div>
 
                             <button type="submit" class="btn btn-success waves-effect waves-light m-l-15">Tìm kiếm</button>
@@ -91,18 +91,18 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="card-box table-responsive">
-                <h4 class="m-t-0 header-title"><b>Danh sách Order</b></h4>
+                <h4 class="m-t-0 header-title"><b>Danh sách Đơn hàng</b></h4>
                 <p class="text-muted font-13 m-b-30"></p>
                 <table id="dataTables-orders" class="table table-striped table-bordered table-actions-bar">
                     <thead>
                     <tr>
-                        <th width="10%">Name</th>
-                        <th width="10%">Phone</th>
-                        <th width="10%">Address</th>
-                        <th width="10%">Product</th>
-                        <th width="10%">Quantity</th>
-                        <th width="10%">Note</th>
-                        <th width="10%">Status</th>
+                        <th width="10%">Tên KH</th>
+                        <th width="10%">Điện thoại</th>
+                        <th width="10%">Địa chỉ</th>
+                        <th width="10%">Sản phẩm</th>
+                        <th width="10%">Số lượng</th>
+                        <th width="10%">Ghi chú</th>
+                        <th width="10%">Trạng thái</th>
                         <th width="10%">Ngày tạo</th>
                         <th width="15%"></th>
                     </tr>

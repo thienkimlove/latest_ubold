@@ -35,7 +35,7 @@
             </div>
             <ol class="breadcrumb">
                 <li class="active">
-                    Danh sách Setting
+                    Danh sách Thiết lập
                 </li>
             </ol>
         </div>
@@ -65,13 +65,13 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="card-box table-responsive">
-                <h4 class="m-t-0 header-title"><b>Danh sách Setting</b></h4>
+                <h4 class="m-t-0 header-title"><b>Danh sách Thiết lập</b></h4>
                 <p class="text-muted font-13 m-b-30"></p>
                 <table id="dataTables-settings" class="table table-striped table-bordered table-actions-bar">
                     <thead>
                     <tr>
-                        <th width="35%">Name</th>
-                        <th width="50%">Value</th>
+                        <th width="35%">Tên</th>
+                        <th width="50%">Giá trị</th>
                         <th width="15%"></th>
                     </tr>
                     </thead>

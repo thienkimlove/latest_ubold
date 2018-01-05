@@ -14,7 +14,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="btn-group pull-right m-t-15">
-                <a href="{{ route('videos.index') }}" class="btn btn-primary waves-effect waves-light"><span class="m-r-5"><i class="fa fa-list"></i></span> List</a>
+                <a href="{{ route('videos.index') }}" class="btn btn-primary waves-effect waves-light"><span class="m-r-5"><i class="fa fa-list"></i></span> Danh sách</a>
             </div>
             <h4 class="page-title">Tạo mới Video</h4>
         </div>
@@ -29,23 +29,25 @@
                         @include('layouts.partials.errors')
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Title</label>
+                            <label class="col-md-3 control-label">Tiêu đề</label>
                             <div class="col-md-9">
                                 {!! Form::text('title', null, ['id' => 'title', 'class' => 'form-control', 'placeholder' => 'Title']) !!}
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">URL</label>
+                            <label class="col-md-3 control-label">Đường dẫn</label>
                             <div class="col-md-9">
                                 {!! Form::text('url', null, ['id' => 'url', 'class' => 'form-control', 'placeholder' => 'Video Url']) !!}
                             </div>
                         </div>
 
 
-                        <h4>SEO Part</h4>
+
 
                         <div class="card-box">
+
+                            <h4>Nội dung phục vụ SEO</h4>
 
                             <div class="form-group">
                                 <label class="col-md-3 control-label">SEO Title</label>
@@ -66,7 +68,7 @@
 
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Image</label>
+                            <label class="col-md-3 control-label">Ảnh</label>
                             <div class="col-md-9">
                                 {!! Form::file('avatar', null, ['class' => 'form-control']) !!}
                             </div>
@@ -74,7 +76,7 @@
 
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Video Code</label>
+                            <label class="col-md-3 control-label">Mã IFrame Code Youtube</label>
                             <div class="col-md-9">
                                 {!! Form::textarea('code', null, ['class' => 'form-control']) !!}
                             </div>
@@ -82,7 +84,7 @@
 
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Tags</label>
+                            <label class="col-md-3 control-label">Từ khóa</label>
                             <div class="col-md-9">
                                 {!! Form::select('tags[]', \App\Lib\Helpers::tagList(), null, ['id' => 'tags', 'class' => 'form-control select2', 'multiple']) !!}
                             </div>

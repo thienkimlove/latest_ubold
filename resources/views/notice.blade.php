@@ -16,6 +16,7 @@
     <link href="/vendor/ubold/assets/css/icons.css" rel="stylesheet" type="text/css"/>
     <link href="/vendor/ubold/assets/css/pages.css" rel="stylesheet" type="text/css"/>
     <link href="/vendor/ubold/assets/css/responsive.css" rel="stylesheet" type="text/css"/>
+    <link href="/css/admin/sweetalert2.min.css" rel="stylesheet" type="text/css"/>
 
     <!-- HTML5 Shiv and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -39,7 +40,7 @@
             </div>
             <div class="form-group">
                 <div class="col-xs-12">
-                    <h3 class="text-center">System</h3>
+                    <h3 class="text-center">Thông báo Hệ thống</h3>
                 </div>
             </div>
             <div class="form-group text-center m-t-40">
@@ -47,7 +48,7 @@
                     <a href="{{url('/admin')}}" class="text-primary m-l-5">
                         <button class="btn btn-pink btn-block text-uppercase waves-effect waves-light"
                                 type="button">
-                              Back
+                              Thử lại
                         </button>
                     </a>
                 </div>
@@ -72,9 +73,9 @@
 <script src="/vendor/ubold/assets/js/jquery.nicescroll.js"></script>
 <script src="/vendor/ubold/assets/js/jquery.scrollTo.min.js"></script>
 
-
+<script src="/js/admin/sweetalert2.min.js"></script>
 <script src="/vendor/ubold/assets/js/jquery.core.js"></script>
 <script src="/vendor/ubold/assets/js/jquery.app.js"></script>
-
+@include('flash-message::sweetalert')
 </body>
 </html>

@@ -13,7 +13,7 @@
 @section('content')
     <div class="row">
         <div class="col-sm-12">
-            <h4 class="page-title">Chi tiết Contact</h4>
+            <h4 class="page-title">Chi tiết Liên hệ</h4>
         </div>
     </div>
 
@@ -26,21 +26,21 @@
                         @include('layouts.partials.errors')
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Title</label>
+                            <label class="col-md-3 control-label">Tiêu đề</label>
                             <div class="col-md-9">
                              {{$contact->title}}
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Customer</label>
+                            <label class="col-md-3 control-label">Khách hàng</label>
                             <div class="col-md-9">
                               {{$contact->name}}
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Phone</label>
+                            <label class="col-md-3 control-label">Điện thoại</label>
                             <div class="col-md-9">
                                 {{$contact->phone}}
                             </div>
@@ -55,7 +55,7 @@
 
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Content</label>
+                            <label class="col-md-3 control-label">Nội dung</label>
                             <div class="col-md-9">
                                 {{$contact->content}}
                             </div>
@@ -63,7 +63,7 @@
 
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Status</label>
+                            <label class="col-md-3 control-label">Trạng thái</label>
                             <div class="col-md-9">
                                 {!! Form::select('status', ['' => 'Chọn Status'] + config('system.customer_content_status'), $contact->status, ['id' => 'status',  'class' => 'form-control select2', 'data-placeholder' => 'Chọn Status...']) !!}
                             </div>

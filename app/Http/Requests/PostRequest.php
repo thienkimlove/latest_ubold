@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Event;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Foundation\Http\FormRequest;
@@ -74,6 +75,15 @@ class PostRequest extends FormRequest
 
         $post = Post::create($data);
 
+        Event::create([
+            'content' => 'posts',
+            'action' => 'create',
+            'user_id' => \Sentinel::getUser()->id,
+            'before' => null,
+            'after' => json_encode($data, true),
+            'content_id' => $post->id
+        ]);
+
         $post->tags()->sync($tagIds);
 
         return $this;
@@ -111,8 +121,18 @@ class PostRequest extends FormRequest
             $data['image'] = $filename;
         }
 
+        $before = json_encode($post->toArray(), true);
         $post->update($data);
         $post->tags()->sync($tagIds);
+
+        Event::create([
+            'content' => 'posts',
+            'action' => 'edit',
+            'user_id' => \Sentinel::getUser()->id,
+            'before' => $before,
+            'after' => json_encode($data, true),
+            'content_id' => $post->id
+        ]);
 
         return $this;
     }

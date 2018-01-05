@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Event;
 use App\Models\Order;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -61,7 +62,21 @@ class OrderRequest extends FormRequest
         if (! isset($this->status)) {
             $data['status'] = 0;
         }
+
+        $before = json_encode($order->toArray(), true);
+
         $order->update($data);
+
+        Event::create([
+            'content' => 'orders',
+            'action' => 'edit',
+            'user_id' => \Sentinel::getUser()->id,
+            'before' => $before,
+            'after' => json_encode($data, true),
+            'content_id' => $order->id
+        ]);
+
+
 
         return $this;
     }

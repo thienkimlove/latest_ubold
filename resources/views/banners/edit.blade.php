@@ -14,7 +14,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="btn-group pull-right m-t-15">
-                <a href="{{ route('banners.index') }}" class="btn btn-primary waves-effect waves-light"><span class="m-r-5"><i class="fa fa-list"></i></span> List</a>
+                <a href="{{ route('banners.index') }}" class="btn btn-primary waves-effect waves-light"><span class="m-r-5"><i class="fa fa-list"></i></span> Danh sách Banner</a>
             </div>
             <h4 class="page-title">Chi tiết Banner</h4>
         </div>
@@ -29,14 +29,14 @@
                         @include('layouts.partials.errors')
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Link</label>
+                            <label class="col-md-3 control-label">Đường dẫn khi Click</label>
                             <div class="col-md-9">
                                 {!! Form::text('link', $banner->link, ['id' => 'link', 'class' => 'form-control', 'placeholder' => 'Link']) !!}
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Avatar</label>
+                            <label class="col-md-3 control-label">Ảnh Banner</label>
                             <div class="col-md-9">
                                 @if ($banner->image)
                                     <p><img src="/img/cache/small/{{$banner->image}}" /></p>
@@ -46,9 +46,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Position</label>
+                            <label class="col-md-3 control-label">Vị trí</label>
                             <div class="col-md-9">
-                                {!! Form::select('position_id', \App\Lib\Helpers::positionList(), $banner->position_id, ['id' => 'position_id',  'class' => 'form-control select2', 'data-placeholder' => 'Chọn Position...']) !!}
+                                {!! Form::select('position_id', \App\Lib\Helpers::positionList(), $banner->position_id, ['id' => 'position_id',  'class' => 'form-control select2', 'data-placeholder' => 'Chọn Vị trí...']) !!}
                             </div>
 
                         </div>

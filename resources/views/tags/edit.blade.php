@@ -14,9 +14,9 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="btn-group pull-right m-t-15">
-                <a href="{{ route('tags.index') }}" class="btn btn-primary waves-effect waves-light"><span class="m-r-5"><i class="fa fa-list"></i></span> List</a>
+                <a href="{{ route('tags.index') }}" class="btn btn-primary waves-effect waves-light"><span class="m-r-5"><i class="fa fa-list"></i></span> Danh sách</a>
             </div>
-            <h4 class="page-title">Chi tiết Tag</h4>
+            <h4 class="page-title">Chi tiết từ khóa</h4>
         </div>
     </div>
 
@@ -29,16 +29,18 @@
                         @include('layouts.partials.errors')
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Name</label>
+                            <label class="col-md-3 control-label">Tên</label>
                             <div class="col-md-9">
                                 {!! Form::text('name', $tag->name, ['id' => 'name', 'class' => 'form-control', 'placeholder' => 'Name']) !!}
                             </div>
                         </div>
 
-                        <h4>SEO Part</h4>
+
 
 
                         <div class="card-box">
+
+                            <h4>Nội dung phục vụ SEO</h4>
 
                             <div class="form-group">
                                 <label class="col-md-3 control-label">SEO Name</label>

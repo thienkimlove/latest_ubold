@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Category;
+use App\Models\Event;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CategoryRequest extends FormRequest
@@ -48,7 +49,16 @@ class CategoryRequest extends FormRequest
             $data['status'] = 0;
         }
 
-        Category::create($data);
+        $category = Category::create($data);
+
+        Event::create([
+            'content' => 'categories',
+            'action' => 'create',
+            'user_id' => \Sentinel::getUser()->id,
+            'before' => null,
+            'after' => json_encode($data, true),
+            'content_id' => $category->id
+        ]);
 
         return $this;
     }
@@ -63,7 +73,18 @@ class CategoryRequest extends FormRequest
             $data['status'] = 0;
         }
 
+        $before = json_encode($category->toArray(), true);
+
         $category->update($data);
+
+        Event::create([
+            'content' => 'categories',
+            'action' => 'edit',
+            'user_id' => \Sentinel::getUser()->id,
+            'before' => $before,
+            'after' => json_encode($data, true),
+            'content_id' => $category->id
+        ]);
 
         return $this;
     }

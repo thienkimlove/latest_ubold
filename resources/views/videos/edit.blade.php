@@ -14,7 +14,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="btn-group pull-right m-t-15">
-                <a href="{{ route('videos.index') }}" class="btn btn-primary waves-effect waves-light"><span class="m-r-5"><i class="fa fa-list"></i></span> List</a>
+                <a href="{{ route('videos.index') }}" class="btn btn-primary waves-effect waves-light"><span class="m-r-5"><i class="fa fa-list"></i></span> Danh sách</a>
             </div>
             <h4 class="page-title">Chi tiết Video</h4>
         </div>
@@ -29,23 +29,25 @@
                         @include('layouts.partials.errors')
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Title</label>
+                            <label class="col-md-3 control-label">Tiêu đề</label>
                             <div class="col-md-9">
                                 {!! Form::text('title', $video->title, ['id' => 'title', 'class' => 'form-control', 'placeholder' => 'Title']) !!}
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Url</label>
+                            <label class="col-md-3 control-label">Đường dẫn</label>
                             <div class="col-md-9">
                                 {!! Form::text('url', $video->url, ['id' => 'url', 'class' => 'form-control', 'placeholder' => 'Người hỏi']) !!}
                             </div>
                         </div>
 
 
-                        <h4>SEO Part</h4>
+
 
                         <div class="card-box">
+
+                            <h4>Nội dung phục vụ SEO</h4>
 
                             <div class="form-group">
                                 <label class="col-md-3 control-label">SEO Title</label>
@@ -66,7 +68,7 @@
 
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Image</label>
+                            <label class="col-md-3 control-label">Ảnh</label>
                             <div class="col-md-9">
                                 @if ($video->image)
                                     <p><img src="/img/cache/small/{{$video->image}}" /></p>
@@ -77,7 +79,7 @@
 
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Code</label>
+                            <label class="col-md-3 control-label">Mã IFrame Youtube</label>
                             <div class="col-md-9">
                                 {!! Form::textarea('code', $video->code, ['class' => 'form-control']) !!}
                             </div>
@@ -85,7 +87,7 @@
 
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Tags</label>
+                            <label class="col-md-3 control-label">Từ khóa</label>
                             <div class="col-md-9">
                                 {!! Form::select('tags[]', \App\Lib\Helpers::tagList(), $video->tags->pluck('name', 'name')->all(), ['id' => 'tags', 'class' => 'form-control select2', 'multiple']) !!}
                             </div>

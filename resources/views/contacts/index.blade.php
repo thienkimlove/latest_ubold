@@ -46,13 +46,13 @@
                         <form class="form-inline" role="form" id="search-form">
 
                             <div class="form-group m-l-10">
-                                <label class="sr-only" for="">Tên KH</label>
+                                <label class="sr-only" for="">Tên Khách hàng</label>
                                 <input type="text" class="form-control" placeholder="Tên" name="name"/>
                             </div>
 
                             <div class="form-group m-l-10">
-                                <label class="sr-only" for="">Status</label>
-                                {!! Form::select('status', ['' => '--- Chọn Status ---'] + config('system.customer_content_status'), null, ['class' => 'form-control']) !!}
+                                <label class="sr-only" for="">Trạng thái</label>
+                                {!! Form::select('status', ['' => '--- Chọn Trạng thái ---'] + config('system.customer_content_status'), null, ['class' => 'form-control']) !!}
                             </div>
 
                             <button type="submit" class="btn btn-success waves-effect waves-light m-l-15">Tìm kiếm</button>
@@ -68,17 +68,17 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="card-box table-responsive">
-                <h4 class="m-t-0 header-title"><b>Danh sách Contact</b></h4>
+                <h4 class="m-t-0 header-title"><b>Danh sách Liên hệ</b></h4>
                 <p class="text-muted font-13 m-b-30"></p>
                 <table id="dataTables-contacts" class="table table-striped table-bordered table-actions-bar">
                     <thead>
                     <tr>
-                        <th width="10%">Title</th>
-                        <th width="10%">Customer</th>
-                        <th width="10%">Phone</th>
+                        <th width="10%">Tiêu đề</th>
+                        <th width="10%">KHách hàng</th>
+                        <th width="10%">Điện thoại</th>
                         <th width="10%">Email</th>
-                        <th width="20%">Content</th>
-                        <th width="10%">Status</th>
+                        <th width="20%">Nội dung</th>
+                        <th width="10%">Trạng thái</th>
                         <th width="10%">Ngày tạo</th>
                         <th width="15%"></th>
                     </tr>

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Lib\Helpers;
+use App\Models\Event;
 use App\Models\Product;
 use App\Models\Tag;
 use Illuminate\Foundation\Http\FormRequest;
@@ -88,6 +89,15 @@ class ProductRequest extends FormRequest
 
         $product->tags()->sync($tagIds);
 
+        Event::create([
+            'content' => 'products',
+            'action' => 'create',
+            'user_id' => \Sentinel::getUser()->id,
+            'before' => null,
+            'after' => json_encode($data, true),
+            'content_id' => $product->id
+        ]);
+
         return $this;
     }
 
@@ -136,8 +146,20 @@ class ProductRequest extends FormRequest
 
         $data['additions'] = $additions ? json_encode($additions, true) : '';
 
+        $before = json_encode($product->toArray(), true);
+
         $product->update($data);
         $product->tags()->sync($tagIds);
+
+
+        Event::create([
+            'content' => 'products',
+            'action' => 'edit',
+            'user_id' => \Sentinel::getUser()->id,
+            'before' => $before,
+            'after' => json_encode($data, true),
+            'content_id' => $product->id
+        ]);
 
         return $this;
     }

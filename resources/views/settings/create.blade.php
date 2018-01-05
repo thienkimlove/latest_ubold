@@ -14,9 +14,9 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="btn-group pull-right m-t-15">
-                <a href="{{ route('settings.index') }}" class="btn btn-primary waves-effect waves-light"><span class="m-r-5"><i class="fa fa-list"></i></span> List</a>
+                <a href="{{ route('settings.index') }}" class="btn btn-primary waves-effect waves-light"><span class="m-r-5"><i class="fa fa-list"></i></span> Danh sách</a>
             </div>
-            <h4 class="page-title">Tạo mới Settings</h4>
+            <h4 class="page-title">Tạo mới Thiết lập</h4>
         </div>
     </div>
 
@@ -29,14 +29,14 @@
                         @include('layouts.partials.errors')
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Name</label>
+                            <label class="col-md-3 control-label">Tên</label>
                             <div class="col-md-9">
                                 {!! Form::text('name', null, ['id' => 'name', 'class' => 'form-control', 'placeholder' => 'Name']) !!}
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Value</label>
+                            <label class="col-md-3 control-label">Giá trị</label>
                             <div class="col-md-9">
                                 {!! Form::textarea('value', null, ['id' => 'value', 'class' => 'form-control', 'placeholder' => 'Description']) !!}
                             </div>

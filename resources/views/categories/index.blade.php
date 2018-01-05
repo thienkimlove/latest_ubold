@@ -35,7 +35,7 @@
             </div>
             <ol class="breadcrumb">
                 <li class="active">
-                    Danh sách Category
+                    Danh sách Chuyên mục
                 </li>
             </ol>
         </div>
@@ -68,12 +68,12 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="card-box table-responsive">
-                <h4 class="m-t-0 header-title"><b>Danh sách Category</b></h4>
+                <h4 class="m-t-0 header-title"><b>Danh sách Chuyên mục</b></h4>
                 <p class="text-muted font-13 m-b-30"></p>
                 <table id="dataTables-categories" class="table table-striped table-bordered table-actions-bar">
                     <thead>
                     <tr>
-                        <th width="20%">Name</th>
+                        <th width="20%">Tên Chuyên mục</th>
                         <th width="20%">SEO Name</th>
                         <th width="10%">Chuyên mục Cha</th>
                         <th width="15%">Trạng thái</th>

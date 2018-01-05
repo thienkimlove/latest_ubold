@@ -29,23 +29,23 @@
                         @include('layouts.partials.errors')
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Link</label>
+                            <label class="col-md-3 control-label">Đường dẫn khi Click vào Banner</label>
                             <div class="col-md-9">
                                 {!! Form::text('link', null, ['id' => 'link', 'class' => 'form-control', 'placeholder' => 'Link']) !!}
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Image</label>
+                            <label class="col-md-3 control-label">Ảnh Banner</label>
                             <div class="col-md-9">
                                 {!! Form::file('avatar', null, ['class' => 'form-control']) !!}
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Position</label>
+                            <label class="col-md-3 control-label">Vị trí</label>
                             <div class="col-md-9">
-                                {!! Form::select('position_id', ['' => 'Chọn vị trí'] + \App\Lib\Helpers::positionList(), null, ['id' => 'position_id',  'class' => 'form-control select2', 'data-placeholder' => 'Chọn Position...']) !!}
+                                {!! Form::select('position_id', ['' => 'Chọn vị trí'] + \App\Lib\Helpers::positionList(), null, ['id' => 'position_id',  'class' => 'form-control select2', 'data-placeholder' => 'Chọn vị trí...']) !!}
                             </div>
 
                         </div>

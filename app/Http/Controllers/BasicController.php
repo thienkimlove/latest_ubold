@@ -29,13 +29,16 @@ class BasicController extends Controller
             if ($user) {
                 Sentinel::login($user, true);
                 session()->put('google_token', $googleUser->token);
+                flash()->success('Thành công', 'Đăng nhập thành công!');
                 return redirect()->intended('/admin');
             } else {
                 @file_get_contents('https://accounts.google.com/o/oauth2/revoke?token='. $googleUser->token);
+                flash()->error('Lỗi', 'Không có tài khoản tương ứng!');
                 return redirect()->route('notice');
             }
         } catch (Exception $e) {
             Log::info($e->getMessage());
+            flash()->error('Lỗi', $e->getMessage());
             return redirect('notice');
         }
     }
@@ -47,6 +50,8 @@ class BasicController extends Controller
 
         @file_get_contents('https://accounts.google.com/o/oauth2/revoke?token='.session()->get('google_token'));
         session()->forget('google_token');
+
+        flash()->success('Thành công', 'Bạn đã đăng xuất');
 
         return redirect()->route('notice');
     }

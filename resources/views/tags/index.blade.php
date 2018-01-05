@@ -32,7 +32,7 @@
         <div class="col-sm-12">
             <ol class="breadcrumb">
                 <li class="active">
-                    Danh sách Tags
+                    Danh sách Từ khóa
                 </li>
             </ol>
         </div>
@@ -61,12 +61,12 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="card-box table-responsive">
-                <h4 class="m-t-0 header-title"><b>Danh sách Tags</b></h4>
+                <h4 class="m-t-0 header-title"><b>Danh sách Từ khóa</b></h4>
                 <p class="text-muted font-13 m-b-30"></p>
                 <table id="dataTables-tags" class="table table-striped table-bordered table-actions-bar">
                     <thead>
                     <tr>
-                        <th width="30%">Name</th>
+                        <th width="30%">Tên</th>
                         <th width="30%">SEO Name</th>
                         <th width="10%">Ngày tạo</th>
                         <th width="15%"></th>

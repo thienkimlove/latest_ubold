@@ -11,49 +11,85 @@
                 </li>
 
 
-                <li class="has-submenu">
+                @if ($currentUser->hasAnyAccess(['posts.*', 'questions.*', 'videos.*', 'products.*', 'stores.*', 'banners.*', 'categories.*', 'tags.*']))
 
-                    <a href="#"><i class="md md-edit"></i>Contents</a>
+                    <li class="has-submenu">
+
+                        <a href="#"><i class="md md-edit"></i>Nội dung Trang</a>
+                        <ul class="submenu">
+
+                            @if ($currentUser->hasAnyAccess(['banners.*']))
+                                <li><a href="{{ url('/banners')}}">Banners</a></li>
+                            @endif
+
+                            @if ($currentUser->hasAnyAccess(['categories.*']))
+                                <li><a href="{{ url('/categories')}}">Chuyên mục</a></li>
+                            @endif
+
+                            @if ($currentUser->hasAnyAccess(['tags.*']))
+                                <li><a href="{{ url('/tags')}}">Từ khóa</a></li>
+                            @endif
+
+                            @if ($currentUser->hasAnyAccess(['posts.*']))
+                                <li><a href="{{ url('/posts')}}">Bài viết</a></li>
+                            @endif
+
+                            @if ($currentUser->hasAnyAccess(['questions.*']))
+                                <li><a href="{{ url('/questions')}}">Câu hỏi</a></li>
+                            @endif
+
+                            @if ($currentUser->hasAnyAccess(['videos.*']))
+                                <li><a href="{{ url('/videos')}}">Videos</a></li>
+                            @endif
+
+                            @if ($currentUser->hasAnyAccess(['products.*']))
+                                <li><a href="{{ url('/products')}}">Sản phẩm</a></li>
+                            @endif
+
+                            @if ($currentUser->hasAnyAccess(['stores.*']))
+                                <li><a href="{{ url('/stores')}}">Phân phối</a></li>
+                            @endif
+                        </ul>
+                    </li>
+
+                @endif
+
+
+                @if ($currentUser->hasAnyAccess(['orders.*', 'contacts.*']))
+
+                <li class="has-submenu">
+                    <a href="#"><i class="md md-layers"></i>Đơn hàng và Liên hệ</a>
                     <ul class="submenu">
-                        <li><a href="{{ url('/posts')}}">Posts</a></li>
-                        <li><a href="{{ url('/questions')}}">Questions</a></li>
-                        <li><a href="{{ url('/videos')}}">Videos</a></li>
-                        <li><a href="{{ url('/products')}}">Products</a></li>
+
+                        @if ($currentUser->hasAnyAccess(['orders.*']))
+                            <li><a href="{{ url('/orders')}}">Đơn hàng</a></li>
+                        @endif
+
+                        @if ($currentUser->hasAnyAccess(['contacts.*']))
+                            <li><a href="{{ url('/contacts')}}">Liên hệ</a></li>
+                        @endif
                     </ul>
                 </li>
 
-
-                <li class="has-submenu">
-
-                    <a href="#"><i class="md md-layers"></i>Stores</a>
-                    <ul class="submenu">
-                        <li><a href="{{ url('/stores')}}">Stores</a></li>
-                        <li><a href="{{ url('/orders')}}">Orders</a></li>
-                        <li><a href="{{ url('/contacts')}}">Contacts</a></li>
-
-                    </ul>
-                </li>
+                @endif
 
                 @if ($currentUser->isAdmin())
 
                     <li class="has-submenu">
-                        <a href="#"><i class="md md-folder"></i>Site Settings</a>
+                        <a href="#"><i class="md md-folder"></i>Thiết lập</a>
                         <ul class="submenu">
-                            <li><a href="{{ url('/positions')}}">Positions</a></li>
-                            <li><a href="{{ url('/banners')}}">Banners</a></li>
-                            <li><a href="{{ url('/categories')}}">Categories</a></li>
-                            <li><a href="{{ url('/tags')}}">Tags</a></li>
-                            <li><a href="{{ url('/settings')}}">Frontend Settings</a></li>
+                            <li><a href="{{ url('/positions')}}">Vị trí Banners</a></li>
+                            <li><a href="{{ url('/settings')}}">Thiết lập Frontend</a></li>
                         </ul>
                     </li>
 
 
                     <li class="has-submenu">
-                        <a href="#"><i class="md md-settings"></i>Other</a>
+                        <a href="#"><i class="md md-settings"></i>Hệ thống</a>
                         <ul class="submenu">
-                            <li><a href="{{ url('/users')}}">User</a></li>
-                            <li><a href="{{ url('/roles') }}">Role</a></li>
-                            <li><a href="{{ url('/permissions') }}">Permission</a></li>
+                            <li><a href="{{ url('/users')}}">Thành viên</a></li>
+                            <li><a href="{{ url('/roles') }}">Loại thành viên</a></li>
+                            <li><a href="{{ url('/permissions') }}">Các quyền</a></li>
                         </ul>
                     </li>
 

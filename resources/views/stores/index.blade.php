@@ -39,7 +39,7 @@
             </div>
             <ol class="breadcrumb">
                 <li class="active">
-                    Danh sách Store
+                    Danh sách Địa điểm phân phối
                 </li>
             </ol>
         </div>
@@ -72,14 +72,14 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="card-box table-responsive">
-                <h4 class="m-t-0 header-title"><b>Danh sách Store</b></h4>
+                <h4 class="m-t-0 header-title"><b>Danh sách Địa điểm phân phối</b></h4>
                 <p class="text-muted font-13 m-b-30"></p>
                 <table id="dataTables-stores" class="table table-striped table-bordered table-actions-bar">
                     <thead>
                     <tr>
-                        <th width="20%">Name</th>
-                        <th width="10%">Phone</th>
-                        <th width="10%">Address</th>
+                        <th width="20%">Tên</th>
+                        <th width="10%">Điện thoại</th>
+                        <th width="10%">Địa chỉ</th>
                         <th width="10%">Quận/Huyện</th>
                         <th width="10%">Ngày tạo</th>
                         <th width="15%"></th>

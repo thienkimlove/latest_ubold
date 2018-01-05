@@ -14,9 +14,9 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="btn-group pull-right m-t-15">
-                <a href="{{ route('products.index') }}" class="btn btn-primary waves-effect waves-light"><span class="m-r-5"><i class="fa fa-list"></i></span> List</a>
+                <a href="{{ route('products.index') }}" class="btn btn-primary waves-effect waves-light"><span class="m-r-5"><i class="fa fa-list"></i></span> Danh sách</a>
             </div>
-            <h4 class="page-title">Tạo mới Product</h4>
+            <h4 class="page-title">Tạo mới Sản phẩm</h4>
         </div>
     </div>
 
@@ -29,15 +29,16 @@
                         @include('layouts.partials.errors')
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Title</label>
+                            <label class="col-md-3 control-label">Tiêu đề</label>
                             <div class="col-md-9">
                                 {!! Form::text('title', null, ['id' => 'title', 'class' => 'form-control', 'placeholder' => 'Title']) !!}
                             </div>
                         </div>
 
-                        <h4>SEO Part</h4>
 
                         <div class="card-box">
+
+                            <h4>Nội dung phục vụ SEO</h4>
 
                             <div class="form-group">
                                 <label class="col-md-3 control-label">SEO Title</label>
@@ -58,7 +59,7 @@
 
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Image</label>
+                            <label class="col-md-3 control-label">Ảnh</label>
                             <div class="col-md-9">
                                 {!! Form::file('avatar', null, ['class' => 'form-control']) !!}
                             </div>
@@ -66,28 +67,28 @@
 
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Content</label>
+                            <label class="col-md-3 control-label">Nội dung</label>
                             <div class="col-md-9">
                                 {!! Form::textarea('content', null, ['class' => 'form-control ckeditor']) !!}
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Content Tab1</label>
+                            <label class="col-md-3 control-label">Nội dung Tab1</label>
                             <div class="col-md-9">
                                 {!! Form::textarea('content_tab1', null, ['class' => 'form-control ckeditor']) !!}
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Content Tab2</label>
+                            <label class="col-md-3 control-label">Nội dung Tab2</label>
                             <div class="col-md-9">
                                 {!! Form::textarea('content_tab2', null, ['class' => 'form-control ckeditor']) !!}
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Content Tab3</label>
+                            <label class="col-md-3 control-label">Nội dung Tab3</label>
                             <div class="col-md-9">
                                 {!! Form::textarea('content_tab3', null, ['class' => 'form-control ckeditor']) !!}
                             </div>
@@ -95,7 +96,7 @@
 
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Tags</label>
+                            <label class="col-md-3 control-label">Từ khóa</label>
                             <div class="col-md-9">
                                 {!! Form::select('tags[]', \App\Lib\Helpers::tagList(), null, ['id' => 'tags', 'class' => 'form-control select2', 'multiple']) !!}
                             </div>
@@ -103,9 +104,9 @@
                         </div>
 
                         @if (\App\Lib\Helpers::getProductAttributes())
-                            <h4>Attribute Part</h4>
-
                             <div class="card-box">
+                                <h4>Các thuộc tính của sản phẩm</h4>
+
                                 @foreach (\App\Lib\Helpers::getProductAttributes() as $attribute)
                                     <div class="form-group">
                                         <label class="col-md-3 control-label">{{$attribute}}</label>

@@ -49,7 +49,7 @@
                         <form class="form-inline" role="form" id="search-form">
 
                             <div class="form-group m-l-10">
-                                <label class="sr-only" for="">Tên</label>
+                                <label class="sr-only" for="">Tiêu đề</label>
                                 <input type="text" class="form-control" placeholder="Tên" name="title"/>
                             </div>
 
@@ -73,10 +73,10 @@
                 <table id="dataTables-videos" class="table table-striped table-bordered table-actions-bar">
                     <thead>
                     <tr>
-                        <th width="20%">Title</th>
-                        <th width="20%">Image</th>
-                        <th width="10%">Url/Code</th>
-                        <th width="10%">Tags</th>
+                        <th width="20%">Tiêu đề</th>
+                        <th width="20%">Ảnh</th>
+                        <th width="10%">Mã/Đường dẫn</th>
+                        <th width="10%">Từ khóa</th>
                         <th width="15%">Trạng thái</th>
                         <th width="10%">Ngày tạo</th>
                         <th width="15%"></th>

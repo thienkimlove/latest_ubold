@@ -19,15 +19,15 @@
                             <tr>
                                 <th>Name</th>
                                 <th>Has Access</th>
-                                <th><i class="fa bigger-125 fa-level-down text-purple"></i> Inherit</th>
-                                <th><i class="fa bigger-125 fa-times text-danger"></i> Reject</th>
-                                <th><i class="fa bigger-125 fa-check text-success"></i> Grant</th>
+                                <th><i class="fa bigger-125 fa-level-down text-purple"></i>Thành viên có quyền này nếu loại thành viên có quyền</th>
+                                <th><i class="fa bigger-125 fa-times text-danger"></i> Cấm quyền này </th>
+                                <th><i class="fa bigger-125 fa-check text-success"></i> Cho phép quyền này</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($permissions as $permission)
                             <tr>
-                                <td>{{ $permission['name'] }}</td>
+                                <td>{{ isset(config('routeMeaning')[$permission['name']]) ? config('routeMeaning')[$permission['name']] : '' }}</td>
                                 <td>
                                     @if ($user->hasAccess($permission['name']))
                                     <i class="fa fa-check text-success"></i>

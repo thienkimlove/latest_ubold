@@ -35,7 +35,7 @@
             </div>
             <ol class="breadcrumb">
                 <li class="active">
-                    Danh sách Product
+                    Danh sách Sản phẩm
                 </li>
             </ol>
         </div>
@@ -68,15 +68,15 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="card-box table-responsive">
-                <h4 class="m-t-0 header-title"><b>Danh sách Product</b></h4>
+                <h4 class="m-t-0 header-title"><b>Danh sách Sản phẩm</b></h4>
                 <p class="text-muted font-13 m-b-30"></p>
                 <table id="dataTables-products" class="table table-striped table-bordered table-actions-bar">
                     <thead>
                     <tr>
-                        <th width="20%">Title</th>
-                        <th width="20%">Image</th>
-                        <th width="10%">Attributes</th>
-                        <th width="10%">Tags</th>
+                        <th width="20%">Tiêu đề</th>
+                        <th width="20%">Ảnh</th>
+                        <th width="10%">Thuộc tính</th>
+                        <th width="10%">Từ khóa</th>
                         <th width="15%">Trạng thái</th>
                         <th width="10%">Ngày tạo</th>
                         <th width="15%"></th>

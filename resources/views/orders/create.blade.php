@@ -16,7 +16,7 @@
             <div class="btn-group pull-right m-t-15">
                 <a href="{{ route('orders.index') }}" class="btn btn-primary waves-effect waves-light"><span class="m-r-5"><i class="fa fa-list"></i></span> List</a>
             </div>
-            <h4 class="page-title">Tạo mới Order</h4>
+            <h4 class="page-title">Tạo mới Đơn hàng</h4>
         </div>
     </div>
 
@@ -29,28 +29,28 @@
                         @include('layouts.partials.errors')
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Name</label>
+                            <label class="col-md-3 control-label">Tên khách hàng</label>
                             <div class="col-md-9">
                                 {!! Form::text('name', null, ['id' => 'name', 'class' => 'form-control', 'placeholder' => 'Name']) !!}
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Phone</label>
+                            <label class="col-md-3 control-label">Điện thoại</label>
                             <div class="col-md-9">
                                 {!! Form::text('phone', null, ['id' => 'phone', 'class' => 'form-control', 'placeholder' => 'Phone']) !!}
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Address</label>
+                            <label class="col-md-3 control-label">Địa chỉ</label>
                             <div class="col-md-9">
                                 {!! Form::textarea('address', null, ['id' => 'address', 'class' => 'form-control', 'placeholder' => 'Address']) !!}
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Product</label>
+                            <label class="col-md-3 control-label">Sản phẩm</label>
                             <div class="col-md-9">
                                 {!! Form::select('product_id', ['' => 'Chọn Product'] + \App\Lib\Helpers::productList(), null, ['id' => 'product_id',  'class' => 'form-control select2', 'data-placeholder' => 'Chọn Product...']) !!}
                             </div>
@@ -58,14 +58,14 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Quantity</label>
+                            <label class="col-md-3 control-label">Số lượng</label>
                             <div class="col-md-9">
                                 {!! Form::number('quantity', 0, ['id' => 'quantity', 'class' => 'form-control', 'placeholder' => 'Quantity']) !!}
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Note</label>
+                            <label class="col-md-3 control-label">Ghi chú</label>
                             <div class="col-md-9">
                                 {!! Form::textarea('note', null, ['id' => 'note', 'class' => 'form-control', 'placeholder' => 'Note']) !!}
                             </div>
@@ -73,7 +73,7 @@
 
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Status</label>
+                            <label class="col-md-3 control-label">Trạng thái</label>
                             <div class="col-md-9">
                                 {!! Form::select('status', ['' => 'Chọn Status'] + config('system.customer_content_status'), null, ['id' => 'status',  'class' => 'form-control select2', 'data-placeholder' => 'Chọn Status...']) !!}
                             </div>

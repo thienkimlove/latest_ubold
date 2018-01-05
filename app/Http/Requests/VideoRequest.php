@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Event;
 use App\Models\Tag;
 use App\Models\Video;
 use Illuminate\Foundation\Http\FormRequest;
@@ -74,6 +75,15 @@ class VideoRequest extends FormRequest
 
         $video->tags()->sync($tagIds);
 
+        Event::create([
+            'content' => 'videos',
+            'action' => 'create',
+            'user_id' => \Sentinel::getUser()->id,
+            'before' => null,
+            'after' => json_encode($data, true),
+            'content_id' => $video->id
+        ]);
+
         return $this;
     }
 
@@ -109,8 +119,18 @@ class VideoRequest extends FormRequest
             $data['image'] = $filename;
         }
 
+        $before = json_encode($video->toArray(), true);
         $video->update($data);
         $video->tags()->sync($tagIds);
+
+        Event::create([
+            'content' => 'videos',
+            'action' => 'edit',
+            'user_id' => \Sentinel::getUser()->id,
+            'before' => $before,
+            'after' => json_encode($data, true),
+            'content_id' => $video->id
+        ]);
 
         return $this;
     }

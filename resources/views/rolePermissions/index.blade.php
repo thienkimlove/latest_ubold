@@ -30,14 +30,16 @@
                     <table class="table table-striped table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Has Access</th>
+                            <th>Tên</th>
+                            <th>Ý nghĩa</th>
+                            <th>Có quyền</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach ($permissions as $permission)
                             <tr>
                                 <td>{{ $permission['name'] }}</td>
+                                <td>{{ isset(config('routeMeaning')[$permission['name']]) ? config('routeMeaning')[$permission['name']] : '' }}</td>
                                 <td>
                                     <label>
                                         <input type="checkbox"

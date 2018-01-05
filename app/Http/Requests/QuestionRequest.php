@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Event;
 use App\Models\Question;
 use App\Models\Tag;
 use Illuminate\Foundation\Http\FormRequest;
@@ -76,6 +77,15 @@ class QuestionRequest extends FormRequest
 
         $question->tags()->sync($tagIds);
 
+        Event::create([
+            'content' => 'questions',
+            'action' => 'create',
+            'user_id' => \Sentinel::getUser()->id,
+            'before' => null,
+            'after' => json_encode($data, true),
+            'content_id' => $question->id
+        ]);
+
         return $this;
     }
 
@@ -110,8 +120,19 @@ class QuestionRequest extends FormRequest
             $data['image'] = $filename;
         }
 
+        $before = json_encode($question->toArray(), true);
+
         $question->update($data);
         $question->tags()->sync($tagIds);
+
+        Event::create([
+            'content' => 'questions',
+            'action' => 'edit',
+            'user_id' => \Sentinel::getUser()->id,
+            'before' => $before,
+            'after' => json_encode($data, true),
+            'content_id' => $question->id
+        ]);
 
         return $this;
     }

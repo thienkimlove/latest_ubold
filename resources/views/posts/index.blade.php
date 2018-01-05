@@ -35,7 +35,7 @@
             </div>
             <ol class="breadcrumb">
                 <li class="active">
-                    Danh sách Post
+                    Danh sách Bài viết
                 </li>
             </ol>
         </div>
@@ -49,13 +49,13 @@
                         <form class="form-inline" role="form" id="search-form">
 
                             <div class="form-group m-l-10">
-                                <label class="sr-only" for="">Tên</label>
+                                <label class="sr-only" for="">Tiêu đề</label>
                                 <input type="text" class="form-control" placeholder="Tên" name="title"/>
                             </div>
 
 
                             <div class="form-group m-l-10">
-                                <label class="sr-only" for="">Category</label>
+                                <label class="sr-only" for="">Chuyên mục</label>
                                 {!! Form::select('category_id', ['' => '--- Chọn category ---'] + \App\Lib\Helpers::categoryList(), null, ['class' => 'form-control']) !!}
                             </div>
 
@@ -75,17 +75,17 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="card-box table-responsive">
-                <h4 class="m-t-0 header-title"><b>Danh sách Post</b></h4>
+                <h4 class="m-t-0 header-title"><b>Danh sách Bài viết</b></h4>
                 <p class="text-muted font-13 m-b-30"></p>
                 <table id="dataTables-posts" class="table table-striped table-bordered table-actions-bar">
                     <thead>
                     <tr>
-                        <th width="20%">Title</th>
-                        <th width="20%">Image</th>
-                        <th width="10%">Category</th>
-                        <th width="10%">Tags</th>
-                        <th width="15%">Trạng thái</th>
-                        <th width="10%">Ngày tạo</th>
+                        <th width="20%">Tiêu đề</th>
+                        <th width="10%">Ảnh</th>
+                        <th width="10%">Chuyên mục</th>
+                        <th width="10%">Từ khóa</th>
+                        <th width="5%">Trạng thái</th>
+                        <th width="30%">Lịch sử</th>
                         <th width="15%"></th>
                     </tr>
                     </thead>
@@ -146,7 +146,7 @@
                     {data: 'category_name', name: 'category_name'},
                     {data: 'tags', name: 'tags'},
                     {data: 'status', name: 'status'},
-                    {data: 'created_at', name: 'created_at'},
+                    {data: 'histories', name: 'histories'},
                     {data: 'action', name: 'action', orderable: false, searchable: false}
                 ],
                 order: [[4, 'desc']]

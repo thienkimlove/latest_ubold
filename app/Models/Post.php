@@ -156,10 +156,26 @@ class Post extends \Eloquent
 
                 return $tags;
             })
+            ->addColumn('histories', function ($post) {
+                $histories = '';
+
+                $logs = Event::where('content', 'posts')
+                    ->where('content_id', $post->id)
+                    ->get();
+
+                if ($logs->count() > 0) {
+                    foreach ($logs as $log) {
+                        $action = ($log->action == 'edit') ? 'Sửa' : 'Tạo';
+                        $histories .= '<b>'.$log->user->name.'</b> '.$action.'&nbsp;&nbsp;<span style="background-color: #e3e3e3">' . $log->created_at->toDayDateTimeString() . '</span><br/>';
+                    }
+                }
+
+                return $histories;
+            })
             ->editColumn('status', function ($post) {
                 return $post->status ? '<i class="ion ion-checkmark-circled text-success"></i>' : '<i class="ion ion-close-circled text-danger"></i>';
             })
-            ->rawColumns(['action', 'status', 'avatar', 'tags'])
+            ->rawColumns(['action', 'status', 'avatar', 'tags', 'histories'])
             ->make(true);
     }
 

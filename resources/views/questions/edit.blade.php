@@ -14,9 +14,9 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="btn-group pull-right m-t-15">
-                <a href="{{ route('questions.index') }}" class="btn btn-primary waves-effect waves-light"><span class="m-r-5"><i class="fa fa-list"></i></span> List</a>
+                <a href="{{ route('questions.index') }}" class="btn btn-primary waves-effect waves-light"><span class="m-r-5"><i class="fa fa-list"></i></span> Danh sách</a>
             </div>
-            <h4 class="page-title">Chi tiết Question</h4>
+            <h4 class="page-title">Chi tiết Câu hỏi</h4>
         </div>
     </div>
 
@@ -29,7 +29,7 @@
                         @include('layouts.partials.errors')
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Title</label>
+                            <label class="col-md-3 control-label">Tiêu đề</label>
                             <div class="col-md-9">
                                 {!! Form::text('title', $question->title, ['id' => 'title', 'class' => 'form-control', 'placeholder' => 'Title']) !!}
                             </div>
@@ -43,9 +43,11 @@
                         </div>
 
 
-                        <h4>SEO Part</h4>
+
 
                         <div class="card-box">
+
+                            <h4>Nội dung phục vụ SEO</h4>
 
                             <div class="form-group">
                                 <label class="col-md-3 control-label">SEO Title</label>
@@ -66,7 +68,7 @@
 
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Image</label>
+                            <label class="col-md-3 control-label">Ảnh</label>
                             <div class="col-md-9">
                                 @if ($question->image)
                                     <p><img src="/img/cache/small/{{$question->image}}" /></p>
@@ -77,28 +79,28 @@
 
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Question</label>
+                            <label class="col-md-3 control-label">Nội dung câu hỏi</label>
                             <div class="col-md-9">
                                 {!! Form::textarea('question', $question->question, ['class' => 'form-control']) !!}
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Answer</label>
+                            <label class="col-md-3 control-label">Nội dung câu trả lời</label>
                             <div class="col-md-9">
                                 {!! Form::textarea('answer', $question->answer, ['class' => 'form-control']) !!}
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Short Answer</label>
+                            <label class="col-md-3 control-label">Trả lời ngắn</label>
                             <div class="col-md-9">
                                 {!! Form::textarea('short_answer', $question->short_answer, ['class' => 'form-control']) !!}
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Tags</label>
+                            <label class="col-md-3 control-label">Từ khóa</label>
                             <div class="col-md-9">
                                 {!! Form::select('tags[]', \App\Lib\Helpers::tagList(), $question->tags->pluck('name', 'name')->all(), ['id' => 'tags', 'class' => 'form-control select2', 'multiple']) !!}
                             </div>

@@ -75,9 +75,9 @@
                 <table id="dataTables-banners" class="table table-striped table-bordered table-actions-bar">
                     <thead>
                     <tr>
-                        <th width="20%">Link</th>
-                        <th width="20%">Image</th>
-                        <th width="10%">Position</th>
+                        <th width="20%">Đường dẫn</th>
+                        <th width="20%">Ảnh</th>
+                        <th width="10%">Vị trí</th>
                         <th width="15%">Trạng thái</th>
                         <th width="10%">Ngày tạo</th>
                         <th width="15%"></th>

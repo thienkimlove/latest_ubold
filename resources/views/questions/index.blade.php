@@ -35,7 +35,7 @@
             </div>
             <ol class="breadcrumb">
                 <li class="active">
-                    Danh sách Question
+                    Danh sách Câu hỏi
                 </li>
             </ol>
         </div>
@@ -49,7 +49,7 @@
                         <form class="form-inline" role="form" id="search-form">
 
                             <div class="form-group m-l-10">
-                                <label class="sr-only" for="">Tên</label>
+                                <label class="sr-only" for="">Tiêu đề</label>
                                 <input type="text" class="form-control" placeholder="Tên" name="title"/>
                             </div>
 
@@ -68,15 +68,15 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="card-box table-responsive">
-                <h4 class="m-t-0 header-title"><b>Danh sách Question</b></h4>
+                <h4 class="m-t-0 header-title"><b>Danh sách Câu hỏi</b></h4>
                 <p class="text-muted font-13 m-b-30"></p>
                 <table id="dataTables-questions" class="table table-striped table-bordered table-actions-bar">
                     <thead>
                     <tr>
-                        <th width="20%">Title</th>
-                        <th width="20%">Image</th>
-                        <th width="10%">Question</th>
-                        <th width="10%">Tags</th>
+                        <th width="20%">Tiêu đề</th>
+                        <th width="20%">Ảnh</th>
+                        <th width="10%">Câu hỏi</th>
+                        <th width="10%">Từ khóa</th>
                         <th width="15%">Trạng thái</th>
                         <th width="10%">Ngày tạo</th>
                         <th width="15%"></th>
