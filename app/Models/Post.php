@@ -33,8 +33,14 @@ class Post extends \Eloquent
         'status',
         'image',
         'content',
-        'views'
+        'views',
+        'user_id'
     ];
+
+    public function user()
+    {
+       return $this->belongsTo(User::class);
+    }
 
     public function category()
     {
@@ -156,11 +162,16 @@ class Post extends \Eloquent
 
                 return $tags;
             })
+            ->addColumn('user_name', function ($post) {
+               return ($post->user) ? $post->user->name : 'Admin';
+            })
             ->addColumn('histories', function ($post) {
                 $histories = '';
 
                 $logs = Event::where('content', 'posts')
                     ->where('content_id', $post->id)
+                    ->latest('created_at')
+                    ->limit(3)
                     ->get();
 
                 if ($logs->count() > 0) {
@@ -175,7 +186,7 @@ class Post extends \Eloquent
             ->editColumn('status', function ($post) {
                 return $post->status ? '<i class="ion ion-checkmark-circled text-success"></i>' : '<i class="ion ion-close-circled text-danger"></i>';
             })
-            ->rawColumns(['action', 'status', 'avatar', 'tags', 'histories'])
+            ->rawColumns(['action', 'status', 'avatar', 'tags', 'histories', 'user_name'])
             ->make(true);
     }
 

@@ -48,5 +48,16 @@ INSERT into cagaileo.posts (`id`,`title`, `slug`, `seo_title`, `seo_desc`, `desc
     
     INSERT into cagaileo.questions (`id`,`title`, `slug`, `seo_title`, `seo_desc`,`question`, `answer`, `short_answer`, `person`,  `image`, `status`, `views`, `created_at`, `updated_at`)
       select id, `title`, `slug`, `seo_title`, null, `question`, `answer`, null, `ask_person`, `image`, 1, 0, `created_at`, `updated_at` from caleo.questions
+      
+      TRUNCATE  table cagaileo.tags;
+      
+      insert into cagaileo.tags (id, name, slug, seo_name, seo_desc, created_at, updated_at)
+      select id, name, slug, seo_name, null, created_at, updated_at from caleo.tags;
+      
+      TRUNCATE  table cagaileo.product_tag;
+      
+      insert into cagaileo.product_tag (product_id, tag_id)
+      select product_id, tag_id from caleo.product_tag;
+
 ``` 
  

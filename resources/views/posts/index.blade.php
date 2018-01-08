@@ -80,12 +80,12 @@
                 <table id="dataTables-posts" class="table table-striped table-bordered table-actions-bar">
                     <thead>
                     <tr>
-                        <th width="20%">Tiêu đề</th>
-                        <th width="10%">Ảnh</th>
+                        <th width="10%">Tiêu đề</th>
                         <th width="10%">Chuyên mục</th>
-                        <th width="10%">Từ khóa</th>
                         <th width="5%">Trạng thái</th>
-                        <th width="30%">Lịch sử</th>
+                        <th width="10%">Ngày đăng</th>
+                        <th width="10%">Người đăng</th>
+                        <th width="30%">Sửa lần cuối</th>
                         <th width="15%"></th>
                     </tr>
                     </thead>
@@ -142,10 +142,10 @@
                 },
                 columns: [
                     {data: 'title', name: 'title'},
-                    {data: 'avatar', name: 'avatar'},
                     {data: 'category_name', name: 'category_name'},
-                    {data: 'tags', name: 'tags'},
                     {data: 'status', name: 'status'},
+                    {data: 'created_at', name: 'created_at'},
+                    {data: 'user_name', name: 'user_name'},
                     {data: 'histories', name: 'histories'},
                     {data: 'action', name: 'action', orderable: false, searchable: false}
                 ],

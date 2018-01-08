@@ -73,17 +73,8 @@ class PostRequest extends FormRequest
             $data['image'] = $filename;
         }
 
+        $data['user_id'] = \Sentinel::getUser()->id;
         $post = Post::create($data);
-
-        Event::create([
-            'content' => 'posts',
-            'action' => 'create',
-            'user_id' => \Sentinel::getUser()->id,
-            'before' => null,
-            'after' => json_encode($data, true),
-            'content_id' => $post->id
-        ]);
-
         $post->tags()->sync($tagIds);
 
         return $this;

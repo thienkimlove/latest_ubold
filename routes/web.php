@@ -88,11 +88,22 @@ if (env('DB_DATABASE') == 'cagaileo') {
     Route::get('video/{value?}', 'CLController@video')->name('frontend.video');
     Route::get('phan-phoi/{slug?}', 'CLController@delivery')->name('frontend.delivery');
     Route::post('save_question', 'CLController@saveQuestion')->name('frontend.saveQuestion');
+    Route::post('saveContact', 'CLController@saveContact')->name('frontend.saveContact');
     Route::post('saveOrder', 'CLController@saveOrder')->name('frontend.saveOrder');
     Route::get('tag/{value}', 'CLController@tag')->name('frontend.tag');
     Route::get('search', 'CLController@search')->name('frontend.search');
     Route::get('product/{value?}', 'CLController@product')->name('frontend.product');
     Route::get('cau-hoi-thuong-gap/{value?}', 'CLController@question')->name('frontend.question');
+
+
+    Route::get('sitemap_index.xml', 'CLController@sitemap');
+
+    foreach (config('system.sitemap.'.env('DB_DATABASE')) as $content) {
+        Route::get('sitemap_'.$content.'.xml', 'CLController@sitemap_'.$content);
+    }
+
+
+
     Route::get('/ajaxStore', 'CLController@ajaxStore')->name('frontend.ajaxStore');
     Route::get('{value}', 'CLController@main')->name('frontend.main');
 }

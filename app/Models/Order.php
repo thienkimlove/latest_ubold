@@ -46,7 +46,7 @@ class Order extends \Eloquent
                 return '<a class="table-action-btn" title="Chỉnh sửa Order" href="' . route('orders.edit', $order->id) . '"><i class="fa fa-pencil text-success"></i></a>';
             })
             ->addColumn('product_name', function ($order) {
-                return $order->product->name;
+                return $order->product->title;
             })->editColumn('status', function ($order) {
                 return config('system.customer_content_status.'.$order->status);
             })

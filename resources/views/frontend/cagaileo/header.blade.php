@@ -18,17 +18,13 @@
             </div>
             <div class="box-tk">
                 {!! Form::open(array('url' => 'search', 'method' => 'get')) !!}
-                    <input type="text" placeholder="Từ khóa tìm kiếm" name="q" class="txt"/>
+                    <input type="text" value="{{ request()->filled('q') ? request()->get('q') : '' }}" placeholder="Từ khóa tìm kiếm" name="q" class="txt"/>
                     <input type="submit" value="" name="submit" class="btn-find" style="display: none;"/>
                 {!! Form::close() !!}
             </div>
             <div class="phone">
                 <img src="{{url('frontend/cagaileo/images/hotline.png')}}" alt="">
             </div>
-            {{--<ul class="nav-social">--}}
-                {{--<li><a href="https://www.facebook.com/viemgan.com.vn" target="_blank"><img src="{{url('frontend/cagaileo/images/i_fb.png')}}" alt=""></a></li>--}}
-                {{--<li><a href="https://www.youtube.com/playlist?list=PL6cgnq2l30jJhdUO50sOlMv3adPJ306R1" target="_blank"><img src="{{url('frontend/cagaileo/images/i_ytube.png')}}" alt=""></a></li>--}}
-            {{--</ul>--}}
         </div>
     </div>
     <nav class="bg-nav">
@@ -94,6 +90,6 @@
 <div class="btn-group-fix banner-ads">
     <a href="javascript:void(0)" title="Fanpage"><img src="http://www.giaidocgan.vn/frontend/images/fb-icon.png" alt="Fanpage" width="63" height="63"></a>
     <a href="tel:0912571190" title="Gọi tư vấn"><img src="http://www.giaidocgan.vn/frontend/images/call-icon.png" alt="Gọi tư vấn" width="63" height="63"></a>
-    <a href="javascript:void(0)" title="Mua hàng"><img src="http://www.giaidocgan.vn/frontend/images/cart-icon.png" alt="Giỏ hàng" width="63" height="63"></a>
+    <a href="{{url('phan-phoi')}}" title="Mua hàng"><img src="http://www.giaidocgan.vn/frontend/images/cart-icon.png" alt="Giỏ hàng" width="63" height="63"></a>
     <a href="{{url('phan-phoi')}}" title="Điểm bán sản phẩm"><img src="http://www.giaidocgan.vn/frontend/images/location-icon.png" alt="Điểm bán sản phẩm" width="63" height="63"></a>
 </div>

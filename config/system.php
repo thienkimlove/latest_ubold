@@ -21,6 +21,10 @@
          ]
      ],
 
+     'sitemap' => [
+         'cagaileo' => ['categories', 'posts', 'questions', 'videos', 'products'],
+     ],
+
      'product_attributes' => [
          'cagaileo' => [
              'congdung',

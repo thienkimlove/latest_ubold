@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Lib\Helpers;
 use App\Models\Banner;
 use App\Models\Category;
+use App\Models\Contact;
 use App\Models\Order;
 use App\Models\Post;
 use App\Models\Product;
@@ -16,6 +17,7 @@ use App\Models\Tag;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use Mail;
+use Watson\Sitemap\Facades\Sitemap;
 
 class CLController extends Controller
 {
@@ -272,6 +274,38 @@ class CLController extends Controller
         return response()->json(['html' => $html]);
     }
 
+    public function saveContact(Request $request)
+    {
+        $data = $request->all();
+        $redirectUrl = null;
+
+        if (isset($data['redirect_url'])) {
+            $redirectUrl = $data['redirect_url'];
+            unset($data['redirect_url']);
+        }
+
+        if (!empty($data['name']) && !empty($data['email']) && !empty($data['title']) && !empty($data['content']) && !empty($data['phone'])) {
+
+            Contact::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'phone' => $data['phone'],
+                'title' => $data['title'],
+                'content' => $data['content'],
+                'status' => 0
+            ]);
+        }
+
+
+        if ($redirectUrl) {
+            session()->put('success_delivery_form_message', true);
+            return redirect()->to($redirectUrl);
+        }
+
+        return redirect('/');
+
+    }
+
     public function saveQuestion(Request $request)
     {
         $data = $request->all();
@@ -357,17 +391,18 @@ class CLController extends Controller
     
     public function search(Request $request) 
     {
-        if ($request->input('q')) {
+        $page = 'search';
+        if ($request->filled('q')) {
 
             $middleIndexBanner = Banner::where('status', true)->whereHas('position', function($q){
                 $q->where('name', 'middle_index');
             })->get();
 
 
-            $keyword = $request->input('q');
+            $keyword = $request->get('q');
             $posts = Post::publish()->where('title', 'LIKE', '%' . $keyword . '%')->paginate(10);
 
-            return view('frontend.cagaileo.search', compact('posts', 'keyword', 'middleIndexBanner'))->with($this->generateMeta('tag', [
+            return view('frontend.cagaileo.search', compact('posts', 'keyword', 'middleIndexBanner', 'page'))->with($this->generateMeta('tag', [
                 'title' => 'Tìm kiếm cho từ khóa ' . $keyword,
                 'desc' => 'Tìm kiếm cho từ khóa ' . $keyword,
                 'keywords' => $keyword,
@@ -440,6 +475,12 @@ class CLController extends Controller
             $q->where('name', 'middle_index');
         })->get();
 
+        $success_delivery_form_message = false;
+
+        if (session()->has('success_delivery_form_message')) {
+            $success_delivery_form_message = true;
+            session()->forget('success_delivery_form_message');
+        }
 
         $page = 'cau-hoi-thuong-gap';
         $mainQuestion = null;
@@ -450,7 +491,7 @@ class CLController extends Controller
             $meta_desc = $mainQuestion->desc;
             $meta_keywords = $mainQuestion->keywords;
 
-            return view('frontend.cagaileo.detail_question', compact('mainQuestion', 'middleIndexBanner', 'page'))->with($this->generateMeta('cau-hoi-thuong-gap', [
+            return view('frontend.cagaileo.detail_question', compact('mainQuestion', 'middleIndexBanner', 'page', 'success_delivery_form_message'))->with($this->generateMeta('cau-hoi-thuong-gap', [
                 'title' => $meta_title,
                 'desc' => $meta_desc,
                 'keywords' => $meta_keywords,
@@ -458,7 +499,7 @@ class CLController extends Controller
 
         }
         $questions = Question::publish()->paginate(10);
-        return view('frontend.cagaileo.question', compact('questions', 'mainQuestion', 'middleIndexBanner', 'page'))->with($this->generateMeta('cau-hoi-thuong-gap', [
+        return view('frontend.cagaileo.question', compact('questions', 'mainQuestion', 'middleIndexBanner', 'page', 'success_delivery_form_message'))->with($this->generateMeta('cau-hoi-thuong-gap', [
             'title' => $meta_title,
             'desc' => $meta_desc,
             'keywords' => $meta_keywords,
@@ -520,5 +561,61 @@ class CLController extends Controller
                 'keyword' => ($category->keywords)? $category->keywords : null,
             ], $category));
         }
+    }
+
+    #Sitemap
+    public function sitemap()
+    {
+        foreach (config('system.sitemap.'.env('DB_DATABASE')) as $content) {
+            Sitemap::addSitemap(url('sitemap_'.$content.'.xml'));
+        }
+
+        return Sitemap::index();
+
+    }
+
+    public function sitemap_posts()
+    {
+        $contents = Post::all();
+        foreach ($contents as $content) {
+            Sitemap::addTag(url($content->slug.'.html'), $content->updated_at, 'daily', '0.8');
+        }
+        return Sitemap::render();
+    }
+
+    public function sitemap_categories()
+    {
+        $contents = Category::all();
+        foreach ($contents as $content) {
+            Sitemap::addTag(url($content->slug), $content->updated_at, 'weekly', '0.4');
+        }
+        return Sitemap::render();
+    }
+
+    public function sitemap_questions()
+    {
+        $contents = Question::all();
+        foreach ($contents as $content) {
+            Sitemap::addTag(url('cau-hoi-thuong-gap', $content->slug), $content->updated_at, 'weekly', '0.4');
+        }
+        return Sitemap::render();
+    }
+
+    public function sitemap_videos()
+    {
+        $contents = Video::all();
+        foreach ($contents as $content) {
+            Sitemap::addTag(url('video', $content->slug), $content->updated_at, 'weekly', '0.4');
+        }
+        return Sitemap::render();
+    }
+
+    public function sitemap_products()
+    {
+        $contents = Product::all();
+        foreach ($contents as $content) {
+            Sitemap::addTag(url('product', $content->slug), $content->updated_at, 'weekly', '0.4');
+        }
+        return Sitemap::render();
     }
 }

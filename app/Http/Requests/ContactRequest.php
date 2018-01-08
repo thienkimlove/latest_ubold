@@ -25,7 +25,6 @@ class ContactRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'name' => 'required',
 
         ];
 
@@ -35,7 +34,7 @@ class ContactRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'Vui lòng không để trống tên',
+
 
         ];
     }
