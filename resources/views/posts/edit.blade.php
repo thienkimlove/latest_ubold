@@ -101,6 +101,7 @@
                         </div>
 
 
+                        @if (Sentinel::getUser()->hasAccess(['posts.approve']))
 
                         <div class="form-group">
                             <label class="col-md-3 control-label">Trạng thái</label>
@@ -109,6 +110,10 @@
                                 <span class="lbl"></span>
                             </div>
                         </div>
+
+                        @endif
+
+
                         <div class="form-group">
                             <label class="col-md-3 control-label">Ngày tạo</label>
                             <div class="col-md-9">

@@ -137,4 +137,8 @@ return array(
     'stores.dataTables' => 'Lấy danh sách địa điểm phân phối',
     'stores.update' => 'Update địa điểm phân phối',
     'stores.edit' => 'View update địa điểm phân phối',
+
+    //custom
+
+    'posts.approve' => 'Duyệt bài viết',
 );

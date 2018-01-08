@@ -106,6 +106,8 @@ class Post extends \Eloquent
 
         $modules = Module::where('content', 'products')->get();
 
+        $user = \Sentinel::getUser();
+
         return DataTables::of($post)
             ->filter(function ($query) use ($request) {
                 if ($request->filled('title')) {
@@ -120,8 +122,15 @@ class Post extends \Eloquent
                     $query->where('status', $request->get('status'));
                 }
             })
-            ->addColumn('action', function ($post) use ($modules) {
-                $response = '<a class="table-action-btn" title="Chỉnh sửa post" href="' . route('posts.edit', $post->id) . '"><i class="fa fa-pencil text-success"></i></a>';
+            ->addColumn('action', function ($post) use ($modules, $user) {
+
+                $response = null;
+
+                if (!$post->status && $user->hasAccess(['posts.approve'])) {
+                    $response .= '<a class="table-action-btn"  id="btn-adjust-'.$post->id.'" title="Duyệt bài viết" data-url="' . route('posts.approve', $post->id) . '" href="javascript:;"><i class="fa fa-adjust text-success"></i></a>';
+                }
+
+                $response .= '<a class="table-action-btn" title="Chỉnh sửa post" href="' . route('posts.edit', $post->id) . '"><i class="fa fa-pencil text-success"></i></a>';
 
                 $i = 0;
 

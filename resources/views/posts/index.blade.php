@@ -179,6 +179,35 @@
                     window.location.reload();
                 });
             });
+
+
+            datatable.on('click', '[id^="btn-adjust-"]', function (e) {
+                e.preventDefault();
+
+                var url = $(this).data('url');
+
+                swal({
+                    title: "Bạn có muốn duyệt bài viết này?",
+                    text: "",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Accept!"
+                }).then(function () {
+                    $.ajax({
+                        url : url,
+                        type : 'GET',
+                        beforeSend: function (xhr) {
+                            var token = $('meta[name="csrf_token"]').attr('content');
+                            if (token) {
+                                return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                            }
+                        }
+                    }).always(function (data) {
+                        window.location.reload();
+                    });
+                });
+            });
         });
 
         $.ajaxSetup({

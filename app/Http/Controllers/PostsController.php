@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostRequest;
+use App\Models\Event;
 use App\Models\Post;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -52,6 +53,30 @@ class PostsController extends Controller
     public function dataTables(Request $request)
     {
         return Post::getDatatables($request);
+    }
+
+    public function approve($id)
+    {
+       $post = Post::find($id);
+
+       $before = json_encode($post->toArray(), true);
+
+       $post->status = true;
+
+       $after = json_encode($post->toArray(), true);
+
+       $post->save();
+
+        Event::create([
+            'content' => 'posts',
+            'action' => 'edit',
+            'user_id' => \Sentinel::getUser()->id,
+            'before' => $before,
+            'after' => $after,
+            'content_id' => $post->id
+        ]);
+
+        return response()->json(['status' => true]);
     }
 
 }

@@ -46,6 +46,7 @@ Route::group(['middleware' => 'acl'], function() {
 
 
     Route::get('posts.dataTables', ['uses' => 'PostsController@dataTables', 'as' => 'posts.dataTables']);
+    Route::get('posts.approve/{id}', ['uses' => 'PostsController@approve', 'as' => 'posts.approve']);
     Route::resource('posts', 'PostsController');
 
     Route::get('tags.dataTables', ['uses' => 'TagsController@dataTables', 'as' => 'tags.dataTables']);

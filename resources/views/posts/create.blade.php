@@ -100,14 +100,6 @@
 
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Trạng thái</label>
-                            <div class="col-md-9">
-                                {!! Form::checkbox('status', '1', 1, ['data-plugin' => 'switchery', 'data-color' => '#81c868']) !!}
-                                <span class="lbl"></span>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right"></label>
                             <div class="col-sm-9">
                                 <button type="submit" class="btn btn-success waves-effect waves-light">Lưu</button>
