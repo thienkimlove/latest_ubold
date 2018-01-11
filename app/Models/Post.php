@@ -130,7 +130,7 @@ class Post extends \Eloquent
                     $response .= '<a class="table-action-btn" title="Chỉnh sửa post" href="' . route('posts.edit', $post->id) . '"><i class="fa fa-pencil text-success"></i></a>';
                 }
 
-                $response .= '<a class="table-action-btn" title="View post" target="_blank" href="' . url($post->slug.'.html') . '"><i class="fa fa-signing text-warning"></i></a>';
+                $response .= '<a class="table-action-btn" title="View post" target="_blank" href="' . route('frontend.main', $post->slug) . '.html"><i class="fa fa-signing text-warning"></i></a>';
 
                 if ($user->hasAccess(['posts.destroy'])) {
                     $response .= '<a class="table-action-btn" id="btn-delete-'.$post->id.'" title="Remove post" data-url="' . route('posts.destroy', $post->id) . '"><i class="fa fa-remove text-danger"></i></a>';

@@ -75,7 +75,7 @@ class Question extends \Eloquent
                     $response .= '<a class="table-action-btn" title="Chỉnh sửa câu hỏi" href="' . route('questions.edit', $question->id) . '"><i class="fa fa-pencil text-success"></i></a>';
                 }
 
-                $response .= '<a class="table-action-btn" title="View câu hỏi" target="_blank" href="' . url('cau-hoi-thuong-gap',$question->slug) . '"><i class="fa fa-signing text-warning"></i></a>';
+                $response .= '<a class="table-action-btn" title="View câu hỏi" target="_blank" href="' . route('frontend.question',$question->slug) . '"><i class="fa fa-signing text-warning"></i></a>';
 
                 if ($user->hasAccess(['questions.destroy'])) {
                     $response .= '<a class="table-action-btn" id="btn-delete-'.$question->id.'" title="Remove câu hỏi" data-url="' . route('questions.destroy', $question->id) . '"><i class="fa fa-remove text-danger"></i></a>';

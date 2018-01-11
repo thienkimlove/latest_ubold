@@ -72,7 +72,7 @@ class Video extends \Eloquent
                     $response .= '<a class="table-action-btn" title="Chỉnh sửa video" href="' . route('videos.edit', $video->id) . '"><i class="fa fa-pencil text-success"></i></a>';
                 }
 
-                $response .= '<a class="table-action-btn" title="View video" target="_blank" href="' . url('video',$video->slug) . '"><i class="fa fa-signing text-warning"></i></a>';
+                $response .= '<a class="table-action-btn" title="View video" target="_blank" href="' . route('frontend.video',$video->slug) . '"><i class="fa fa-signing text-warning"></i></a>';
 
                 if ($user->hasAccess(['videos.destroy'])) {
                     $response .= '<a class="table-action-btn" id="btn-delete-'.$video->id.'" title="Remove video" data-url="' . route('videos.destroy', $video->id) . '"><i class="fa fa-remove text-danger"></i></a>';

@@ -80,7 +80,7 @@ class Product extends \Eloquent
                     $response .= '<a class="table-action-btn" title="Chỉnh sửa sản phẩm" href="' . route('products.edit', $product->id) . '"><i class="fa fa-pencil text-success"></i></a>';
                 }
 
-                $response .= '<a class="table-action-btn" title="View sản phẩm" target="_blank" href="' . url('product',$product->slug) . '"><i class="fa fa-signing text-warning"></i></a>';
+                $response .= '<a class="table-action-btn" title="View sản phẩm" target="_blank" href="' . route('frontend.product',$product->slug) . '"><i class="fa fa-signing text-warning"></i></a>';
 
                 if ($user->hasAccess(['products.destroy'])) {
                     $response .= '<a class="table-action-btn" id="btn-delete-'.$product->id.'" title="Remove sản phẩm" data-url="' . route('products.destroy', $product->id) . '"><i class="fa fa-remove text-danger"></i></a>';
