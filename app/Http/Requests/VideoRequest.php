@@ -71,18 +71,13 @@ class VideoRequest extends FormRequest
             $data['image'] = $filename;
         }
 
+
+        $data['user_id'] = \Sentinel::getUser()->id;
+
         $video = Video::create($data);
 
         $video->tags()->sync($tagIds);
 
-        Event::create([
-            'content' => 'videos',
-            'action' => 'create',
-            'user_id' => \Sentinel::getUser()->id,
-            'before' => null,
-            'after' => json_encode($data, true),
-            'content_id' => $video->id
-        ]);
 
         return $this;
     }

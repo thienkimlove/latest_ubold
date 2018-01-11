@@ -37,6 +37,7 @@ return array(
     'positions.dataTables' => 'Lấy danh sách Vị trí quảng cáo',
     'positions.update' => 'Update Vị trí quảng cáo',
     'positions.edit' => 'View update Vị trí quảng cáo',
+    'positions.destroy' => 'Xóa Vị trí quảng cáo',
 
     'banners.store' => 'Thêm mới Banner',
     'banners.show' => 'View chi tiết Banner',
@@ -45,6 +46,7 @@ return array(
     'banners.dataTables' => 'Lấy danh sách Banner',
     'banners.update' => 'Update Banner',
     'banners.edit' => 'View update Banner',
+    'banners.destroy' => 'Xóa Banner',
 
     'posts.store' => 'Thêm mới Bài viết',
     'posts.show' => 'View chi tiết Bài viết',
@@ -53,6 +55,7 @@ return array(
     'posts.dataTables' => 'Lấy danh sách Bài viết',
     'posts.update' => 'Update Bài viết',
     'posts.edit' => 'View update Bài viết',
+    'posts.destroy' => 'Xóa Bài viết',
 
 
     'tags.store' => 'Thêm mới Từ khóa',
@@ -62,6 +65,7 @@ return array(
     'tags.dataTables' => 'Lấy danh sách Từ khóa',
     'tags.update' => 'Update Từ khóa',
     'tags.edit' => 'View update Từ khóa',
+    'tags.destroy' => 'Xóa Từ khóa',
 
 
     'modules.add' => 'Bật modules',
@@ -74,6 +78,7 @@ return array(
     'questions.dataTables' => 'Lấy danh sách Câu hỏi',
     'questions.update' => 'Update Câu hỏi',
     'questions.edit' => 'View update Câu hỏi',
+    'questions.destroy' => 'Xóa Câu hỏi',
 
 
     'videos.store' => 'Thêm mới Video',
@@ -83,6 +88,7 @@ return array(
     'videos.dataTables' => 'Lấy danh sách Video',
     'videos.update' => 'Update Video',
     'videos.edit' => 'View update Video',
+    'videos.destroy' => 'Xóa Video',
 
     'contacts.store' => 'Thêm mới Liên hệ',
     'contacts.show' => 'View chi tiết Liên hệ',
@@ -91,6 +97,7 @@ return array(
     'contacts.dataTables' => 'Lấy danh sách Liên hệ',
     'contacts.update' => 'Update Liên hệ',
     'contacts.edit' => 'View update Liên hệ',
+    'contacts.destroy' => 'Xóa Liên hệ',
 
 
     'orders.store' => 'Thêm mới Đơn hàng',
@@ -100,6 +107,7 @@ return array(
     'orders.dataTables' => 'Lấy danh sách Đơn hàng',
     'orders.update' => 'Update Đơn hàng',
     'orders.edit' => 'View update Đơn hàng',
+    'orders.destroy' => 'Xóa Đơn hàng',
 
 
     'settings.store' => 'Thêm mới Thiết lập',
@@ -109,6 +117,7 @@ return array(
     'settings.dataTables' => 'Lấy danh sách Thiết lập',
     'settings.update' => 'Update Thiết lập',
     'settings.edit' => 'View update Thiết lập',
+    'settings.destroy' => 'Xóa Thiết lập',
 
 
 
@@ -119,6 +128,7 @@ return array(
     'products.dataTables' => 'Lấy danh sách sản phẩm',
     'products.update' => 'Update sản phẩm',
     'products.edit' => 'View update sản phẩm',
+    'products.destroy' => 'Xóa sản phẩm',
 
 
     'categories.store' => 'Thêm mới chuyên mục',
@@ -128,6 +138,7 @@ return array(
     'categories.dataTables' => 'Lấy danh sách chuyên mục',
     'categories.update' => 'Update chuyên mục',
     'categories.edit' => 'View update chuyên mục',
+    'categories.destroy' => 'Xóa chuyên mục',
 
 
     'stores.store' => 'Thêm mới địa điểm phân phối',
@@ -137,8 +148,14 @@ return array(
     'stores.dataTables' => 'Lấy danh sách địa điểm phân phối',
     'stores.update' => 'Update địa điểm phân phối',
     'stores.edit' => 'View update địa điểm phân phối',
+    'stores.destroy' => 'Xóa địa điểm phân phối',
 
     //custom
 
     'posts.approve' => 'Duyệt bài viết',
+    'videos.approve' => 'Duyệt video',
+    'questions.approve' => 'Duyệt câu hỏi',
+    'products.approve' => 'Duyệt sản phẩm',
+    'orders.export' => 'Xuất Excel Đơn hàng',
+    'contacts.export' => 'Xuất Excel Liên hệ',
 );

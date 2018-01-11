@@ -130,13 +130,17 @@
                         @endif
 
 
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Trạng thái</label>
-                            <div class="col-md-9">
-                                {!! Form::checkbox('status', '1', $product->status, ['data-plugin' => 'switchery', 'data-color' => '#81c868']) !!}
-                                <span class="lbl"></span>
+                        @if (Sentinel::getUser()->hasAccess(['products.approve']))
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Trạng thái</label>
+                                <div class="col-md-9">
+                                    {!! Form::checkbox('status', '1', $product->status, ['data-plugin' => 'switchery', 'data-color' => '#81c868']) !!}
+                                    <span class="lbl"></span>
+                                </div>
                             </div>
-                        </div>
+
+                        @endif
 
 
                         <div class="form-group">

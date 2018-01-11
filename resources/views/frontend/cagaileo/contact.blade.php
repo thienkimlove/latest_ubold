@@ -27,31 +27,31 @@
                             </div>
                         </div>
                         <div class="form-get-phone">
-                            <input type="number" placeholder="Số điện thoại" class="get-phone">
-                            <button>Gửi</button>
+                            <input id="send_phone_value" type="number" placeholder="Số điện thoại" class="get-phone">
+                            <button id="send_phone">Gửi</button>
                         </div>
                     </div>
                     <div id="contact">
-                        {!! Form::open(array('url' => 'save_question')) !!}
+                        {!! Form::open(array('url' => 'saveContact', 'id' => 'form_contact_page')) !!}
                         <div class="form-row">
                             <label for="name">Họ và tên</label>
-                            <input type="text" name="ask_person" class="txt txt-name" placeholder="Nhập họ và tên"/>
+                            <input type="text" id="contact_name" name="name" class="txt txt-name" placeholder="Nhập họ và tên"/>
                         </div>
                         <div class="form-row">
                             <label for="phone">Điện thoại</label>
-                            <input type="number" name="ask_phone" class="txt txt-phone" placeholder="Nhập số điện thoại"/>
+                            <input type="number" id="contact_phone" name="phone" class="txt txt-phone" placeholder="Nhập số điện thoại"/>
                         </div>
                         <div class="form-row">
                             <label for="email">Email</label>
-                            <input type="email" name="ask_email" class="txt txt-email" placeholder="Nhập email"/>
+                            <input type="email" id="contact_email" name="email" class="txt txt-email" placeholder="Nhập email"/>
                         </div>
                         <div class="form-row">
                             <label for="title">Tiêu đề</label>
-                            <input type="text" name="title" placeholder="Nhập tiêu đề" required>
+                            <input type="text" id="contact_title" name="title" placeholder="Nhập tiêu đề" required>
                         </div>
                         <div class="form-row">
                             <label for="content">Nội dung</label>
-                            <textarea name="question" class="txt txt-content" placeholder="Nhập nội dung" cols="30" rows="10"></textarea>
+                            <textarea name="content" id="contact_content" class="txt txt-content" placeholder="Nhập nội dung" cols="30" rows="10"></textarea>
                         </div>
                         <div class="contain-btn form-row">
                             <button type="submit">Gửi đi</button>
@@ -89,5 +89,28 @@
         </div><!--//layout-home-->
         <div class="clear"></div>
     </section>
+
+@endsection
+
+@section('frontend_script')
+    <script>
+        $(function(){
+            $('#send_phone').click(function(e){
+                e.preventDefault();
+
+                var phone = $('#send_phone_value').val();
+
+               $('#contact_email').val('contact@cagaileo.vn');
+               $('#contact_phone').val(phone);
+               $('#contact_name').val('N/A');
+               $('#contact_title').val('Để lại số ĐT trên trang liên hệ');
+               $('#contact_content').val('Để lại số ĐT trên trang liên hệ');
+
+               $('form#form_contact_page').submit();
+
+                return false;
+            });
+        });
+    </script>
 
 @endsection

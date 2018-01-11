@@ -83,9 +83,14 @@
 @endif
 
 <div class="banner-ads left">
-    <a href="javascript:void(0)" title="" target="_blank">
-        <img src="http://www.giaidocgan.vn/frontend/images/ads.jpg" alt="" width="171" height="454">
-    </a>
+    @foreach (\App\Models\Banner::whereHas('position', function($q){ $q->where('name', 'slide_index_left'); })->get() as $banner)
+        <a href="{{$banner->url}}" title="" target="_blank">
+            <img src="{{url('files/'.$banner->image)}}" alt="" width="171" height="454">
+        </a>
+    @endforeach
+
+
+
 </div>
 <div class="btn-group-fix banner-ads">
     <a href="javascript:void(0)" title="Fanpage"><img src="http://www.giaidocgan.vn/frontend/images/fb-icon.png" alt="Fanpage" width="63" height="63"></a>

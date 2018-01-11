@@ -73,18 +73,13 @@ class QuestionRequest extends FormRequest
             $data['image'] = $filename;
         }
 
+        $data['user_id'] = \Sentinel::getUser()->id;
+
         $question = Question::create($data);
 
         $question->tags()->sync($tagIds);
 
-        Event::create([
-            'content' => 'questions',
-            'action' => 'create',
-            'user_id' => \Sentinel::getUser()->id,
-            'before' => null,
-            'after' => json_encode($data, true),
-            'content_id' => $question->id
-        ]);
+
 
         return $this;
     }

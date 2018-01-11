@@ -35,20 +35,33 @@ class Product extends \Eloquent
         'content_tab2',
         'content_tab3',
         'additions',
-        'views'
+        'views',
+        'user_id'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
     }
 
+    public function scopePublish($query)
+    {
+        $query->where('status', true);
+    }
+
 
     public static function getDataTables($request)
     {
-        $product = static::select('*')->with('tags');
+        $product = static::select('*')->with('tags')->orderBy('created_at', 'desc');
 
         $modules = Module::where('content', 'products')->get();
+
+        $user = \Sentinel::getUser();
 
         return DataTables::of($product)
             ->filter(function ($query) use ($request) {
@@ -60,21 +73,27 @@ class Product extends \Eloquent
                     $query->where('status', $request->get('status'));
                 }
             })
-            ->addColumn('action', function ($product) use ($modules) {
-                $response = '<a class="table-action-btn" title="Chỉnh sửa product" href="' . route('products.edit', $product->id) . '"><i class="fa fa-pencil text-success"></i></a>';
+            ->addColumn('action', function ($product) use ($modules, $user) {
+                $response = null;
 
+                if ($user->hasAccess(['products.edit'])) {
+                    $response .= '<a class="table-action-btn" title="Chỉnh sửa sản phẩm" href="' . route('products.edit', $product->id) . '"><i class="fa fa-pencil text-success"></i></a>';
+                }
+
+                $response .= '<a class="table-action-btn" title="View sản phẩm" target="_blank" href="' . url('product',$product->slug) . '"><i class="fa fa-signing text-warning"></i></a>';
+
+                if ($user->hasAccess(['products.destroy'])) {
+                    $response .= '<a class="table-action-btn" id="btn-delete-'.$product->id.'" title="Remove sản phẩm" data-url="' . route('products.destroy', $product->id) . '"><i class="fa fa-remove text-danger"></i></a>';
+                }
 
                 $i = 0;
 
                 foreach (Helpers::getModules('products') as $key => $value) {
-
-                    $i++;
-
+                    $i ++;
                     $inModule = false;
-
                     foreach ($modules as $module) {
                         if ($module->type == $key && $module->value == $product->id) {
-                           $inModule = true;
+                            $inModule = true;
                         }
                     }
 
@@ -88,6 +107,41 @@ class Product extends \Eloquent
                 return $response;
 
             })
+
+            ->addColumn('user_name', function ($product) {
+                return ($product->user) ? $product->user->name : 'Admin';
+            })
+            ->addColumn('histories', function ($product) {
+                $histories = '';
+
+                $logs = Event::where('content', 'products')
+                    ->where('content_id', $product->id)
+                    ->latest('created_at')
+                    ->limit(3)
+                    ->get();
+
+                if ($logs->count() > 0) {
+                    foreach ($logs as $log) {
+                        $action = ($log->action == 'edit') ? 'Sửa' : 'Tạo';
+                        $histories .= '<b>'.$log->user->name.'</b> '.$action.'&nbsp;&nbsp;<span style="background-color: #e3e3e3">' . $log->created_at->toDayDateTimeString() . '</span><br/>';
+                    }
+                }
+
+                return $histories;
+            })
+            ->editColumn('status', function ($product) use ($user) {
+
+                $response = null;
+                $response .= $product->status ? '<i class="ion ion-checkmark-circled text-success"></i>' : '<i class="ion ion-close-circled text-danger"></i>';
+
+                if ($user->hasAccess(['products.approve'])) {
+                    $response .= '<a class="table-action-btn" id="btn-adjust-'.$product->id.'" title="Duyệt sản phẩm" data-url="' . route('products.approve', $product->id) . '" href="javascript:;"><i class="fa fa-adjust text-success"></i></a>';
+                }
+
+
+                return $response;
+            })
+
             ->addColumn('avatar', function ($product) {
                 return $product->image ? '<img src="'.url('img/cache/small/'.$product->image).'" />' : '';
             })
@@ -112,10 +166,8 @@ class Product extends \Eloquent
 
                 return $attr;
             })
-            ->editColumn('status', function ($product) {
-                return $product->status ? '<i class="ion ion-checkmark-circled text-success"></i>' : '<i class="ion ion-close-circled text-danger"></i>';
-            })
-            ->rawColumns(['action', 'status', 'avatar', 'tags', 'additions'])
+
+            ->rawColumns(['action', 'status', 'avatar', 'tags', 'additions', 'histories'])
             ->make(true);
     }
 

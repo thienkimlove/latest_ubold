@@ -34,7 +34,8 @@ class Question extends \Eloquent
         'answer',
         'person',
         'short_answer',
-        'views'
+        'views',
+        'user_id'
     ];
 
     public function tags()
@@ -51,9 +52,11 @@ class Question extends \Eloquent
 
     public static function getDataTables($request)
     {
-        $question = static::select('*')->with('tags');
+        $question = static::select('*')->with('tags')->orderBy('created_at', 'desc');
 
         $modules = Module::where('content', 'questions')->get();
+
+        $user = \Sentinel::getUser();
 
         return DataTables::of($question)
             ->filter(function ($query) use ($request) {
@@ -65,22 +68,29 @@ class Question extends \Eloquent
                     $query->where('status', $request->get('status'));
                 }
             })
-            ->addColumn('action', function ($question) use ($modules) {
-                $response = '<a class="table-action-btn" title="Chỉnh sửa question" href="' . route('questions.edit', $question->id) . '"><i class="fa fa-pencil text-success"></i></a>';
+            ->addColumn('action', function ($question) use ($modules, $user) {
+                $response = null;
+
+                if ($user->hasAccess(['questions.edit'])) {
+                    $response .= '<a class="table-action-btn" title="Chỉnh sửa câu hỏi" href="' . route('questions.edit', $question->id) . '"><i class="fa fa-pencil text-success"></i></a>';
+                }
+
+                $response .= '<a class="table-action-btn" title="View câu hỏi" target="_blank" href="' . url('cau-hoi-thuong-gap',$question->slug) . '"><i class="fa fa-signing text-warning"></i></a>';
+
+                if ($user->hasAccess(['questions.destroy'])) {
+                    $response .= '<a class="table-action-btn" id="btn-delete-'.$question->id.'" title="Remove câu hỏi" data-url="' . route('questions.destroy', $question->id) . '"><i class="fa fa-remove text-danger"></i></a>';
+                }
 
                 $i = 0;
 
                 foreach (Helpers::getModules('questions') as $key => $value) {
                     $i ++;
-
                     $inModule = false;
-
                     foreach ($modules as $module) {
                         if ($module->type == $key && $module->value == $question->id) {
                             $inModule = true;
                         }
                     }
-
 
                     if ($inModule) {
                         $response .= '<a class="table-action-btn" data-type="'.$key.'" data-content="questions" data-value="'.$question->id.'" data-url="' . route('modules.remove') . '" id="btn-module-'.$i.'-' . $question->id . '"  title="Off '.$value.'" href="javascript:;"><i class="fa fa-unlock text-danger"></i></a>';
@@ -91,6 +101,40 @@ class Question extends \Eloquent
 
                 return $response;
 
+            })
+
+            ->addColumn('user_name', function ($question) {
+                return ($question->user) ? $question->user->name : 'Admin';
+            })
+            ->addColumn('histories', function ($question) {
+                $histories = '';
+
+                $logs = Event::where('content', 'questions')
+                    ->where('content_id', $question->id)
+                    ->latest('created_at')
+                    ->limit(3)
+                    ->get();
+
+                if ($logs->count() > 0) {
+                    foreach ($logs as $log) {
+                        $action = ($log->action == 'edit') ? 'Sửa' : 'Tạo';
+                        $histories .= '<b>'.$log->user->name.'</b> '.$action.'&nbsp;&nbsp;<span style="background-color: #e3e3e3">' . $log->created_at->toDayDateTimeString() . '</span><br/>';
+                    }
+                }
+
+                return $histories;
+            })
+            ->editColumn('status', function ($question) use ($user) {
+
+                $response = null;
+                $response .= $question->status ? '<i class="ion ion-checkmark-circled text-success"></i>' : '<i class="ion ion-close-circled text-danger"></i>';
+
+                if ($user->hasAccess(['questions.approve'])) {
+                    $response .= '<a class="table-action-btn" id="btn-adjust-'.$question->id.'" title="Duyệt câu hỏi" data-url="' . route('questions.approve', $question->id) . '" href="javascript:;"><i class="fa fa-adjust text-success"></i></a>';
+                }
+
+
+                return $response;
             })
             ->addColumn('avatar', function ($question) {
                 return $question->image ? '<img src="'.url('img/cache/small/'.$question->image).'" />' : '';
@@ -104,10 +148,7 @@ class Question extends \Eloquent
 
                 return $tags;
             })
-            ->editColumn('status', function ($question) {
-                return $question->status ? '<i class="ion ion-checkmark-circled text-success"></i>' : '<i class="ion ion-close-circled text-danger"></i>';
-            })
-            ->rawColumns(['action', 'status', 'avatar', 'tags'])
+            ->rawColumns(['action', 'status', 'avatar', 'tags', 'histories'])
             ->make(true);
     }
 

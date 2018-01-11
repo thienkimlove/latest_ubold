@@ -102,7 +102,7 @@ class Post extends \Eloquent
 
     public static function getDataTables($request)
     {
-        $post = static::select('*')->with('category');
+        $post = static::select('*')->with('category')->orderBy('created_at', 'desc');
 
         $modules = Module::where('content', 'products')->get();
 
@@ -126,11 +126,15 @@ class Post extends \Eloquent
 
                 $response = null;
 
-                if (!$post->status && $user->hasAccess(['posts.approve'])) {
-                    $response .= '<a class="table-action-btn"  id="btn-adjust-'.$post->id.'" title="Duyệt bài viết" data-url="' . route('posts.approve', $post->id) . '" href="javascript:;"><i class="fa fa-adjust text-success"></i></a>';
+                if ($user->hasAccess(['posts.edit'])) {
+                    $response .= '<a class="table-action-btn" title="Chỉnh sửa post" href="' . route('posts.edit', $post->id) . '"><i class="fa fa-pencil text-success"></i></a>';
                 }
 
-                $response .= '<a class="table-action-btn" title="Chỉnh sửa post" href="' . route('posts.edit', $post->id) . '"><i class="fa fa-pencil text-success"></i></a>';
+                $response .= '<a class="table-action-btn" title="View post" target="_blank" href="' . url($post->slug.'.html') . '"><i class="fa fa-signing text-warning"></i></a>';
+
+                if ($user->hasAccess(['posts.destroy'])) {
+                    $response .= '<a class="table-action-btn" id="btn-delete-'.$post->id.'" title="Remove post" data-url="' . route('posts.destroy', $post->id) . '"><i class="fa fa-remove text-danger"></i></a>';
+                }
 
                 $i = 0;
 
@@ -192,8 +196,19 @@ class Post extends \Eloquent
 
                 return $histories;
             })
-            ->editColumn('status', function ($post) {
-                return $post->status ? '<i class="ion ion-checkmark-circled text-success"></i>' : '<i class="ion ion-close-circled text-danger"></i>';
+            ->editColumn('status', function ($post) use ($user) {
+
+                $response = null;
+
+
+                $response .= $post->status ? '<i class="ion ion-checkmark-circled text-success"></i>' : '<i class="ion ion-close-circled text-danger"></i>';
+
+                if ($user->hasAccess(['posts.approve'])) {
+                    $response .= '<a class="table-action-btn" id="btn-adjust-'.$post->id.'" title="Duyệt bài viết" data-url="' . route('posts.approve', $post->id) . '" href="javascript:;"><i class="fa fa-adjust text-success"></i></a>';
+                }
+
+
+                return $response;
             })
             ->rawColumns(['action', 'status', 'avatar', 'tags', 'histories', 'user_name'])
             ->make(true);

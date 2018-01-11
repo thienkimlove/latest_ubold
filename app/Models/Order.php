@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use DataTables;
 
 class Order extends \Eloquent
@@ -25,7 +26,9 @@ class Order extends \Eloquent
 
     public static function getDataTables($request)
     {
-        $order = static::select('*')->with('product');
+        $order = static::select('*')->with('product')->orderBy('created_at', 'desc');
+
+        $user = \Sentinel::getUser();
 
         return DataTables::of($order)
             ->filter(function ($query) use ($request) {
@@ -41,9 +44,28 @@ class Order extends \Eloquent
                     $query->where('status',  $request->get('status'));
                 }
 
+                if ($request->filled('date')) {
+                    $dateRange = explode(' - ', $request->get('date'));
+                    $query->whereDate('created_at', '>=', Carbon::createFromFormat('d/m/Y', $dateRange[0])->toDateString());
+                    $query->whereDate('created_at', '<=', Carbon::createFromFormat('d/m/Y', $dateRange[1])->toDateString());
+                }
+
             })
-            ->addColumn('action', function ($order) {
-                return '<a class="table-action-btn" title="Chỉnh sửa Order" href="' . route('orders.edit', $order->id) . '"><i class="fa fa-pencil text-success"></i></a>';
+            ->addColumn('action', function ($order) use ($user) {
+
+                $response = null;
+
+                if ($user->hasAccess(['orders.edit'])) {
+                    $response .= '<a class="table-action-btn" title="Chỉnh sửa Đơn hàng" href="' . route('orders.edit', $order->id) . '"><i class="fa fa-pencil text-success"></i></a>';
+                }
+
+                if ($user->hasAccess(['orders.destroy'])) {
+                    $response .= '<a class="table-action-btn" id="btn-delete-'.$order->id.'" title="Remove Đơn hàng" data-url="' . route('orders.destroy', $order->id) . '"><i class="fa fa-remove text-danger"></i></a>';
+                }
+
+
+                return $response;
+
             })
             ->addColumn('product_name', function ($order) {
                 return $order->product->title;
@@ -71,6 +93,12 @@ class Order extends \Eloquent
 
         if ($request->filled('filter_status')) {
             $query->where('orders.status', $request->get('filter_status'));
+        }
+
+        if ($request->filled('filter_date')) {
+            $dateRange = explode(' - ', $request->get('filter_date'));
+            $query->whereDate('orders.created_at', '>=', Carbon::createFromFormat('d/m/Y', $dateRange[0])->toDateString());
+            $query->whereDate('orders.created_at', '<=', Carbon::createFromFormat('d/m/Y', $dateRange[1])->toDateString());
         }
 
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\QuestionRequest;
+use App\Models\Event;
 use App\Models\Question;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -54,4 +55,34 @@ class QuestionsController extends Controller
         return Question::getDatatables($request);
     }
 
+
+    public function approve($id)
+    {
+        $question = Question::find($id);
+
+        $before = json_encode($question->toArray(), true);
+
+        $question->status = !$question->status;
+
+        $after = json_encode($question->toArray(), true);
+
+        $question->save();
+
+        Event::create([
+            'content' => 'posts',
+            'action' => 'edit',
+            'user_id' => \Sentinel::getUser()->id,
+            'before' => $before,
+            'after' => $after,
+            'content_id' => $question->id
+        ]);
+
+        return response()->json(['status' => true]);
+    }
+
+    public function destroy($id) {
+        Question::find($id)->delete();
+        flash()->success('Success', 'Câu hỏi đã xóa thành công!');
+        return response()->json(['status' => true]);
+    }
 }

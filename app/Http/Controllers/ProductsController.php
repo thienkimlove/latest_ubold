@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductRequest;
+use App\Models\Event;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -52,6 +53,37 @@ class ProductsController extends Controller
     public function dataTables(Request $request)
     {
         return Product::getDatatables($request);
+    }
+
+
+    public function approve($id)
+    {
+        $product = Product::find($id);
+
+        $before = json_encode($product->toArray(), true);
+
+        $product->status = !$product->status;
+
+        $after = json_encode($product->toArray(), true);
+
+        $product->save();
+
+        Event::create([
+            'content' => 'posts',
+            'action' => 'edit',
+            'user_id' => \Sentinel::getUser()->id,
+            'before' => $before,
+            'after' => $after,
+            'content_id' => $product->id
+        ]);
+
+        return response()->json(['status' => true]);
+    }
+
+    public function destroy($id) {
+        Product::find($id)->delete();
+        flash()->success('Success', 'Sản phẩm đã xóa thành công!');
+        return response()->json(['status' => true]);
     }
 
 }

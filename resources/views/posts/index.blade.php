@@ -86,7 +86,7 @@
                         <th width="10%">Ngày đăng</th>
                         <th width="10%">Người đăng</th>
                         <th width="30%">Sửa lần cuối</th>
-                        <th width="15%"></th>
+                        <th width="15%">Thao tác</th>
                     </tr>
                     </thead>
                 </table>
@@ -197,6 +197,34 @@
                     $.ajax({
                         url : url,
                         type : 'GET',
+                        beforeSend: function (xhr) {
+                            var token = $('meta[name="csrf_token"]').attr('content');
+                            if (token) {
+                                return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                            }
+                        }
+                    }).always(function (data) {
+                        window.location.reload();
+                    });
+                });
+            });
+
+            datatable.on('click', '[id^="btn-delete-"]', function (e) {
+                e.preventDefault();
+
+                var url = $(this).data('url');
+
+                swal({
+                    title: "Bạn có muốn xóa bài viết này?",
+                    text: "",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Accept!"
+                }).then(function () {
+                    $.ajax({
+                        url : url,
+                        type : 'DELETE',
                         beforeSend: function (xhr) {
                             var token = $('meta[name="csrf_token"]').attr('content');
                             if (token) {

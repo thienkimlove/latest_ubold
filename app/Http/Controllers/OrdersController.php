@@ -59,4 +59,10 @@ class OrdersController extends Controller
         return Order::exportToExcel($request);
     }
 
+    public function destroy($id) {
+        Order::find($id)->delete();
+        flash()->success('Success', 'Đơn hàng đã xóa thành công!');
+        return response()->json(['status' => true]);
+    }
+
 }

@@ -56,12 +56,17 @@ Route::group(['middleware' => 'acl'], function() {
     Route::post('modules.remove', ['uses' => 'ModulesController@remove', 'as' => 'modules.remove']);
 
     Route::get('questions.dataTables', ['uses' => 'QuestionsController@dataTables', 'as' => 'questions.dataTables']);
+    Route::get('questions.approve/{id}', ['uses' => 'QuestionsController@approve', 'as' => 'questions.approve']);
     Route::resource('questions', 'QuestionsController');
 
     Route::get('videos.dataTables', ['uses' => 'VideosController@dataTables', 'as' => 'videos.dataTables']);
+    Route::get('videos.approve/{id}', ['uses' => 'VideosController@approve', 'as' => 'videos.approve']);
     Route::resource('videos', 'VideosController');
 
     Route::get('products.dataTables', ['uses' => 'ProductsController@dataTables', 'as' => 'products.dataTables']);
+
+    Route::get('products.approve/{id}', ['uses' => 'ProductsController@approve', 'as' => 'products.approve']);
+
     Route::resource('products', 'ProductsController');
 
     Route::get('stores.dataTables', ['uses' => 'StoresController@dataTables', 'as' => 'stores.dataTables']);
@@ -73,6 +78,10 @@ Route::group(['middleware' => 'acl'], function() {
     Route::resource('orders', 'OrdersController');
 
     Route::get('contacts.dataTables', ['uses' => 'ContactsController@dataTables', 'as' => 'contacts.dataTables']);
+
+    Route::get('contacts.export', 'ContactsController@export')->name('contacts.export');
+
+
     Route::resource('contacts', 'ContactsController');
 
     Route::get('settings.dataTables', ['uses' => 'SettingsController@dataTables', 'as' => 'settings.dataTables']);
@@ -88,7 +97,7 @@ if (env('DB_DATABASE') == 'cagaileo') {
     Route::get('lien-he', 'CLController@contact')->name('frontend.contact');
     Route::get('video/{value?}', 'CLController@video')->name('frontend.video');
     Route::get('phan-phoi/{slug?}', 'CLController@delivery')->name('frontend.delivery');
-    Route::post('save_question', 'CLController@saveQuestion')->name('frontend.saveQuestion');
+
     Route::post('saveContact', 'CLController@saveContact')->name('frontend.saveContact');
     Route::post('saveOrder', 'CLController@saveOrder')->name('frontend.saveOrder');
     Route::get('tag/{value}', 'CLController@tag')->name('frontend.tag');

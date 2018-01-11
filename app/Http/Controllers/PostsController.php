@@ -61,7 +61,7 @@ class PostsController extends Controller
 
        $before = json_encode($post->toArray(), true);
 
-       $post->status = true;
+       $post->status = !$post->status;
 
        $after = json_encode($post->toArray(), true);
 
@@ -76,6 +76,12 @@ class PostsController extends Controller
             'content_id' => $post->id
         ]);
 
+        return response()->json(['status' => true]);
+    }
+
+    public function destroy($id) {
+        Post::find($id)->delete();
+        flash()->success('Success', 'Bài viết đã xóa thành công!');
         return response()->json(['status' => true]);
     }
 

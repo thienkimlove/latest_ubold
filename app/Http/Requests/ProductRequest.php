@@ -85,18 +85,12 @@ class ProductRequest extends FormRequest
 
         $data['additions'] = $additions ? json_encode($additions, true) : '';
 
+        $data['user_id'] = \Sentinel::getUser()->id;
+
         $product = Product::create($data);
 
         $product->tags()->sync($tagIds);
 
-        Event::create([
-            'content' => 'products',
-            'action' => 'create',
-            'user_id' => \Sentinel::getUser()->id,
-            'before' => null,
-            'after' => json_encode($data, true),
-            'content_id' => $product->id
-        ]);
 
         return $this;
     }

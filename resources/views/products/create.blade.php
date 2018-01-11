@@ -119,6 +119,7 @@
                             </div>
                         @endif
 
+                        @if (Sentinel::getUser()->hasAccess(['products.approve']))
 
                         <div class="form-group">
                             <label class="col-md-3 control-label">Trạng thái</label>
@@ -127,6 +128,8 @@
                                 <span class="lbl"></span>
                             </div>
                         </div>
+
+                        @endif
 
                         <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right"></label>

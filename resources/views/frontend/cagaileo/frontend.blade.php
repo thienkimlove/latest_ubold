@@ -40,12 +40,7 @@
     <meta name="COPYRIGHT" content="Copyright 2013 by Goethe"/>
     <meta name="Googlebot" content="index,follow,archive" />
     <meta name="RATING" content="GENERAL"/>
-    <!--[if lte IE 8]>
-    <script src="{{url('frontend/cagaileo/js/html5.js')}}" type="text/javascript"></script>
-    <![endif]-->
-    <!--[if lte IE 7]>
-    <link rel="stylesheet" href="{{url('frontend/cagaileo/css/ie.css')}}" type="text/css"/>
-    <![endif]-->
+
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
@@ -101,25 +96,26 @@
 </script>
 
 <a id="callNowButton" href="tel:0912571190" class="ft-btn"></a>
-<style>@media (max-width: 640px) {
-#callNowButton{
-display: block;
-height: 80px;
-position: fixed;
-left: 0;
-border-bottom-right-radius: 40px;
-border-top-right-radius: 40px;
-width: 100px;
-bottom: -20px;
-border-top: 2px solid rgba(51,187,51,1);
-background: url("http://www.nuocsucmieng.vn/files/hotline3.png") center 10px no-repeat #fafdfa;
-text-decoration: none;
-box-shadow: 0 0 5px #888;
--webkit-box-shadow: 0 0 5px #888;
--moz-box-shadow: 0 0 5px #888;
-z-index: 9999;
-}
-}
+<style>
+    @media (max-width: 640px) {
+        #callNowButton {
+            display: block;
+            height: 80px;
+            position: fixed;
+            left: 0;
+            border-bottom-right-radius: 40px;
+            border-top-right-radius: 40px;
+            width: 100px;
+            bottom: -20px;
+            border-top: 2px solid rgba(51, 187, 51, 1);
+            background: url("http://www.nuocsucmieng.vn/files/hotline3.png") center 10px no-repeat #fafdfa;
+            text-decoration: none;
+            box-shadow: 0 0 5px #888;
+            -webkit-box-shadow: 0 0 5px #888;
+            -moz-box-shadow: 0 0 5px #888;
+            z-index: 9999;
+        }
+    }
 </style>
 
 <div id="fb-root"></div>
@@ -135,26 +131,27 @@ fjs.parentNode.insertBefore(js, fjs);
 
   <!-- Google Code dành cho Thẻ tiếp thị lại -->
 <script type="text/javascript">
-var google_tag_params = {
-dynx_itemid: 'REPLACE_WITH_VALUE',
-dynx_itemid2: 'REPLACE_WITH_VALUE',
-dynx_pagetype: 'REPLACE_WITH_VALUE',
-dynx_totalvalue: 'REPLACE_WITH_VALUE',
-};
+    var google_tag_params = {
+        dynx_itemid: 'REPLACE_WITH_VALUE',
+        dynx_itemid2: 'REPLACE_WITH_VALUE',
+        dynx_pagetype: 'REPLACE_WITH_VALUE',
+        dynx_totalvalue: 'REPLACE_WITH_VALUE',
+    };
 </script>
 <script type="text/javascript">
-/* <![CDATA[ */
-var google_conversion_id = 964027423;
-var google_custom_params = window.google_tag_params;
-var google_remarketing_only = true;
-/* ]]> */
+    /* <![CDATA[ */
+    var google_conversion_id = 964027423;
+    var google_custom_params = window.google_tag_params;
+    var google_remarketing_only = true;
+    /* ]]> */
 </script>
 <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
 </script>
 <noscript>
-<div style="display:inline;">
-<img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/964027423/?guid=ON&amp;script=0"/>
-</div>
+    <div style="display:inline;">
+        <img height="1" width="1" style="border-style:none;" alt=""
+             src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/964027423/?guid=ON&amp;script=0"/>
+    </div>
 </noscript>
 @yield('frontend_script')
 </body>

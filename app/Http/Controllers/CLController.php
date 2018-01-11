@@ -16,14 +16,13 @@ use App\Models\Store;
 use App\Models\Tag;
 use App\Models\Video;
 use Illuminate\Http\Request;
-use Mail;
 use Watson\Sitemap\Facades\Sitemap;
 
 class CLController extends Controller
 {
     protected function generateMeta($case = null, $meta = [], $mainContent = null)
     {
-        $defaultLogo = null;
+        $defaultLogo = url('frontend/cagaileo/images/logo.png');
         $settings = Setting::pluck('value', 'name')->all();
 
         switch ($case) {
@@ -60,7 +59,7 @@ class CLController extends Controller
             case 'phan-phoi' :
                 if ($mainContent) {
                     return [
-                        'meta_title' => !empty($meta['name']) ? $meta['name'] : $settings['META_DELIVERY_TITLE'],
+                        'meta_title' => !empty($meta['title']) ? $meta['title'] : $settings['META_DELIVERY_TITLE'],
                         'meta_desc' => $settings['META_DELIVERY_DESC'],
                         'meta_keywords' => $settings['META_DELIVERY_KEYWORDS'],
                         'meta_url' => url('phan-phoi/' . $mainContent->id),
@@ -306,22 +305,6 @@ class CLController extends Controller
 
     }
 
-    public function saveQuestion(Request $request)
-    {
-        $data = $request->all();
-
-        if (isset($data['question'])) {
-
-            Mail::send('mails.question', ['data' => $data], function ($m)  {
-                $m->from(env('MAIL_USERNAME'), 'Tue Linh')
-                    ->to('contact@tuelinh.com')
-                    ->subject('Đặt câu hỏi với chuyên gia!');
-            });
-
-        }
-
-        return redirect(url('/'));
-    }
 
     public function saveOrder(Request $request)
     {

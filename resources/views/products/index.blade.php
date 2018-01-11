@@ -74,12 +74,11 @@
                     <thead>
                     <tr>
                         <th width="20%">Tiêu đề</th>
-                        <th width="20%">Ảnh</th>
-                        <th width="10%">Thuộc tính</th>
-                        <th width="10%">Từ khóa</th>
-                        <th width="15%">Trạng thái</th>
-                        <th width="10%">Ngày tạo</th>
-                        <th width="15%"></th>
+                        <th width="5%">Trạng thái</th>
+                        <th width="10%">Ngày đăng</th>
+                        <th width="10%">Người đăng</th>
+                        <th width="30%">Sửa lần cuối</th>
+                        <th width="15%">Thao tác</th>
                     </tr>
                     </thead>
                 </table>
@@ -134,14 +133,13 @@
                 },
                 columns: [
                     {data: 'title', name: 'title'},
-                    {data: 'avatar', name: 'avatar'},
-                    {data: 'additions', name: 'additions'},
-                    {data: 'tags', name: 'tags'},
                     {data: 'status', name: 'status'},
                     {data: 'created_at', name: 'created_at'},
+                    {data: 'user_name', name: 'user_name'},
+                    {data: 'histories', name: 'histories'},
                     {data: 'action', name: 'action', orderable: false, searchable: false}
                 ],
-                order: [[4, 'desc']]
+                order: [[1, 'desc']]
             });
 
             $('#search-form').on('submit', function(e) {
@@ -169,6 +167,63 @@
                     }
                 }).always(function (data) {
                     window.location.reload();
+                });
+            });
+
+
+            datatable.on('click', '[id^="btn-adjust-"]', function (e) {
+                e.preventDefault();
+
+                var url = $(this).data('url');
+
+                swal({
+                    title: "Bạn có muốn duyệt sản phẩm này?",
+                    text: "",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Accept!"
+                }).then(function () {
+                    $.ajax({
+                        url : url,
+                        type : 'GET',
+                        beforeSend: function (xhr) {
+                            var token = $('meta[name="csrf_token"]').attr('content');
+                            if (token) {
+                                return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                            }
+                        }
+                    }).always(function (data) {
+                        window.location.reload();
+                    });
+                });
+            });
+
+            datatable.on('click', '[id^="btn-delete-"]', function (e) {
+                e.preventDefault();
+
+                var url = $(this).data('url');
+
+                swal({
+                    title: "Bạn có muốn xóa sản phẩm này?",
+                    text: "",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Accept!"
+                }).then(function () {
+                    $.ajax({
+                        url : url,
+                        type : 'DELETE',
+                        beforeSend: function (xhr) {
+                            var token = $('meta[name="csrf_token"]').attr('content');
+                            if (token) {
+                                return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                            }
+                        }
+                    }).always(function (data) {
+                        window.location.reload();
+                    });
                 });
             });
         });

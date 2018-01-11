@@ -54,5 +54,16 @@ class ContactsController extends Controller
         return Contact::getDatatables($request);
     }
 
+    public function export(Request $request)
+    {
+        return Contact::exportToExcel($request);
+    }
+
+    public function destroy($id) {
+        Contact::find($id)->delete();
+        flash()->success('Success', 'Liên hệ đã xóa thành công!');
+        return response()->json(['status' => true]);
+    }
+
 
 }

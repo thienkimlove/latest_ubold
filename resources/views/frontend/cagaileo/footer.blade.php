@@ -39,14 +39,14 @@
                         Đăng ký nhận khuyến mại:
                         <p>Điền ngay email của bạn để nhận những thông tin khuyến mại của chúng tôi</p>
                     </h3>
-                    {!! Form::open(array('url' => 'save_question')) !!}
-                        <input type="text" name="ask_email" placeholder="Nhập địa chỉ email">
-                        <input type="hidden" name="question" value="Email đăng ký nhận khuyến mại" />
+                    {!! Form::open(array('url' => 'saveContact')) !!}
+                        <input type="text" name="email" placeholder="Nhập địa chỉ email">
+                        <input type="hidden" name="title" value="Email đăng ký nhận khuyến mại" />
+                        <input type="hidden" name="name" value="N/A" />
+                        <input type="hidden" name="phone" value="N/A" />
+                        <input type="hidden" name="content" value="Email đăng ký nhận khuyến mại" />
                         <button class="btn-send">Gửi</button>
                     {!! Form::close() !!}
-                    <p>
-                        
-                    </p>
                 </div>
             </div>
 

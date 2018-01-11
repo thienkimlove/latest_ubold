@@ -108,13 +108,17 @@
                         </div>
 
 
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Trạng thái</label>
-                            <div class="col-md-9">
-                                {!! Form::checkbox('status', '1', $question->status, ['data-plugin' => 'switchery', 'data-color' => '#81c868']) !!}
-                                <span class="lbl"></span>
+                        @if (Sentinel::getUser()->hasAccess(['questions.approve']))
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Trạng thái</label>
+                                <div class="col-md-9">
+                                    {!! Form::checkbox('status', '1', $question->status, ['data-plugin' => 'switchery', 'data-color' => '#81c868']) !!}
+                                    <span class="lbl"></span>
+                                </div>
                             </div>
-                        </div>
+
+                        @endif
 
                         <div class="form-group">
                             <label class="col-md-3 control-label">Ngày tạo</label>
