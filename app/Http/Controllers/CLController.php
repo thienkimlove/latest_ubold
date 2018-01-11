@@ -20,122 +20,28 @@ use Watson\Sitemap\Facades\Sitemap;
 
 class CLController extends Controller
 {
-    protected function generateMeta($case = null, $meta = [], $mainContent = null)
+
+    public $logo = '/frontend/cagaileo/images/logo.png';
+
+    private function getSetting($key)
     {
-        $defaultLogo = url('frontend/cagaileo/images/logo.png');
         $settings = Setting::pluck('value', 'name')->all();
-
-        switch ($case) {
-            default :
-                return [
-                    'meta_title' => $settings['META_INDEX_TITLE'],
-                    'meta_desc' => $settings['META_INDEX_DESC'],
-                    'meta_keywords' => $settings['META_INDEX_KEYWORDS'],
-                    'meta_url' => url('/'),
-                    'meta_image' => $defaultLogo
-                ];
-                break;
-
-            case 'lien-he' :
-                return [
-                    'meta_title' => $settings['META_CONTACT_TITLE'],
-                    'meta_desc' => $settings['META_CONTACT_DESC'],
-                    'meta_keywords' => $settings['META_CONTACT_KEYWORDS'],
-                    'meta_url' => url('lien-he'),
-                    'meta_image' => $defaultLogo
-                ];
-                break;
-            case 'video' :
-
-                return [
-                    'meta_title' => !empty($meta['title']) ? $meta['title'] : $settings['META_VIDEO_TITLE'],
-                    'meta_desc' => empty($meta['desc']) ? $meta['desc'] : $settings['META_VIDEO_DESC'],
-                    'meta_keywords' => empty($meta['keywords']) ? $meta['keywords'] : $settings['META_VIDEO_KEYWORDS'],
-                    'meta_url' => ($mainContent) ? url('video/' . $mainContent->slug) : url('video'),
-                    'meta_image' => ($mainContent)?  url('img/cache/120x120/'.$mainContent->image) : $defaultLogo
-                ];
-
-                break;
-            case 'phan-phoi' :
-                if ($mainContent) {
-                    return [
-                        'meta_title' => !empty($meta['title']) ? $meta['title'] : $settings['META_DELIVERY_TITLE'],
-                        'meta_desc' => $settings['META_DELIVERY_DESC'],
-                        'meta_keywords' => $settings['META_DELIVERY_KEYWORDS'],
-                        'meta_url' => url('phan-phoi/' . $mainContent->id),
-                        'meta_image' => $defaultLogo
-                    ];
-                } else {
-                    return [
-                        'meta_title' => !empty($meta['title']) ? $meta['title'] : $settings['META_DELIVERY_TITLE'],
-                        'meta_desc' => !empty($meta['desc']) ? $meta['desc'] : $settings['META_DELIVERY_DESC'],
-                        'meta_keywords' => !empty($meta['keywords']) ? $meta['keywords'] : $settings['META_DELIVERY_KEYWORDS'],
-                        'meta_url' => url('phan-phoi'),
-                        'meta_image' =>  $defaultLogo
-                    ];
-                }
-                break;
-            case 'tag' :
-                return [
-                    'meta_title' => $meta['title'],
-                    'meta_desc' => $meta['desc'],
-                    'meta_keywords' => $meta['keywords'],
-                    'meta_url' => url('tag/' . $mainContent),
-                    'meta_image' => $defaultLogo
-                ];
-                break;
-            case 'product_detail' :
-                return [
-                    'meta_title' => $meta['title'],
-                    'meta_desc' => $meta['desc'],
-                    'meta_keywords' => $meta['keywords'],
-                    'meta_url' => url('product/' . $mainContent),
-                    'meta_image' => url('img/cache/120x120/'.$mainContent->image)
-                ];
-                break;
-            case 'product' :
-                return [
-                    'meta_title' => 'Sản phẩm | '.$settings['META_INDEX_TITLE'],
-                    'meta_desc' => $settings['META_INDEX_DESC'],
-                    'meta_keywords' => $settings['META_INDEX_KEYWORDS'],
-                    'meta_url' => url('product'),
-                    'meta_image' => $defaultLogo
-                ];
-                break;
-            case 'cau-hoi-thuong-gap' :
-                return [
-                    'meta_title' => !empty($meta['title']) ? $meta['title'] : $settings['META_QUESTION_TITLE'],
-                    'meta_desc' => !empty($meta['desc']) ? $meta['desc'] : $settings['META_QUESTION_DESC'],
-                    'meta_keywords' => !empty($meta['keywords']) ? $meta['keywords'] : $settings['META_QUESTION_KEYWORDS'],
-                    'meta_url' => ($mainContent) ? url('cau-hoi-thuong-gap/' . $mainContent->slug) : url('cau-hoi-thuong-gap'),
-                    'meta_image' => ($mainContent)?  url('img/cache/120x120/'.$mainContent->image) : $defaultLogo
-                ];
-                break;
-            case 'post' :
-                return [
-                    'meta_title' => $meta['title'],
-                    'meta_desc' => $meta['desc'],
-                    'meta_keywords' => !empty($meta['keywords']) ? $meta['keywords'] : $settings['META_POST_KEYWORDS'],
-                    'meta_url' => url($mainContent->slug . '.html'),
-                    'meta_image' => url('img/cache/120x120/'.$mainContent->image) 
-                ];
-                break;
-            case 'category' :
-                return [
-                    'meta_title' => $meta['title'],
-                    'meta_desc' => $meta['desc'],
-                    'meta_keywords' => !empty($meta['keywords']) ? $meta['keywords'] : $settings['META_CATEGORY_KEYWORDS'],
-                    'meta_url' => url($mainContent->slug),
-                    'meta_image' => $defaultLogo
-                ];
-                break;
-        }
+        return isset($settings[$key]) ? $settings[$key] : '';
 
     }
+
 
     public function index()
     {
         $page = 'index';
+
+        $meta = [];
+        $meta['meta_title'] = $this->getSetting('META_INDEX_TITLE');
+        $meta['meta_desc'] = $this->getSetting('META_INDEX_DESC');
+        $meta['meta_keywords'] = $this->getSetting('META_INDEX_KEYWORDS');
+        $meta['meta_image'] = $this->logo;
+        $meta['meta_url'] = url('/');
+
 
         $topModuleCategoryIds = Helpers::getModuleValues('categories', 'index_1');
 
@@ -193,14 +99,22 @@ class CLController extends Controller
             'middleIndexBanner',
             'page',
             'hotProducts',
-            'belowProductBanner'
-        ))->with($this->generateMeta());
+            'belowProductBanner'))->with($meta);
     }
 
     public function contact()
     {
         $page = 'lien-he';
-        return view('frontend.cagaileo.contact', compact('page'))->with($this->generateMeta('lien-he'));
+        $meta = [];
+
+        $meta['meta_title'] = $this->getSetting('META_CONTACT_TITLE');
+        $meta['meta_desc'] = $this->getSetting('META_CONTACT_DESC');
+        $meta['meta_keywords'] = $this->getSetting('META_CONTACT_KEYWORDS');
+        $meta['meta_image'] = $this->logo;
+        $meta['meta_url'] =route('frontend.contact');
+
+
+        return view('frontend.cagaileo.contact', compact('page'))->with($meta);
     }
 
     /**
@@ -210,8 +124,17 @@ class CLController extends Controller
     public function video($value = null)
     {
         $page = 'video';
+
+        $meta = [];
+
+        $meta['meta_title'] = $this->getSetting('META_VIDEO_TITLE');
+        $meta['meta_desc'] = $this->getSetting('META_VIDEO_DESC');
+        $meta['meta_keywords'] = $this->getSetting('META_VIDEO_KEYWORDS');
+        $meta['meta_image'] = $this->logo;
+        $meta['meta_url'] =route('frontend.video');
+
         $mainVideo = null;
-        $meta_title = $meta_desc = $meta_keywords = null;
+
         $videos = Video::paginate(6);
 
         $latestVideos = Video::latest('updated_at')->limit(5)->get();
@@ -226,14 +149,17 @@ class CLController extends Controller
             $meta_desc = $mainVideo->desc;
             $meta_keywords = $mainVideo->keywords;
             $mainVideo->update(['views' => (int)$mainVideo->views + 1]);
+
+
+            $meta['meta_title'] = $meta_title;
+            $meta['meta_desc'] = $meta_desc;
+            $meta['meta_keywords'] = $meta_keywords;
+            $meta['meta_image'] = url('img/cache/120x120/'.$mainVideo->image);
+            $meta['meta_url'] = route('frontend.video', $mainVideo->slug);
+
         }
 
-
-        return view('frontend.cagaileo.video', compact('videos', 'mainVideo', 'latestVideos', 'page'))->with($this->generateMeta('video', [
-            'title' => $meta_title,
-            'desc' => $meta_desc,
-            'keywords' => $meta_keywords,
-        ], $mainVideo));
+        return view('frontend.cagaileo.video', compact('videos', 'mainVideo', 'latestVideos', 'page'))->with($meta);
 
     }
 
@@ -242,11 +168,19 @@ class CLController extends Controller
 
         $page = 'phan-phoi';
 
+        $meta = [];
+
+        $meta['meta_title'] = $this->getSetting('META_DELIVERY_TITLE');
+        $meta['meta_desc'] = $this->getSetting('META_DELIVERY_DESC');
+        $meta['meta_keywords'] = $this->getSetting('META_DELIVERY_KEYWORDS');
+        $meta['meta_image'] = $this->logo;
+        $meta['meta_url'] =route('frontend.delivery');
+
         if ($slug) {
             $province = Province::findBySlug($slug);
-            return view('frontend.cagaileo.detail_delivery', compact('province', 'page'))->with($this->generateMeta('phan-phoi', [
-                'title' => $province->name,
-            ], $province));
+            $meta['meta_title'] = $province->name;
+            $meta['meta_url'] =route('frontend.delivery', $slug);
+            return view('frontend.cagaileo.detail_delivery', compact('province', 'page'))->with($meta);
         } else {
             $provinces = Province::orderBy('id')->get();
 
@@ -259,7 +193,7 @@ class CLController extends Controller
                 session()->forget('success_delivery_form_message');
             }
 
-            return view('frontend.cagaileo.new_phanphoi', compact('provinces', 'page', 'deliveryProducts', 'success_delivery_form_message'))->with($this->generateMeta('phan-phoi'));
+            return view('frontend.cagaileo.new_phanphoi', compact('provinces', 'page', 'deliveryProducts', 'success_delivery_form_message'))->with($meta);
         }
 
     }
@@ -342,11 +276,12 @@ class CLController extends Controller
     public function tag($value)
     {
         $page = 'tag';
+        $meta = [];
         $middleIndexBanner = Banner::where('status', true)->whereHas('position', function($q){
             $q->where('name', 'middle_index');
         })->get();
 
-        $tag = Tag::where('slug', $value)->get();
+        $tag = Tag::findBySlug($value)->get();
 
         if ($tag->count() > 0) {
 
@@ -363,12 +298,13 @@ class CLController extends Controller
                 ->orderBy('updated_at', 'desc')
                 ->paginate(10);
 
-            return view('frontend.cagaileo.tag', compact('posts', 'tag', 'middleIndexBanner', 'page'))->with
-            ($this->generateMeta([
-                'title' => $meta_title,
-                'desc' => $meta_desc,
-                'keywords' => $meta_keywords,
-            ], $value));
+            $meta['meta_title'] = $meta_title;
+            $meta['meta_desc'] = $meta_desc;
+            $meta['meta_keywords'] = $meta_keywords;
+            $meta['meta_image'] = $this->logo;
+            $meta['meta_url'] =route('frontend.tag', $value);
+
+            return view('frontend.cagaileo.tag', compact('posts', 'tag', 'middleIndexBanner', 'page'))->with($meta);
         }
     } 
     
@@ -380,16 +316,18 @@ class CLController extends Controller
             $middleIndexBanner = Banner::where('status', true)->whereHas('position', function($q){
                 $q->where('name', 'middle_index');
             })->get();
-
-
             $keyword = $request->get('q');
             $posts = Post::publish()->where('title', 'LIKE', '%' . $keyword . '%')->paginate(10);
 
-            return view('frontend.cagaileo.search', compact('posts', 'keyword', 'middleIndexBanner', 'page'))->with($this->generateMeta('tag', [
-                'title' => 'Tìm kiếm cho từ khóa ' . $keyword,
-                'desc' => 'Tìm kiếm cho từ khóa ' . $keyword,
-                'keywords' => $keyword,
-            ], $keyword));
+            $meta = [];
+            $meta['meta_title'] = 'Tìm kiếm cho từ khóa ' . $keyword;
+            $meta['meta_desc'] = 'Tìm kiếm cho từ khóa ' . $keyword;
+            $meta['meta_keywords'] = $keyword;
+            $meta['meta_image'] = $this->logo;
+            $meta['meta_url'] = route('frontend.search');
+
+
+            return view('frontend.cagaileo.search', compact('posts', 'keyword', 'middleIndexBanner', 'page'))->with($meta);
         }
     }
 
@@ -397,28 +335,35 @@ class CLController extends Controller
     {
         $page = 'product';
 
+        $meta = [];
 
+        $meta['meta_title'] = $this->getSetting('META_PRODUCT_TITLE');
+        $meta['meta_desc'] = $this->getSetting('META_PRODUCT_DESC');
+        $meta['meta_keywords'] = $this->getSetting('META_PRODUCT_KEYWORDS');
+        $meta['meta_image'] = $this->logo;
+        $meta['meta_url'] =route('frontend.product');
 
         $middleIndexBanner = Banner::where('status', true)->whereHas('position', function($q){
             $q->where('name', 'middle_index');
         })->get();
 
-
-        $meta_title = $meta_desc = $meta_keywords = null;
         if ($value) {
-            $product = Product::where('slug', $value)->first();
-
+            $product = Product::findBySlug($value);
 
             $advProduct = Banner::where('status', true)->whereHas('position', function($q){
                 $q->where('name', 'top_product_detail');
             })->get();
 
-
-
-
             $meta_title = ($product->seo_title) ? $product->seo_title : $product->title;
             $meta_desc = $product->desc;
             $meta_keywords = $product->keywords;
+
+            $meta['meta_title'] = $meta_title;
+            $meta['meta_desc'] = $meta_desc;
+            $meta['meta_keywords'] = $meta_keywords;
+            $meta['meta_image'] = url('img/cache/120x120/'.$product->image);
+            $meta['meta_url'] = route('frontend.product', $product->slug);
+
 
             $hotBelowModules = Helpers::getModuleValues('products', 'hot_below');
 
@@ -434,20 +379,10 @@ class CLController extends Controller
                 'page',
                 'advProduct',
                 'hotProducts'
-            ))->with($this->generateMeta('product_detail', [
-                'title' => $meta_title,
-                'desc' => $meta_desc,
-                'keywords' => $meta_keywords,
-            ], $product));
+            ))->with($meta);
         } else {
-
           $products = Product::paginate(9);
-
-            return view('frontend.cagaileo.product', compact('products', 'middleIndexBanner', 'page'))->with($this->generateMeta('product', [
-                'title' => $meta_title,
-                'desc' => $meta_desc,
-                'keywords' => $meta_keywords,
-            ]));
+          return view('frontend.cagaileo.product', compact('products', 'middleIndexBanner', 'page'))->with($meta);
         }
 
     }
@@ -467,26 +402,32 @@ class CLController extends Controller
 
         $page = 'cau-hoi-thuong-gap';
         $mainQuestion = null;
-        $meta_title = $meta_desc = $meta_keywords = null;
+        $meta = [];
+
+        $meta['meta_title'] = $this->getSetting('META_QUESTION_TITLE');
+        $meta['meta_desc'] = $this->getSetting('META_QUESTION_DESC');
+        $meta['meta_keywords'] = $this->getSetting('META_QUESTION_KEYWORDS');
+        $meta['meta_image'] = $this->logo;
+        $meta['meta_url'] =route('frontend.question');
+
+
         if ($value) {
             $mainQuestion = Question::where('slug', $value)->first();
             $meta_title = ($mainQuestion->seo_title) ? $mainQuestion->seo_title : $mainQuestion->title;
             $meta_desc = $mainQuestion->desc;
             $meta_keywords = $mainQuestion->keywords;
 
-            return view('frontend.cagaileo.detail_question', compact('mainQuestion', 'middleIndexBanner', 'page', 'success_delivery_form_message'))->with($this->generateMeta('cau-hoi-thuong-gap', [
-                'title' => $meta_title,
-                'desc' => $meta_desc,
-                'keywords' => $meta_keywords,
-            ], $mainQuestion));
+            $meta['meta_title'] = $meta_title;
+            $meta['meta_desc'] = $meta_desc;
+            $meta['meta_keywords'] = $meta_keywords;
+            $meta['meta_image'] = url('img/cache/120x120/'.$mainQuestion->image);
+            $meta['meta_url'] = route('frontend.question', $mainQuestion->slug);
+
+            return view('frontend.cagaileo.detail_question', compact('mainQuestion', 'middleIndexBanner', 'page', 'success_delivery_form_message'))->with($meta);
 
         }
         $questions = Question::publish()->paginate(10);
-        return view('frontend.cagaileo.question', compact('questions', 'mainQuestion', 'middleIndexBanner', 'page', 'success_delivery_form_message'))->with($this->generateMeta('cau-hoi-thuong-gap', [
-            'title' => $meta_title,
-            'desc' => $meta_desc,
-            'keywords' => $meta_keywords,
-        ], $mainQuestion));
+        return view('frontend.cagaileo.question', compact('questions', 'mainQuestion', 'middleIndexBanner', 'page', 'success_delivery_form_message'))->with($meta);
     }
 
     public function main($value)
@@ -510,11 +451,16 @@ class CLController extends Controller
             
             $page = $post->category->slug;
 
-            return view('frontend.cagaileo.post', compact('post', 'latestNews', 'middleIndexBanner', 'page'))->with($this->generateMeta('post', [
-                'title' => ($post->seo_title) ? $post->seo_title : $post->title,
-                'desc' => $post->desc,
-                'keyword' => ($post->tagList) ? implode(',', $post->tagList) : null,
-            ], $post));
+            $meta = [];
+
+            $meta['meta_title'] = ($post->seo_title) ? $post->seo_title : $post->title;
+            $meta['meta_desc'] = $post->desc;
+            $meta['meta_keywords'] = ($post->tagList) ? implode(',', $post->tagList) : null;
+            $meta['meta_image'] = url('img/cache/120x120/'.$post->image);
+            $meta['meta_url'] = route('frontend.main', $post->slug.'.html');
+
+            return view('frontend.cagaileo.post', compact('post', 'latestNews', 'middleIndexBanner', 'page'))->with($meta);
+
         } else {
             $category = Category::where('slug', $value)->first();
 
@@ -536,13 +482,17 @@ class CLController extends Controller
             
             $page = $category->slug;
 
+            $meta = [];
+
+            $meta['meta_title'] = ($category->seo_name) ?  $category->seo_name : $category->name;
+            $meta['meta_desc'] = ($category->desc)? $category->desc : null;
+            $meta['meta_keywords'] = ($category->keywords)? $category->keywords : null;
+            $meta['meta_image'] = $this->logo;
+            $meta['meta_url'] = route('frontend.main', $category->slug);
+
             return view('frontend.cagaileo.category', compact(
                 'category', 'posts', 'page','middleIndexBanner'
-            ))->with($this->generateMeta('category', [
-                'title' => ($category->seo_name) ?  $category->seo_name : $category->name,
-                'desc' =>  ($category->desc)? $category->desc : null,
-                'keyword' => ($category->keywords)? $category->keywords : null,
-            ], $category));
+            ))->with($meta);
         }
     }
 
