@@ -20,12 +20,12 @@
     </div>
     <div class="box-adv">
         <a href="tel: 18001190">
-            <img src="http://www.cagaileo.vn/files/dd3310aebde5ad4ea5a769601ad19604.png" alt="Tue linh">
+            <img src="{{ url('frontend/cagaileo/images/diem-ban.png') }}" alt="Tue linh">
         </a>
     </div>
     <div class="box-adv">
-        <a href="http://www.viemgan.com.vn/phan-phoi">
-            <img src="http://www.cagaileo.vn/files/cc2d746ed56741370dcaa755ca9266ff.png" alt="Tue linh">
+        <a href="{{ route('frontend.delivery') }}">
+            <img src="{{ url('frontend/cagaileo/images/phan-phoi.png') }}" alt="Tue linh">
         </a>
     </div>
     @if ($featureVideos->count() > 0)

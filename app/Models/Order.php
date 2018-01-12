@@ -72,7 +72,25 @@ class Order extends \Eloquent
             })->editColumn('status', function ($order) {
                 return config('system.customer_content_status.'.$order->status);
             })
-            ->rawColumns(['action', 'status'])
+            ->addColumn('histories', function ($order) {
+                $histories = '';
+
+                $logs = Event::where('content', 'orders')
+                    ->where('content_id', $order->id)
+                    ->latest('created_at')
+                    ->limit(3)
+                    ->get();
+
+                if ($logs->count() > 0) {
+                    foreach ($logs as $log) {
+                        $action = ($log->action == 'edit') ? 'Sửa' : 'Tạo';
+                        $histories .= '<b>'.$log->user->name.'</b> '.$action.'&nbsp;&nbsp;<span style="background-color: #e3e3e3">' . $log->created_at->toDayDateTimeString() . '</span><br/>';
+                    }
+                }
+
+                return $histories;
+            })
+            ->rawColumns(['action', 'status', 'histories'])
             ->make(true);
     }
 

@@ -134,29 +134,29 @@ class CLController extends Controller
         $meta['meta_url'] =route('frontend.video');
 
         $mainVideo = null;
-
         $videos = Video::paginate(6);
-
         $latestVideos = Video::latest('updated_at')->limit(5)->get();
-
         if ($videos->count() > 0) {
             $mainVideo = $videos->first();
         }
 
         if ($value) {
-            $mainVideo = Video::where('slug', $value)->first();
-            $meta_title = ($mainVideo->seo_title) ? $mainVideo->seo_title : $mainVideo->title;
-            $meta_desc = $mainVideo->desc;
-            $meta_keywords = $mainVideo->keywords;
-            $mainVideo->update(['views' => (int)$mainVideo->views + 1]);
+            $mainVideo = Video::findBySlug($value);
+            if ($mainVideo) {
+                $meta_title = ($mainVideo->seo_title) ? $mainVideo->seo_title : $mainVideo->title;
+                $meta_desc = $mainVideo->desc;
+                $meta_keywords = $mainVideo->keywords;
+                $mainVideo->update(['views' => (int)$mainVideo->views + 1]);
 
 
-            $meta['meta_title'] = $meta_title;
-            $meta['meta_desc'] = $meta_desc;
-            $meta['meta_keywords'] = $meta_keywords;
-            $meta['meta_image'] = url('img/cache/120x120/'.$mainVideo->image);
-            $meta['meta_url'] = route('frontend.video', $mainVideo->slug);
-
+                $meta['meta_title'] = $meta_title;
+                $meta['meta_desc'] = $meta_desc;
+                $meta['meta_keywords'] = $meta_keywords;
+                $meta['meta_image'] = url('img/cache/120x120/'.$mainVideo->image);
+                $meta['meta_url'] = route('frontend.video', $mainVideo->slug);
+            } else {
+                return redirect('/');
+            }
         }
 
         return view('frontend.cagaileo.video', compact('videos', 'mainVideo', 'latestVideos', 'page'))->with($meta);
@@ -178,9 +178,13 @@ class CLController extends Controller
 
         if ($slug) {
             $province = Province::findBySlug($slug);
-            $meta['meta_title'] = $province->name;
-            $meta['meta_url'] =route('frontend.delivery', $slug);
-            return view('frontend.cagaileo.detail_delivery', compact('province', 'page'))->with($meta);
+            if ($province) {
+                $meta['meta_title'] = $province->name;
+                $meta['meta_url'] =route('frontend.delivery', $slug);
+                return view('frontend.cagaileo.detail_delivery', compact('province', 'page'))->with($meta);
+            } else {
+                return redirect('/');
+            }
         } else {
             $provinces = Province::orderBy('id')->get();
 
@@ -281,12 +285,9 @@ class CLController extends Controller
             $q->where('name', 'middle_index');
         })->get();
 
-        $tag = Tag::findBySlug($value)->get();
+        $tag = Tag::findBySlug($value);
 
-        if ($tag->count() > 0) {
-
-            $tag = $tag->first();
-
+        if ($tag) {
             $meta_title = ($tag->seo_title) ? $tag->seo_title : $tag->name;
             $meta_desc = $tag->desc;
             $meta_keywords = $tag->keywords;
@@ -305,6 +306,8 @@ class CLController extends Controller
             $meta['meta_url'] =route('frontend.tag', $value);
 
             return view('frontend.cagaileo.tag', compact('posts', 'tag', 'middleIndexBanner', 'page'))->with($meta);
+        } else {
+            redirect('/');
         }
     } 
     
@@ -328,6 +331,8 @@ class CLController extends Controller
 
 
             return view('frontend.cagaileo.search', compact('posts', 'keyword', 'middleIndexBanner', 'page'))->with($meta);
+        } else {
+            return redirect('/');
         }
     }
 
@@ -350,36 +355,40 @@ class CLController extends Controller
         if ($value) {
             $product = Product::findBySlug($value);
 
-            $advProduct = Banner::where('status', true)->whereHas('position', function($q){
-                $q->where('name', 'top_product_detail');
-            })->get();
+            if ($product) {
+                $advProduct = Banner::where('status', true)->whereHas('position', function($q){
+                    $q->where('name', 'top_product_detail');
+                })->get();
 
-            $meta_title = ($product->seo_title) ? $product->seo_title : $product->title;
-            $meta_desc = $product->desc;
-            $meta_keywords = $product->keywords;
+                $meta_title = ($product->seo_title) ? $product->seo_title : $product->title;
+                $meta_desc = $product->desc;
+                $meta_keywords = $product->keywords;
 
-            $meta['meta_title'] = $meta_title;
-            $meta['meta_desc'] = $meta_desc;
-            $meta['meta_keywords'] = $meta_keywords;
-            $meta['meta_image'] = url('img/cache/120x120/'.$product->image);
-            $meta['meta_url'] = route('frontend.product', $product->slug);
-
-
-            $hotBelowModules = Helpers::getModuleValues('products', 'hot_below');
+                $meta['meta_title'] = $meta_title;
+                $meta['meta_desc'] = $meta_desc;
+                $meta['meta_keywords'] = $meta_keywords;
+                $meta['meta_image'] = url('img/cache/120x120/'.$product->image);
+                $meta['meta_url'] = route('frontend.product', $product->slug);
 
 
-            $hotProducts = Product::whereIn('id', $hotBelowModules)
-                ->where('id', '<>', $product->id)
-                ->latest('updated_at')
-                ->limit(5)
-                ->get();
-            return view('frontend.cagaileo.product_detail', compact(
-                'product',
-                'middleIndexBanner',
-                'page',
-                'advProduct',
-                'hotProducts'
-            ))->with($meta);
+                $hotBelowModules = Helpers::getModuleValues('products', 'hot_below');
+
+
+                $hotProducts = Product::whereIn('id', $hotBelowModules)
+                    ->where('id', '<>', $product->id)
+                    ->latest('updated_at')
+                    ->limit(5)
+                    ->get();
+                return view('frontend.cagaileo.product_detail', compact(
+                    'product',
+                    'middleIndexBanner',
+                    'page',
+                    'advProduct',
+                    'hotProducts'
+                ))->with($meta);
+            } else {
+                return redirect('/');
+            }
         } else {
           $products = Product::paginate(9);
           return view('frontend.cagaileo.product', compact('products', 'middleIndexBanner', 'page'))->with($meta);
@@ -412,19 +421,22 @@ class CLController extends Controller
 
 
         if ($value) {
-            $mainQuestion = Question::where('slug', $value)->first();
-            $meta_title = ($mainQuestion->seo_title) ? $mainQuestion->seo_title : $mainQuestion->title;
-            $meta_desc = $mainQuestion->desc;
-            $meta_keywords = $mainQuestion->keywords;
+            $mainQuestion = Question::findBySlug($value);
+            if ($mainQuestion) {
+                $meta_title = ($mainQuestion->seo_title) ? $mainQuestion->seo_title : $mainQuestion->title;
+                $meta_desc = $mainQuestion->desc;
+                $meta_keywords = $mainQuestion->keywords;
 
-            $meta['meta_title'] = $meta_title;
-            $meta['meta_desc'] = $meta_desc;
-            $meta['meta_keywords'] = $meta_keywords;
-            $meta['meta_image'] = url('img/cache/120x120/'.$mainQuestion->image);
-            $meta['meta_url'] = route('frontend.question', $mainQuestion->slug);
+                $meta['meta_title'] = $meta_title;
+                $meta['meta_desc'] = $meta_desc;
+                $meta['meta_keywords'] = $meta_keywords;
+                $meta['meta_image'] = url('img/cache/120x120/'.$mainQuestion->image);
+                $meta['meta_url'] = route('frontend.question', $mainQuestion->slug);
 
-            return view('frontend.cagaileo.detail_question', compact('mainQuestion', 'middleIndexBanner', 'page', 'success_delivery_form_message'))->with($meta);
-
+                return view('frontend.cagaileo.detail_question', compact('mainQuestion', 'middleIndexBanner', 'page', 'success_delivery_form_message'))->with($meta);
+            } else {
+                return redirect('/');
+            }
         }
         $questions = Question::publish()->paginate(10);
         return view('frontend.cagaileo.question', compact('questions', 'mainQuestion', 'middleIndexBanner', 'page', 'success_delivery_form_message'))->with($meta);
@@ -439,60 +451,67 @@ class CLController extends Controller
 
         if (preg_match('/([a-z0-9\-]+)\.html/', $value, $matches)) {
 
-            $post = Post::where('slug', $matches[1])->first();
-            $post->update(['views' => (int) $post->views + 1]);
+            $post = Post::findBySlug($matches[1]);
+            if ($post) {
+                $post->update(['views' => (int) $post->views + 1]);
 
-            $latestNews = Post::publish()
-                ->where('category_id', $post->category_id)
-                ->where('id', '!=', $post->id)
-                ->latest('updated_at')
-                ->limit(6)
-                ->get();
-            
-            $page = $post->category->slug;
-
-            $meta = [];
-
-            $meta['meta_title'] = ($post->seo_title) ? $post->seo_title : $post->title;
-            $meta['meta_desc'] = $post->desc;
-            $meta['meta_keywords'] = ($post->tagList) ? implode(',', $post->tagList) : null;
-            $meta['meta_image'] = url('img/cache/120x120/'.$post->image);
-            $meta['meta_url'] = route('frontend.main', $post->slug.'.html');
-
-            return view('frontend.cagaileo.post', compact('post', 'latestNews', 'middleIndexBanner', 'page'))->with($meta);
-
-        } else {
-            $category = Category::where('slug', $value)->first();
-
-            if ($category->children->count() == 0) {
-                //child categories
-                $posts = Post::publish()
-                    ->where('category_id', $category->id)
+                $latestNews = Post::publish()
+                    ->where('category_id', $post->category_id)
+                    ->where('id', '!=', $post->id)
                     ->latest('updated_at')
-                    ->paginate(10);
+                    ->limit(6)
+                    ->get();
 
+                $page = $post->category->slug;
+
+                $meta = [];
+
+                $meta['meta_title'] = ($post->seo_title) ? $post->seo_title : $post->title;
+                $meta['meta_desc'] = $post->desc;
+                $meta['meta_keywords'] = ($post->tagList) ? implode(',', $post->tagList) : null;
+                $meta['meta_image'] = url('img/cache/120x120/'.$post->image);
+                $meta['meta_url'] = route('frontend.main', $post->slug.'.html');
+
+                return view('frontend.cagaileo.post', compact('post', 'latestNews', 'middleIndexBanner', 'page'))->with($meta);
             } else {
-                //parent categories
-                $posts = Post::publish()
-                    ->whereIn('category_id', $category->children->pluck('id')->all())
-                    ->latest('updated_at')
-                    ->paginate(10);
-
+                return redirect('/');
             }
-            
-            $page = $category->slug;
+        } else {
+            $category = Category::findBySlug($value);
 
-            $meta = [];
+            if ($category) {
+                if ($category->children->count() == 0) {
+                    //child categories
+                    $posts = Post::publish()
+                        ->where('category_id', $category->id)
+                        ->latest('updated_at')
+                        ->paginate(10);
 
-            $meta['meta_title'] = ($category->seo_name) ?  $category->seo_name : $category->name;
-            $meta['meta_desc'] = ($category->desc)? $category->desc : null;
-            $meta['meta_keywords'] = ($category->keywords)? $category->keywords : null;
-            $meta['meta_image'] = $this->logo;
-            $meta['meta_url'] = route('frontend.main', $category->slug);
+                } else {
+                    //parent categories
+                    $posts = Post::publish()
+                        ->whereIn('category_id', $category->children->pluck('id')->all())
+                        ->latest('updated_at')
+                        ->paginate(10);
 
-            return view('frontend.cagaileo.category', compact(
-                'category', 'posts', 'page','middleIndexBanner'
-            ))->with($meta);
+                }
+
+                $page = $category->slug;
+
+                $meta = [];
+
+                $meta['meta_title'] = ($category->seo_name) ?  $category->seo_name : $category->name;
+                $meta['meta_desc'] = ($category->desc)? $category->desc : null;
+                $meta['meta_keywords'] = ($category->keywords)? $category->keywords : null;
+                $meta['meta_image'] = $this->logo;
+                $meta['meta_url'] = route('frontend.main', $category->slug);
+
+                return view('frontend.cagaileo.category', compact(
+                    'category', 'posts', 'page','middleIndexBanner'
+                ))->with($meta);
+            } else {
+                return redirect('/');
+            }
         }
     }
 

@@ -37,10 +37,10 @@
                         </div>
                         <ul class="listButton rs">
                             <li class="ilocal rs"><a href="{{url('phan-phoi')}}">
-                                    <img src="http://www.cagaileo.vn/files/cc2d746ed56741370dcaa755ca9266ff.png" alt="Điểm bán sản phẩm" width="244" height="74">
+                                    <img src="{{ url('frontend/cagaileo/images/diem-ban.png') }}" alt="Điểm bán sản phẩm" width="244" height="74">
                                 </a></li>
                             <li class="icall rs"><a href="tel:0912571190">
-                                    <img src="http://www.cagaileo.vn/files/dd3310aebde5ad4ea5a769601ad19604.png" alt="Tư vấn miễn phí" width="244" height="74">
+                                    <img src="{{ url('frontend/cagaileo/images/phan-phoi.png') }}" alt="Tư vấn miễn phí" width="244" height="74">
                                 </a></li>
                         </ul>
                     </article>

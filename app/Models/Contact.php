@@ -56,10 +56,28 @@ class Contact extends \Eloquent
                 return $response;
 
             })
+            ->addColumn('histories', function ($contact) {
+                $histories = '';
+
+                $logs = Event::where('content', 'contacts')
+                    ->where('content_id', $contact->id)
+                    ->latest('created_at')
+                    ->limit(3)
+                    ->get();
+
+                if ($logs->count() > 0) {
+                    foreach ($logs as $log) {
+                        $action = ($log->action == 'edit') ? 'Sửa' : 'Tạo';
+                        $histories .= '<b>'.$log->user->name.'</b> '.$action.'&nbsp;&nbsp;<span style="background-color: #e3e3e3">' . $log->created_at->toDayDateTimeString() . '</span><br/>';
+                    }
+                }
+
+                return $histories;
+            })
            ->editColumn('status', function ($contact) {
                 return config('system.customer_content_status.'.$contact->status);
             })
-            ->rawColumns(['action', 'status'])
+            ->rawColumns(['action', 'status', 'histories'])
             ->make(true);
     }
 

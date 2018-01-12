@@ -5,12 +5,12 @@
             <div class="col-03">
                 <h3>Hỗ trợ khách hàng</h3>
                 <ul class="list-support">
-                    <li><a href="http://www.cagaileo.vn/phan-phoi" target="_blank">Hệ thống cửa hàng</a></li>
-                    <li><a href="http://www.cagaileo.vn/cau-hoi-thuong-gap" target="_blank">Những câu hỏi thường gặp</a></li>
-                    <li><a href="http://www.cagaileo.vn/phuong-thuc-thanh-toan.html" target="_blank">Phương thức thanh toán</a></li>
-                    <li><a href="http://www.cagaileo.vn/cach-dat-hang-truc-tuyen.html" target="_blank">Hướng dẫn đặt hàng</a></li>
-                    <li><a href="http://www.cagaileo.vn/giao-nhan-hang.html" target="_blank">Giao nhận hàng</a></li>
-                    <li><a href="http://www.cagaileo.vn/huong-dan-doi-tra.html" target="_blank">Hướng dẫn đổi trả hàng</a></li>
+                    <li><a href="{{ route('frontend.delivery') }}" target="_blank">Hệ thống cửa hàng</a></li>
+                    <li><a href="{{ route('frontend.question') }}" target="_blank">Những câu hỏi thường gặp</a></li>
+                    <li><a href="{{ url('phuong-thuc-thanh-toan.html') }}" target="_blank">Phương thức thanh toán</a></li>
+                    <li><a href="{{ url('cach-dat-hang-truc-tuyen.html') }}" target="_blank">Hướng dẫn đặt hàng</a></li>
+                    <li><a href="{{ url('giao-nhan-hang.html') }}" target="_blank">Giao nhận hàng</a></li>
+                    <li><a href="{{ url('huong-dan-doi-tra.html') }}" target="_blank">Hướng dẫn đổi trả hàng</a></li>
                 </ul>
             </div>
 

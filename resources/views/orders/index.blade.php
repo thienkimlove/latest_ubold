@@ -113,6 +113,7 @@
                         <th width="10%">Ghi chú</th>
                         <th width="10%">Trạng thái</th>
                         <th width="10%">Ngày tạo</th>
+                        <th width="10%">Sửa lần cuối</th>
                         <th width="15%"></th>
                     </tr>
                     </thead>
@@ -177,6 +178,7 @@
                     {data: 'note', name: 'note'},
                     {data: 'status', name: 'status'},
                     {data: 'created_at', name: 'created_at'},
+                    {data: 'histories', name: 'histories'},
                     {data: 'action', name: 'action', orderable: false, searchable: false}
                 ],
                 order: [[4, 'desc']]
