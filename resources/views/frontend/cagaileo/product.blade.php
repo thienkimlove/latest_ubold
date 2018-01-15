@@ -31,7 +31,7 @@
                                       </span>
                                    </div>
                                    <div class="rate-star">
-                                       <div style="width:20%"></div>
+                                       <div style="width:100%"></div>
                                    </div>
                                </div>
                                <div class="right-product">

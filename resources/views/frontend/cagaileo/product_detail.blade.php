@@ -57,10 +57,14 @@
                             <p>Dược sỹ tư vấn: <span class="phone">0912571190</span></p>
                             <p class="enter-number">Ngại gọi điện? Vui lòng nhập số điện thoại.</p>
                             <p>
-                                {!! Form::open(array('url' => 'save_question')) !!}
-                                <input type="text" name="ask_phone" placeholder="Nhập điện thoại">
-                                <input type="hidden" name="question" value="Ngại gọi điện? Vui lòng nhập số điện thoại." />
-                                <button type="submit" class="btn-send">Gửi</button>
+                                {!! Form::open(array('url' => 'saveContact', 'id' => 'form_contact_page')) !!}
+                                <input id="send_phone_value" type="number" placeholder="Số điện thoại" class="get-phone">
+                                <input id="contact_email" type="hidden" />
+                                <input id="contact_phone" type="hidden" />
+                                <input id="contact_name" type="hidden" />
+                                <input id="contact_title" type="hidden" />
+                                <input id="contact_content" type="hidden" />
+                                <button id="send_phone" class="btn-send">Gửi</button>
                                 {!! Form::close() !!}
                             </p>
                         </div>
@@ -139,4 +143,27 @@
         </div><!--//layout-home-->
         <div class="clear"></div>
     </section>
+@endsection
+
+@section('frontend_script')
+    <script>
+        $(function(){
+            $('#send_phone').click(function(e){
+                e.preventDefault();
+
+                var phone = $('#send_phone_value').val();
+
+                $('#contact_email').val('contact@cagaileo.vn');
+                $('#contact_phone').val(phone);
+                $('#contact_name').val('N/A');
+                $('#contact_title').val('Để lại số ĐT trên trang liên hệ');
+                $('#contact_content').val('Để lại số ĐT trên trang liên hệ');
+
+                $('form#form_contact_page').submit();
+
+                return false;
+            });
+        });
+    </script>
+
 @endsection

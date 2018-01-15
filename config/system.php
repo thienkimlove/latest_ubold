@@ -18,6 +18,21 @@
                  'hot_index' => 'Hot Product Index',
                  'hot_below' => 'Hot Product Below',
              ],
+             'posts' => [
+                 'right' => 'Right Normal',
+                 'right_index' => 'Right Index',
+                 'top1_index_category' => 'Top1 Index Category',
+                 'top2_index_category' => 'Top2 Index Category',
+                 'top3_index_category' => 'Top3 Index Category',
+             ],
+             'videos' => [
+                 'right' => 'Right Normal',
+                 'right_index' => 'Right Index',
+             ],
+             'questions' => [
+                 'right_normal' => 'Right Normal'
+             ],
+
          ]
      ],
 

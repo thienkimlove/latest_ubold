@@ -83,7 +83,7 @@
 @endif
 
 <div class="banner-ads left">
-    @foreach (\App\Models\Banner::whereHas('position', function($q){ $q->where('name', 'slide_index_left'); })->get() as $banner)
+    @foreach ($sliderLeftBanners as $banner)
         <a href="{{$banner->url}}" title="" target="_blank">
             <img src="{{url('files/'.$banner->image)}}" alt="" width="171" height="454">
         </a>
@@ -93,8 +93,8 @@
 
 </div>
 <div class="btn-group-fix banner-ads">
-    <a href="javascript:void(0)" title="Fanpage"><img src="http://www.giaidocgan.vn/frontend/images/fb-icon.png" alt="Fanpage" width="63" height="63"></a>
-    <a href="tel:0912571190" title="Gọi tư vấn"><img src="http://www.giaidocgan.vn/frontend/images/call-icon.png" alt="Gọi tư vấn" width="63" height="63"></a>
-    <a href="{{url('phan-phoi')}}" title="Mua hàng"><img src="http://www.giaidocgan.vn/frontend/images/cart-icon.png" alt="Giỏ hàng" width="63" height="63"></a>
-    <a href="{{url('phan-phoi')}}" title="Điểm bán sản phẩm"><img src="http://www.giaidocgan.vn/frontend/images/location-icon.png" alt="Điểm bán sản phẩm" width="63" height="63"></a>
+    <a href="javascript:void(0)" title="Fanpage"><img src="/frontend/cagaileo/images/fb-icon.png" alt="Fanpage" width="63" height="63"></a>
+    <a href="tel:0912571190" title="Gọi tư vấn"><img src="/frontend/cagaileo/images/call-icon.png" alt="Gọi tư vấn" width="63" height="63"></a>
+    <a href="{{url('phan-phoi')}}" title="Mua hàng"><img src="/frontend/cagaileo/images/cart-icon.png" alt="Giỏ hàng" width="63" height="63"></a>
+    <a href="{{url('phan-phoi')}}" title="Điểm bán sản phẩm"><img src="/frontend/cagaileo/images/location-icon.png" alt="Điểm bán sản phẩm" width="63" height="63"></a>
 </div>

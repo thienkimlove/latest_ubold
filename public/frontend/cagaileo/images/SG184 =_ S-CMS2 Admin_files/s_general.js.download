@@ -1,0 +1,619 @@
+/**
+ * Created by Quan Nguyen on 2/21/14.
+ */
+
+//add img defaul when error source image all site using s_general.js
+
+//callscrtipt loader
+$.getScript('/fe_admin2/assets/js/loading_bar_animation.js');
+jQuery('img').error(function() {
+    this.src = 'fe_admin2/assets/images/404-not-found.gif';
+    this.onerror = "";
+});
+
+function showSuccess(str){
+    return "<div class='alert alert-success'><button type='button' class='close' data-dismiss='alert'><i class='icon-remove'></i></button>"+str+"</div>";
+}
+
+function showError(str){
+    return "<div class='alert alert-danger'><button type='button' class='close' data-dismiss='alert'><i class='icon-remove'></i></button>"+str+"</div>";
+}
+
+function viFilter(str) {
+    str = str.replace(/^\s+|\s+$/g, ''); // trim
+    str = str.toLowerCase();
+
+    // remove accents, swap ñ for n, etc
+    var from = "àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđãàáäâẽèéëêìíïîõòóöôùúüûñç·/_,:;";
+    var to   = "aaaaaaaaaaaaaaaaaeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyydaaaaaeeeeeiiiiooooouuuunc------";
+    for (var i=0, l=from.length ; i<l ; i++) {
+        str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+    }
+
+    str = str.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
+        .replace(/\s+/g, '-') // collapse whitespace and replace by -
+        .replace(/-+/g, '-'); // collapse dashes
+    return str;
+};
+
+
+function applyDataTables(selector){
+        //apply data table
+        var oTable = $(selector).dataTable({
+            "bRetrieve": true,
+            "bSort": false,
+            "lengthMenu": [[50,100,200,-1], [50,100,200, "Tất cả"]],
+            "language": {
+              "lengthMenu": 'Hiển thị <select>'+
+                '<option value="50">50</option>'+
+                '<option value="100">100</option>'+
+                '<option value="200">200</option>'+
+                '<option value="-1">Tất cả</option>'+
+                '</select> bản ghi',
+                "search": "Tìm kiếm: ",
+                "info": "Trang _PAGE_ trong tổng số _PAGES_ trang"
+            }
+        });
+        //tự động chọn select all checkbox
+        $('table input.checkall').on('click' , function(){
+            var that = this;
+            $(this).closest('table').find('tr > td input.checkitem')
+                .each(function(){
+                    this.checked = that.checked;
+                    if(!this.checked){
+                        $(this).closest('tr').removeClass('selected');
+                        $('table input.checkall').prop('checked','');
+                    }else{
+                        $(this).closest('tr').addClass('selected');
+                        $('table input.checkall').prop('checked','checked');
+                    }
+                });
+        });
+
+        $('[data-rel="tooltip"]').tooltip({placement: tooltip_placement});
+        function tooltip_placement(context, source) {
+            var $source = $(source);
+            var $parent = $source.closest('table');
+            var off1 = $parent.offset();
+            var w1 = $parent.width();
+
+            var off2 = $source.offset();
+            var w2 = $source.width();
+
+            if( parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2) ) return 'right';
+            return 'left';
+        }
+}
+
+//ordering row
+function processOrderingRecords(selector,ajax_url,page_number,token){
+     //khi sắp xếp giữa các dòng
+        $(selector+" tbody").sortable({
+            cursor: "move",
+            start:function(event, ui){
+                startPosition = ui.item.prevAll().length + 1;
+            },
+            update: function(event, ui) {
+                endPosition = ui.item.prevAll().length + 1;
+                indexStart = startPosition - 1;
+                indexEnd = endPosition - 1;
+
+                var itemIdList = $(this).sortable('toArray',{ attribute: 'itemid' });
+                var orderList = $(this).sortable('toArray',{ attribute: 'itemorder' });
+
+                var rowCount = $(selector+' >tbody >tr').length;
+                var dataObject = new Object();
+                //sử dụng cho category
+                dataObject.itemEndID = itemIdList[indexEnd];//item1: được user click vào để kéo
+                dataObject.itemRightEndID = itemIdList[indexEnd+1];//item2: bên phải (dòng dưới) item1
+                dataObject.startPosition = startPosition;
+                dataObject.endPosition = endPosition;
+                //sử dụng cho category
+                dataObject.itemIdList = itemIdList;
+                dataObject._token = token;
+                dataObject.page_number = page_number;
+                dataObject.type_tag = 'sortable';
+                dataObject.rowCount = rowCount;
+                var dialog = $( "#dialog-loading" ).removeClass('hide').dialog({
+                    show: {
+                        effect: "blind",
+                        duration: 1000
+                      },
+                      hide: {
+                        effect: "explode",
+                        duration: 1000
+                      },
+                    modal: true,
+                    title: "Sắp xếp dữ liệu",
+                    title_html: true
+                });
+                $.ajax({
+                      type: "POST",
+                      url: ajax_url,
+                      cache: false,
+                      data: {
+                            dataUpdate: dataObject,
+                            _token: token
+                      },
+                    success: function(data){
+                        dialog.dialog( "close" );
+                        $("#msg").html(showSuccess("Sắp xếp dữ liệu thành công"));
+                    },
+
+                    error: function(){
+                        dialog.dialog( "close" );
+                        $("#msg").html(showError("Có lỗi xảy ra, mời bạn thao tác lại"));
+                    }
+               });
+            },
+            stop:function(event, ui){
+            }
+        });
+}
+
+//enable ordering
+ function enableSorting(selector_checkbox, selector,ajax_url,page_number,token){
+            $(selector_checkbox).on('click', function(){
+                var check = this.checked;
+                var value = check ? 1 : 0;
+                if(value == 1){
+                    processOrderingRecords(selector, ajax_url,page_number, token);
+                }else{
+                    $(selector+" tbody").sortable('destroy');
+                }
+            });
+}
+
+// xử lý trash, delete, restore 1 model
+// param: token, data-put: set tại row:
+// {"model":"server", "action":"restore", "title":"{{$server->title}}", "id":{{$server->id}}, "url":"{{ URL::to("/admin/servers/trash-delete-restore/")}}"}
+function processTrashDeleteRestore(selector, token){
+    $(selector).on(ace.click_event, function() {
+            var current = $(this).closest('tr');
+            // action: hành động thực thi, // title, id, url: url xử lý ajax, tiện cho việc tách hàm
+            var data_put = $(this).data('put');
+            data_put._token = token;
+            var msg_confirm = '';
+            if(data_put.action == 'trash')
+                msg_confirm = "Bỏ vào thùng rác "+data_put.model+": \""+data_put.title+"\"?";
+            else if(data_put.action == 'delete')
+                msg_confirm = "Xóa vĩnh viễn "+data_put.model+": \""+data_put.title+"\"?";
+            else if(data_put.action == 'restore')
+                msg_confirm = "Khôi phục dữ liệu "+data_put.model+": \""+data_put.title+"\"?";
+            bootbox.confirm(msg_confirm, function(result) {
+                if(result) {
+                    //notify
+                    $('#sloading').modal({backdrop:'static',keyboard: false});
+                    $.ajax({
+                        type: "POST",
+                        url: data_put.url,
+                        cache: false,
+                        data: data_put,
+                        success: function (data) {
+                            $('#sloading').modal('hide');
+                            if(data.reload == true){
+                                location.reload();
+                            }else{
+                                if(data.status=='success'){
+                                    current.remove();
+                                    $("#msg").html(showSuccess(data.message));
+                                }else{
+                                    $("#msg").html(showError(data.message));
+                                }
+                            }
+                        },
+                        error: function () {
+                            $('#sloading').modal('hide');
+                            $("#msg").html(showError("Có lỗi xảy ra, mời bạn thao tác lại"));
+                            return;
+                        }
+                    })
+
+                }
+            });
+        });
+}
+//end processTrashDeleteRestore
+//'{"id":{{$server->id}},"keyUpdate":{{$server->promote}},"valueUpdate":"{{$promote_title}}", "columnUpdate":"promote", "select_json_data":"{{json_encode($promotes_selection)}}"}'
+function processEditableByType(selector, type_tag, url_ajax, token){
+    if(type_tag == "checkbox"){
+        //      Update state of servers
+        $(selector).on("change",function(){
+            var dataObjectNew = $(this).data('put');
+            window.currentTD = $(this);
+            var check = this.checked;
+            var value = check ? 1 : 0;
+            msg_confirm = 'Bạn có muốn thay đổi trạng thái';
+            bootbox.confirm(msg_confirm, function(result) {
+                if(result) {
+                    $('#sloading').modal({backdrop:'static',keyboard: false});
+                    dataObjectNew.valueUpdate = value;
+                    dataObjectNew.type_tag = type_tag;
+                    window.dataObjectNew = dataObjectNew;
+                    //open popup confirm
+                    $.ajax({
+                        url: url_ajax,
+                        type: "POST",
+                        data: {
+                            dataUpdate: dataObjectNew,
+                            _token: token
+                        },
+                        success : function(result) {
+                            var resultObj = JSON.parse(result);
+                            var resultPut = window.currentTD.data('put');
+                            if(resultObj.status == "success"){
+                                $("#msg").html(showSuccess(resultObj.message));
+                                resultPut.valueUpdate = window.dataObjectNew.valueUpdate;
+                                if(value == 1){
+                                    window.currentTD.attr('checked','checked');
+                                }else{
+                                    window.currentTD.attr('checked','');
+                                }
+                                window.currentTD.attr('data-put',JSON.stringify(resultPut));
+                                window.currentTD.closest("td").addClass('success');
+                                $('#sloading').modal('hide');
+                            }
+
+                            if(resultObj.status == "error"){
+                                $("#msg").html(showError(resultObj.message));
+                                window.currentTD.closest("td").addClass('danger');
+                                $('#sloading').modal('hide');
+                            }
+                        },
+                        /*error   : function(xhr, status, error) {*/
+                        error   : function(error) {
+                            $("#msg").html(showError("Có lỗi xảy ra: "+erpr));
+                            $('#sloading').modal('hide');
+                            /*onerror.apply(form, [settings, self, xhr]);*/
+                        }
+                    }); // ajax
+                }//if return: xác nhận confirm
+                else{
+                    if(window.currentTD.is(':checked')){
+                        window.currentTD.removeAttr('checked');
+                    }else{
+                        window.currentTD.prop("checked", true);
+                    }
+                }
+            });
+
+        })
+//      //Update state of server
+    }else{
+        $(selector).editable(url_ajax, {
+            type   : type_tag,
+            data: function(value, settings) {
+                if(type_tag == "select"){
+                  var dataObjectOld = $(this).closest('td').data('put');
+                  var dataSelection = dataObjectOld.select_json_data;
+
+                  return JSON.stringify(dataSelection);
+                }else{
+                    return value;
+                }
+            },
+            submit : 'OK',
+            cancel      : 'Huỷ',
+            onblur      : 'cancel',
+            indicator   : '<img src="fe_admin2/assets/img/loading.gif">',
+            style   : 'display: inline',
+            name : 'value',
+            onsubmit: function(row,orange){
+                $('#sloading').modal({backdrop:'static',keyboard: false});
+                var dataObjectOld = $(this).closest('td').data('put');
+                var columnUpdate = dataObjectOld.columnUpdate;
+                var dataObjectNew = new Object();
+                dataObjectNew.id = dataObjectOld.id;
+                dataObjectNew.columnUpdate = columnUpdate;
+                if(type_tag == "select"){
+                    dataObjectNew.keyUpdate = $(this).find("select[name='value']").val();
+                    dataObjectNew.valueUpdate = $(this).find("select[name='value'] :selected").text();
+                }
+
+                if(type_tag == "text"){
+                    dataObjectNew.valueUpdate = $(this).find(".form-group input").val();
+                }
+
+                if(dataObjectOld.rule != ""){
+                    dataObjectNew.rule = dataObjectOld.rule;
+                }
+
+                dataObjectNew.type_tag = type_tag;
+
+                window.currentTD = $(this).closest('td');
+                window.dataObjectNew = dataObjectNew;
+                row.submitdata = {
+                    _token:token,
+                    dataUpdate:dataObjectNew
+                };
+
+
+            },
+            ajaxoptions:{
+                type    : 'POST',
+                cache   :false,
+                datatype:"html",
+                success : function(result) {
+                    var resultObj = JSON.parse(result);
+                    var resultPut = window.currentTD.data('put');
+                    if(resultObj.status == "success"){
+                        $("#msg").html(showSuccess(resultObj.message));
+                        if(type_tag == "select"){
+                            resultPut.keyUpdate = window.dataObjectNew.keyUpdate;
+                            resultPut.select_json_data.selected = window.dataObjectNew.keyUpdate;
+                        }
+                        resultPut.valueUpdate = window.dataObjectNew.valueUpdate;
+                        window.currentTD.data('put',resultPut);
+                        window.currentTD.html(resultObj.valueUpdate).addClass('success');
+                    }
+
+                    if(resultObj.status == "error"){
+                        $("#msg").html(showError(resultObj.message));
+                        window.currentTD.html(resultPut.valueUpdate).addClass('danger');
+                    }
+                    $('#sloading').modal('hide');
+                },
+                error   : function(xhr, status, error) {
+                    $("#msg").html(showError("Có lỗi xảy ra !"));
+                    $('#sloading').modal('hide');
+                    onerror.apply(form, [settings, self, xhr]);
+                }
+            }
+        });
+    }
+}
+
+//filter theo selectorCategory, tại table seletorTable, theo cột atColumn
+function filterRowByCategory(selectorCategory, selectorTable, atColumn, value){
+    var optionSelected = $("option:selected", selectorCategory).html();
+        var valueSelected = $("option:selected", selectorCategory).val();
+        if(valueSelected == 0 || valueSelected == ''){
+             $(selectorTable).dataTable().fnFilter(
+                 '', atColumn
+             );
+        }else{
+            if(value == true){
+                $(selectorTable).dataTable().fnFilter(
+                    valueSelected, atColumn
+                );
+            }else{
+                $(selectorTable).dataTable().fnFilter(
+                    optionSelected, atColumn
+                );
+            }
+
+        }
+
+    $(selectorCategory).on('change', function (e) {
+        var optionSelected = $("option:selected", this).html();
+        var valueSelected = this.value;
+        console.log(valueSelected);
+        if(valueSelected == 0 || valueSelected == ''){
+             $(selectorTable).dataTable().fnFilter(
+                 '', atColumn
+             );
+        }else{
+            if(value == true){
+                $(selectorTable).dataTable().fnFilter(
+                    valueSelected, atColumn
+                );
+            }else{
+                $(selectorTable).dataTable().fnFilter(
+                    optionSelected
+                );
+            }
+        }
+
+    });
+}
+
+//filter theo selectorCategory, tại table seletorTable, theo cột atColumn
+function filterRowByCategoryAjax(selectorCategory, oTable, atColumn, value){
+    $(selectorCategory).on('change', function (e) {
+        var optionSelected = $("option:selected", this).html();
+        var valueSelected = this.value;
+        if(valueSelected == 0 || valueSelected == ''){
+            oTable.column(atColumn).search('',false,true).draw();
+        }else{
+            if(value == true){
+                oTable.column(atColumn).search(valueSelected,false,true).draw();
+            }else{
+                oTable.column(atColumn).search(optionSelected,false,true).draw();
+            }
+        }
+    });
+}
+
+
+function imagePickerBasic(selector, baseUrl, pathUrl, src){
+    $(selector).imagesPicker({
+            baseUrl:baseUrl,
+            path: pathUrl,
+            src:src,
+            dir_icon:"../fe_admin2/assets/img/folder-icon.png",
+            abs: true
+        });
+}
+function imagePicker(selector, baseUrl, pathUrl, src, url_ajax, token){
+      $(selector).imagesPicker(
+                {
+                    manual: true,
+                    baseUrl:  baseUrl, //"{{URL::to('/admin')}}/",
+                    path:  pathUrl,//"medias/manager",
+                    src: src,//"{{Config::get('app.upload_host').Config::get('app.upload_folder')}}"//https://sohagame.vcmedia.vn/public/s_cms,
+                    dir_icon: "../fe_admin2/assets/img/folder-icon.png",
+                    onSelect: function(url, file, element){
+                        var dataObject = $(element).data('put');
+                        dataObject.type_tag = "image_picker";
+                        dataObject.valueUpdate = url;
+                        window.dataObject = dataObject;
+
+                        // send an ajax request for update img_thumb field
+                        $.ajax({
+                            url: url_ajax,//"{{URL::to('/admin/articles/ajax')}}",
+                            type: "POST",
+                            data: {
+                                _token: token,
+                                dataUpdate: dataObject
+                            },
+                            success: function(s){
+                                var data = JSON.parse(s);
+                                if(data.status == "success"){
+                                    //set new src for url
+                                    $(element).closest(".flipper").find("img").attr("src",url);
+                                    $(element).closest("td").removeClass("danger").addClass("success");
+                                    $("#msg").html(showSuccess("Cập nhật thành công !"));
+                                }else{
+                                    $(element).closest("td").removeClass("success").addClass("danger");
+                                    $("#msg").html(showError("Có lỗi xảy ra khi xử lý dữ liệu"));
+                                }
+                            },
+                            error: function(){
+                                $("#msg").html(showError("Có lỗi xảy ra!"));
+                            }
+                        }); // ajax
+                    } // on-select
+                } //
+            ); // images picker
+}
+
+//show image preview by at selector
+function qtip(selector){
+    $(selector).qtip({
+            content: { text: function(){ return "<img src='"+$(this).val()+"' style='max-width: 200px; max-height: 200px;' />";}},
+            position: {
+                viewport: $(window),
+                target: "mouse",
+                adjust: {mouse: true,x: 5, y:10}
+            },
+            style: {
+                classes: 'ui-tooltip ui-tooltip-rounded ui-tooltip-shadow',
+                tip: {corner: false}
+            }
+        }
+    );
+}
+
+
+//PROCESS FOR POSITION MODULE FUNCTION
+//desc: hiển thị module position, view
+function hide(selector){
+        $(selector).hide();
+    }
+
+function show(selector){
+    $(selector).show();
+}
+function loadPositions(template, view, position, selector_target, url_ajax){
+    show('.loading-positions');
+    //first load
+    $.ajax({
+             url: url_ajax,
+             type: "GET",
+             dataType:'json',
+             cache: false,
+             data: {
+                 "view": view,
+                 "template": template
+             },
+             success: function(res){
+                if(res.status != undefined && res.status == 'error'){
+                    alert(res.message);
+                    return false;
+                }
+
+                if(res.positions.length>0){
+                     var length = res.positions.length;
+                     var html = "";
+                     for(var i =0;i<length;i++){
+                        if(res.positions[i].name == position){
+                            html += "<option value='"+res.positions[i].name+"' selected>"+ res.positions[i].title+" (" +res.positions[i].name+ ")</option>";
+                        }else{
+                            html += "<option value='"+res.positions[i].name+"'>"+ res.positions[i].title+" (" +res.positions[i].name+ ")</option>";
+                        }
+                     }
+                     hide('.loading-positions');
+                     $(selector_target).html(html);
+                 }
+
+             },
+            error: function(){
+                alert("Lỗi xảy ra khi xử lý dữ liệu ở máy chủ");
+            }
+        });// ajax Load config form
+//end first load
+    $('.loadPositions').on('change',function(){
+        show('.loading-positions');
+        var dataObject = $(this).data('put');
+        template = dataObject.template;
+        view =$(this).val();
+        $.ajax({
+             url: url_ajax,
+             type: "GET",
+             dataType:'json',
+             cache: false,
+             data: {
+                 "view": view,
+                 "template": template
+             },
+             success: function(res){
+                 if(res.positions.length>0){
+                     var length = res.positions.length;
+                     var html = "";
+                     for(var i =0;i<length;i++){
+                        if(res.positions[i].name == position){
+                            html += "<option value='"+res.positions[i].name+"' selected>"+ res.positions[i].title+" (" +res.positions[i].name+ ")</option>";
+                        }else{
+                            html += "<option value='"+res.positions[i].name+"'>"+ res.positions[i].title+" (" +res.positions[i].name+ ")</option>";
+                        }
+                     }
+                     hide('.loading-positions');
+                     $(selector_target).html(html);
+                 }
+             },
+            error: function(){
+                alert("Lỗi xảy ra khi xử lý dữ liệu ở máy chủ");
+            }
+        });// ajax Load config form
+    });
+    }
+//PROCESS FOR POSITION MODULE FUNCTION
+
+function isUrlOrUrlImage(src, isImg){
+    if(isImg){
+        patt = '^https?://(?:[a-z\-]+\.)+[a-z]{2,6}(?:/[^/#?]+)+\.(?:jpg|gif|png)$';
+    }else{
+        patt = /^(https?|s?ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i;
+    }
+    var re = new RegExp(patt);
+      if (src.match(re)) {
+        return true;
+      } else {
+        return false;
+      }
+}
+
+$('.showDetail').on('click', function(){
+    var data_json_detail = $(this).data('jsondetails');
+    var html_data = '';
+    var have_data = false;
+    for (var key in data_json_detail) {
+        if (data_json_detail.hasOwnProperty(key)) {
+            have_data = true;
+            html_data = html_data + "<strong>" + key + "</strong>" + ": " + data_json_detail[key]+'<br/><br/>';
+        }
+    }
+    if(have_data == false){
+        html_data = html_data + "<h4>Không tồn tại dữ liệu, Liên hệ web@sohagame.vn để active chức năng</h4>";
+    }
+    $('#pop_message').css('word-wrap','break-word').html(html_data);
+    $('#myModal').modal();
+});
+
+function getStyle($url){//append css to head.
+    var linkElem = document.createElement('link');
+    document.getElementsByTagName('head')[0].appendChild(linkElem);
+    linkElem.rel = 'stylesheet';
+    linkElem.type = 'text/css';
+    linkElem.href = $url;
+}

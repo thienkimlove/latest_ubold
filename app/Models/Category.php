@@ -63,6 +63,61 @@ class Category extends \Eloquent
             ->get();
     }
 
+    public function getListPostTop1Attribute()
+    {
+        $categoryIds = [$this->id];
+
+        if ($this->children()->count() > 0) {
+            $categoryIds += $this->children()->pluck('id')->all();
+        }
+
+
+        $top1IndexPostIds = Helpers::getModuleValues('posts', 'top1_index_category');
+
+        return Post::whereIn('id', $top1IndexPostIds)
+            ->whereIn('category_id', $categoryIds)
+            ->publish()
+            ->limit(3)
+            ->get();
+    }
+
+    public function getListPostTop2Attribute()
+    {
+        $categoryIds = [$this->id];
+
+        if ($this->children()->count() > 0) {
+            $categoryIds += $this->children()->pluck('id')->all();
+        }
+
+
+        $top1IndexPostIds = Helpers::getModuleValues('posts', 'top2_index_category');
+
+        return Post::whereIn('id', $top1IndexPostIds)
+            ->whereIn('category_id', $categoryIds)
+            ->publish()
+            ->limit(4)
+            ->get();
+    }
+
+    public function getListPostTop3Attribute()
+    {
+        $categoryIds = [$this->id];
+
+        if ($this->children()->count() > 0) {
+            $categoryIds += $this->children()->pluck('id')->all();
+        }
+
+
+        $top1IndexPostIds = Helpers::getModuleValues('posts', 'top3_index_category');
+
+        return Post::whereIn('id', $top1IndexPostIds)
+            ->whereIn('category_id', $categoryIds)
+            ->publish()
+            ->limit(6)
+            ->get();
+    }
+
+
     public function posts()
     {
         return $this->hasMany(Post::class);

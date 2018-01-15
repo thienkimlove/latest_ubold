@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Lib\Helpers;
-use App\Models\Banner;
 use App\Models\Category;
 use App\Models\Contact;
 use App\Models\Order;
@@ -80,26 +79,13 @@ class CLController extends Controller
             ->limit(6)
             ->get();
 
-        $belowProductBanner = Banner::where('status', true)
-            ->whereHas('position', function($q) {
-                $q->where('name', 'below_product_index');
-            })
-            ->get();
-
-        $middleIndexBanner = Banner::where('status', true)
-            ->whereHas('position', function($q) {
-                $q->where('name', 'middle_index');
-            })
-            ->get();
         
         return view('frontend.cagaileo.index', compact(
             'topIndexCategory',
             'secondIndexCategory',
             'thirdIndexCategory',
-            'middleIndexBanner',
             'page',
-            'hotProducts',
-            'belowProductBanner'))->with($meta);
+            'hotProducts'))->with($meta);
     }
 
     public function contact()
@@ -281,9 +267,7 @@ class CLController extends Controller
     {
         $page = 'tag';
         $meta = [];
-        $middleIndexBanner = Banner::where('status', true)->whereHas('position', function($q){
-            $q->where('name', 'middle_index');
-        })->get();
+
 
         $tag = Tag::findBySlug($value);
 
@@ -305,7 +289,7 @@ class CLController extends Controller
             $meta['meta_image'] = $this->logo;
             $meta['meta_url'] =route('frontend.tag', $value);
 
-            return view('frontend.cagaileo.tag', compact('posts', 'tag', 'middleIndexBanner', 'page'))->with($meta);
+            return view('frontend.cagaileo.tag', compact('posts', 'tag', 'page'))->with($meta);
         } else {
             redirect('/');
         }
@@ -316,9 +300,7 @@ class CLController extends Controller
         $page = 'search';
         if ($request->filled('q')) {
 
-            $middleIndexBanner = Banner::where('status', true)->whereHas('position', function($q){
-                $q->where('name', 'middle_index');
-            })->get();
+
             $keyword = $request->get('q');
             $posts = Post::publish()->where('title', 'LIKE', '%' . $keyword . '%')->paginate(10);
 
@@ -330,7 +312,7 @@ class CLController extends Controller
             $meta['meta_url'] = route('frontend.search');
 
 
-            return view('frontend.cagaileo.search', compact('posts', 'keyword', 'middleIndexBanner', 'page'))->with($meta);
+            return view('frontend.cagaileo.search', compact('posts', 'keyword', 'page'))->with($meta);
         } else {
             return redirect('/');
         }
@@ -348,17 +330,12 @@ class CLController extends Controller
         $meta['meta_image'] = $this->logo;
         $meta['meta_url'] =route('frontend.product');
 
-        $middleIndexBanner = Banner::where('status', true)->whereHas('position', function($q){
-            $q->where('name', 'middle_index');
-        })->get();
+
 
         if ($value) {
             $product = Product::findBySlug($value);
 
             if ($product) {
-                $advProduct = Banner::where('status', true)->whereHas('position', function($q){
-                    $q->where('name', 'top_product_detail');
-                })->get();
 
                 $meta_title = ($product->seo_title) ? $product->seo_title : $product->title;
                 $meta_desc = $product->desc;
@@ -381,9 +358,7 @@ class CLController extends Controller
                     ->get();
                 return view('frontend.cagaileo.product_detail', compact(
                     'product',
-                    'middleIndexBanner',
                     'page',
-                    'advProduct',
                     'hotProducts'
                 ))->with($meta);
             } else {
@@ -391,16 +366,13 @@ class CLController extends Controller
             }
         } else {
           $products = Product::paginate(9);
-          return view('frontend.cagaileo.product', compact('products', 'middleIndexBanner', 'page'))->with($meta);
+          return view('frontend.cagaileo.product', compact('products', 'page'))->with($meta);
         }
 
     }
 
     public function question($value = null)
     {
-        $middleIndexBanner = Banner::where('status', true)->whereHas('position', function($q){
-            $q->where('name', 'middle_index');
-        })->get();
 
         $success_delivery_form_message = false;
 
@@ -433,21 +405,17 @@ class CLController extends Controller
                 $meta['meta_image'] = url('img/cache/120x120/'.$mainQuestion->image);
                 $meta['meta_url'] = route('frontend.question', $mainQuestion->slug);
 
-                return view('frontend.cagaileo.detail_question', compact('mainQuestion', 'middleIndexBanner', 'page', 'success_delivery_form_message'))->with($meta);
+                return view('frontend.cagaileo.detail_question', compact('mainQuestion', 'page', 'success_delivery_form_message'))->with($meta);
             } else {
                 return redirect('/');
             }
         }
         $questions = Question::publish()->paginate(10);
-        return view('frontend.cagaileo.question', compact('questions', 'mainQuestion', 'middleIndexBanner', 'page', 'success_delivery_form_message'))->with($meta);
+        return view('frontend.cagaileo.question', compact('questions', 'mainQuestion', 'page', 'success_delivery_form_message'))->with($meta);
     }
 
     public function main($value)
     {
-
-        $middleIndexBanner = Banner::where('status', true)->whereHas('position', function($q){
-            $q->where('name', 'middle_index');
-        })->get();
 
         if (preg_match('/([a-z0-9\-]+)\.html/', $value, $matches)) {
 
@@ -472,7 +440,7 @@ class CLController extends Controller
                 $meta['meta_image'] = url('img/cache/120x120/'.$post->image);
                 $meta['meta_url'] = route('frontend.main', $post->slug.'.html');
 
-                return view('frontend.cagaileo.post', compact('post', 'latestNews', 'middleIndexBanner', 'page'))->with($meta);
+                return view('frontend.cagaileo.post', compact('post', 'latestNews', 'page'))->with($meta);
             } else {
                 return redirect('/');
             }
@@ -507,7 +475,7 @@ class CLController extends Controller
                 $meta['meta_url'] = route('frontend.main', $category->slug);
 
                 return view('frontend.cagaileo.category', compact(
-                    'category', 'posts', 'page','middleIndexBanner'
+                    'category', 'posts', 'page'
                 ))->with($meta);
             } else {
                 return redirect('/');

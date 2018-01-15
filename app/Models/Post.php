@@ -104,7 +104,7 @@ class Post extends \Eloquent
     {
         $post = static::select('*')->with('category')->orderBy('created_at', 'desc');
 
-        $modules = Module::where('content', 'products')->get();
+        $modules = Module::where('content', 'posts')->get();
 
         $user = \Sentinel::getUser();
 
@@ -115,7 +115,16 @@ class Post extends \Eloquent
                 }
 
                 if ($request->filled('category_id')) {
-                    $query->where('category_id', $request->get('category_id'));
+
+                    $category = Category::find($request->get('category_id'));
+
+                    $categoryIds = [$category->id];
+
+                    if ($category->children()->count() > 0) {
+                        $categoryIds += $category->children()->pluck('id')->all();
+                    }
+
+                    $query->whereIn('category_id', $categoryIds);
                 }
 
                 if ($request->filled('status')) {

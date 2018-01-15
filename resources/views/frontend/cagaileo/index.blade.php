@@ -31,7 +31,7 @@
                 </div>
 
                 <div class="news-home" id="tab-index" style="display: block">
-                    @foreach ($topIndexCategory->list_posts->splice(0, 3) as $post)
+                    @foreach ($topIndexCategory->list_post_top1->splice(0, 3) as $post)
                         <article class="item-products">
                             <a href="{{url($post->slug.'.html')}}" title="" class="thumbs">
                                 <img src="{{url('img/cache/310x230/'.$post->image)}}" width="310" height="230" alt=""/>
@@ -49,7 +49,7 @@
                 @foreach ($topIndexCategory->children as $k=>$sub)
 
                     <div class="news-home" id="tab-{{$k}}" style="display: none">
-                        @foreach ($sub->list_posts->splice(0, 3) as $post)
+                        @foreach ($sub->list_post_top1->splice(0, 3) as $post)
                             <article class="item-products">
                                 <a href="{{url($post->slug.'.html')}}" title="" class="thumbs">
                                     <img src="{{url('img/cache/310x230/'.$post->image)}}" width="310" height="230" alt=""/>
@@ -130,7 +130,7 @@
                     </div>
                     <div class="news-list cf" id="tab-demo" style="display: block">
                         <div class="box-news cf">
-                            @foreach ($secondIndexCategory->list_posts->splice(0, 4) as $index => $post)
+                            @foreach ($secondIndexCategory->list_post_top2->splice(0, 4) as $index => $post)
                                 @if ($index == 0)
                                     <div class="item01">
                                         <a href="{{url($post->slug.'.html')}}" class="thumbs">
@@ -160,7 +160,7 @@
                     </div><!--//news-list-->
                     @foreach ($secondIndexCategory->children as $k=>$sub)
                         <div class="news-list cf" id="tab-2nd-{{$k}}">
-                            @foreach ($sub->list_posts->splice(0, 2) as $post)
+                            @foreach ($sub->list_post_top2->splice(0, 2) as $post)
                                 <article class="item">
                                     <a href="{{url($post->slug.'.html')}}" title="" class="thumbs">
                                         <img src="{{url('img/cache/300x177/'.$post->image)}}" alt="">
@@ -198,7 +198,7 @@
                             <a href="{{$thirdIndexCategory->slug}}">{{$thirdIndexCategory->name}}</a>
                         </h3>
                         <div class="listNews cf">
-                            @foreach ($thirdIndexCategory->list_posts->splice(0, 6) as $post)
+                            @foreach ($thirdIndexCategory->list_post_top3->splice(0, 6) as $post)
                                 <div class="item">
                                     <a href="{{url($post->slug.'.html')}}" class="thumb">
                                         <img src="{{url('img/cache/188x125/'.$post->image)}}" alt="{{$post->title}}">

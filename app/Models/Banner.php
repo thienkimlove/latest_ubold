@@ -19,6 +19,11 @@ class Banner extends \Eloquent
         return $this->belongsTo(Position::class);
     }
 
+    public function scopePublish($query)
+    {
+        $query->where('status', true);
+    }
+
 
     public static function getDataTables($request)
     {
