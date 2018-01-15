@@ -114,7 +114,7 @@
         $('.select2').select2();
 
         $(function () {
-            var datatable = $("#dataTables-settings").DataTable({
+            var dataTable = $("#dataTables-settings").DataTable({
                 searching: false,
                 serverSide: true,
                 processing: true,
@@ -133,7 +133,7 @@
             });
 
             $('#search-form').on('submit', function(e) {
-                datatable.draw();
+                dataTable.draw();
                 e.preventDefault();
             });
         });

@@ -348,11 +348,10 @@ class CLController extends Controller
                 $meta['meta_url'] = route('frontend.product', $product->slug);
 
 
-                $hotBelowModules = Helpers::getModuleValues('products', 'hot_below');
+                $hotBelowModuleIds = Helpers::getModuleValues('products', 'hot_below');
 
 
-                $hotProducts = Product::whereIn('id', $hotBelowModules)
-                    ->where('id', '<>', $product->id)
+                $hotProducts = Product::whereIn('id', $hotBelowModuleIds)
                     ->latest('updated_at')
                     ->limit(5)
                     ->get();

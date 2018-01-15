@@ -156,7 +156,7 @@
         $('.select2').select2();
 
         $(function () {
-            var datatable = $("#dataTables-orders").DataTable({
+            var dataTable = $("#dataTables-orders").DataTable({
                 searching: false,
                 serverSide: true,
                 processing: true,
@@ -185,7 +185,7 @@
             });
 
             $('#search-form').on('submit', function(e) {
-                datatable.draw();
+                dataTable.draw();
                 e.preventDefault();
             });
 
@@ -195,11 +195,11 @@
                 $('input[name=filter_status]').val($('select[name=status]').val());
                 $('input[name=filter_date]').val($('input[name=date]').val());
                 $(this).submit();
-                datatable.draw();
+                dataTable.draw();
                 e.preventDefault();
             });
 
-            datatable.on('click', '[id^="btn-delete-"]', function (e) {
+            dataTable.on('click', '[id^="btn-delete-"]', function (e) {
                 e.preventDefault();
 
                 var url = $(this).data('url');
@@ -222,7 +222,7 @@
                             }
                         }
                     }).always(function (data) {
-                        window.location.reload();
+                        dataTable.draw();
                     });
                 });
             });

@@ -112,7 +112,7 @@
         $('.select2').select2();
 
         $(function () {
-            var datatable = $("#dataTables-positions").DataTable({
+            var dataTable = $("#dataTables-positions").DataTable({
                 searching: false,
                 serverSide: true,
                 processing: true,
@@ -131,7 +131,7 @@
             });
 
             $('#search-form').on('submit', function(e) {
-                datatable.draw();
+                dataTable.draw();
                 e.preventDefault();
             });
         });

@@ -23,15 +23,6 @@ class AppServiceProvider extends ServiceProvider
         if (env('DB_DATABASE') == 'cagaileo') {
 
 
-            $headerIndexBanners = Banner::publish()->whereHas('position', function($q) {
-                $q->where('name', 'header_index');
-            })->get();
-
-            $sliderLeftBanners = Banner::whereHas('position', function($q){
-                $q->where('name', 'slide_index_left');
-            })->get();
-
-
             $parentCategories = Category::whereNull('parent_id')->get();
 
 
@@ -78,6 +69,13 @@ class AppServiceProvider extends ServiceProvider
 
 
 
+            $headerIndexBanners = Banner::publish()->whereHas('position', function($q) {
+                $q->where('name', 'header_index');
+            })->get();
+
+            $sliderLeftBanners = Banner::whereHas('position', function($q){
+                $q->where('name', 'slide_index_left');
+            })->get();
 
 
             $rightBanners = Banner::publish()->whereHas('position', function($q) {

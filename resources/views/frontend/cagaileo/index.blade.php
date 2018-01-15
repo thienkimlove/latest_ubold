@@ -160,7 +160,7 @@
                     </div><!--//news-list-->
                     @foreach ($secondIndexCategory->children as $k=>$sub)
                         <div class="news-list cf" id="tab-2nd-{{$k}}">
-                            @foreach ($sub->list_post_top2->splice(0, 2) as $post)
+                            @foreach ($sub->list_post_top2->splice(0, 1) as $post)
                                 <article class="item">
                                     <a href="{{url($post->slug.'.html')}}" title="" class="thumbs">
                                         <img src="{{url('img/cache/300x177/'.$post->image)}}" alt="">
