@@ -78,7 +78,7 @@
 @section('inline_scripts')
 <script type="text/javascript">
 $(function () {
-    var datatable = $("#dataTables-roles").DataTable({
+    var dataTable = $("#dataTables-roles").DataTable({
         paging: true,
         lengthChange: true,
         searching: false,
@@ -96,7 +96,7 @@ $(function () {
         ]
     });
 
-    datatable.on('click', '[id^="btn-delete-"]', function (e) {
+    dataTable.on('click', '[id^="btn-delete-"]', function (e) {
         e.preventDefault();
 
         var url = $(this).data('url');
@@ -119,7 +119,7 @@ $(function () {
                     }
                 }
             }).always(function (data) {
-                window.location.reload();
+                dataTable.draw();
             });
         });
     });

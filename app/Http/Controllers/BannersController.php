@@ -54,4 +54,10 @@ class BannersController extends Controller
         return Banner::getDatatables($request);
     }
 
+    public function destroy($id) {
+        Banner::find($id)->delete();
+        flash()->success('Success', 'Banner đã xóa thành công!');
+        return response()->json(['status' => true]);
+    }
+
 }

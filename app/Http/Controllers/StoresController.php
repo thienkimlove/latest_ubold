@@ -123,4 +123,10 @@ class StoresController extends Controller
         return Store::getDatatables($request);
     }
 
+    public function destroy($id) {
+        Store::find($id)->delete();
+        flash()->success('Success', 'Địa chỉ phân phối đã xóa thành công!');
+        return response()->json(['status' => true]);
+    }
+
 }
