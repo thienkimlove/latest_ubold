@@ -24,10 +24,10 @@
                                <div class="left-product">
                                    <div class="area-price">
                                       <span class="old-product">
-                                       {{$product->giacu}}
+                                       {{ \App\Lib\Helpers::getProductDetails($product, 'giacu') }}
                                       </span>
                                            <span class="price-product">
-                                        {{$product->giamoi}}
+                                        {{\App\Lib\Helpers::getProductDetails($product, 'giamoi')}}
                                       </span>
                                    </div>
                                    <div class="rate-star">

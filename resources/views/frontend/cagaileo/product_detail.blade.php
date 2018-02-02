@@ -28,18 +28,18 @@
                         <p class="rate-product">
                             Đánh giá tổng quát - <span>1 Nhận xét</span> | <a href="#">Them nhan xet cua ban</a>
                         </p>
-                        <p><span class="tit-product">Công dụng:</span>{{$product->congdung}}</p>
-                        <p><span class="tit-product">Xuất xứ</span>{{$product->xuatxu}}</p>
-                        <p><span class="tit-product">Giấy phép</span>{{$product->giayphep}}</p>
-                        <p><span class="tit-product">Quy cách</span>{{$product->quycach}}</p>
-                        <p><span class="tit-product">Tình trạng</span>{{$product->tinhtrang}}</p>
+                        <p><span class="tit-product">Công dụng:</span>{{\App\Lib\Helpers::getProductDetails($product, 'congdung')}}</p>
+                        <p><span class="tit-product">Xuất xứ</span>{{\App\Lib\Helpers::getProductDetails($product, 'xuatxu')}}</p>
+                        <p><span class="tit-product">Giấy phép</span>{{\App\Lib\Helpers::getProductDetails($product, 'giayphep')}}</p>
+                        <p><span class="tit-product">Quy cách</span>{{\App\Lib\Helpers::getProductDetails($product, 'quycach')}}</p>
+                        <p><span class="tit-product">Tình trạng</span>{{\App\Lib\Helpers::getProductDetails($product, 'tinhtrang')}}</p>
                         <p>
                             <span class="tit-product">Giá cũ</span>
-                            <span class="old-price">{{$product->giacu}}</span>
+                            <span class="old-price">{{\App\Lib\Helpers::getProductDetails($product, 'giacu')}}</span>
                         </p>
                         <p>
                             <span class="tit-product">Giá mới</span>
-                            <span class="new-price">{{$product->giamoi}}</span>
+                            <span class="new-price">{{\App\Lib\Helpers::getProductDetails($product, 'giamoi')}}</span>
                         </p>
                         <p>
                             <span class="tit-product">Số lượng</span>
@@ -125,8 +125,8 @@
 
                                     </div> -->
                                     <div class="info-price">
-                                        <p class="price discount">{{$hotPro->giacu}}</p>
-                                        <p class="price">{{$hotPro->giamoi}}</p>
+                                        <p class="price discount">{{\App\Lib\Helpers::getProductDetails($hotPro, 'giacu')}}</p>
+                                        <p class="price">{{\App\Lib\Helpers::getProductDetails($hotPro, 'giamoi')}}</p>
                                     </div>
                                     <p class="buy"><a href="{{url('product', $hotPro->slug)}}" class="buy-now">Mua ngay</a></p>
                                     <div class="rate-star">

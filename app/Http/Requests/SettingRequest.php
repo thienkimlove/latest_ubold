@@ -44,7 +44,12 @@ class SettingRequest extends FormRequest
     {
         $data = $this->all();
 
-        Setting::updateOrCreate(['name' => $data['name'], [ 'value' => $data['value']]]);
+        Setting::updateOrCreate([
+            'name' => $data['name']
+        ],
+            [
+                'value' => $data['value']
+            ]);
 
         return $this;
     }

@@ -289,21 +289,21 @@ img {
   position: relative;
   min-height: 70px;
   height: 100%;
-  background: url(http://www.cagaileo.vn/frontend/images/header-bg.jpg) 47% top no-repeat;
+  background: url(http://www.cagaileo.vn/frontend/cagaileo/images/header-bg.jpg) 47% top no-repeat;
 }
 @media (max-width: 1024px) {
   .header-mid .fix {
-    background: url(http://www.cagaileo.vn/frontend/images/header-bg.jpg) 40% top no-repeat;
+    background: url(http://www.cagaileo.vn/frontend/cagaileo/images/header-bg.jpg) 40% top no-repeat;
   }
 }
 @media (max-width: 900px) {
   .header-mid .fix {
-    background: url(http://www.cagaileo.vn/frontend/images/header-bg.jpg) 30% top no-repeat;
+    background: url(http://www.cagaileo.vn/frontend/cagaileo/images/header-bg.jpg) 30% top no-repeat;
   }
 }
 @media (max-width: 640px) {
   .header-mid .fix {
-    background: url(http://www.cagaileo.vn/frontend/images/header-bg.jpg) 20% top no-repeat;
+    background: url(http://www.cagaileo.vn/frontend/cagaileo/images/header-bg.jpg) 20% top no-repeat;
   }
 }
 @media (max-width: 768px) {
@@ -5288,7 +5288,7 @@ img {
   margin-top: 20px;
 }
 .contact-content .address-group strong {
-  background: url(http://www.cagaileo.vn/frontend/images/ilocation.png) 0 0px no-repeat;
+  background: url(http://www.cagaileo.vn/frontend/cagaileo/images/ilocation.png) 0 0px no-repeat;
   color: #333;
   font-size: 13px;
   margin: 5px 0;
@@ -5896,7 +5896,7 @@ img {
 }
 .delivery .places > div .provines a {
   width: 25%;
-  background: url(http://www.cagaileo.vn/frontend/images/ilocation.png) 0 3px no-repeat;
+  background: url(http://www.cagaileo.vn/frontend/cagaileo/images/ilocation.png) 0 3px no-repeat;
   color: #333;
   font-size: 13px;
   margin: 5px 0;

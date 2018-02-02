@@ -14,6 +14,16 @@ use Carbon\Carbon;
 
 class Helpers {
 
+    public static function getProductDetails($product, $detail)
+    {
+        $response = [];
+
+        if ($product->additions) {
+            $response = json_decode($product->additions, true);
+        }
+        return isset($response[$detail]) ? $response[$detail] : '';
+    }
+
     public static function tagList()
     {
         return Tag::pluck('name','name')->all();
