@@ -116,4 +116,28 @@ if (env('DB_DATABASE') == 'cagaileo') {
 
     Route::get('/ajaxStore', 'CLController@ajaxStore')->name('frontend.ajaxStore');
     Route::get('{value}', 'CLController@main')->name('frontend.main');
+} else if (env('DB_DATABASE') == 'newkien') {
+    Route::get('/', 'NKController@index')->name('frontend.index');
+    Route::get('lien-he', 'NKController@contact')->name('frontend.contact');
+    Route::get('video/{value?}', 'NKController@video')->name('frontend.video');
+    Route::get('phan-phoi/{slug?}', 'NKController@delivery')->name('frontend.delivery');
+
+    Route::post('saveContact', 'NKController@saveContact')->name('frontend.saveContact');
+    Route::post('saveOrder', 'NKController@saveOrder')->name('frontend.saveOrder');
+    Route::get('tag/{value}', 'NKController@tag')->name('frontend.tag');
+    Route::get('search', 'NKController@search')->name('frontend.search');
+    Route::get('product/{value?}', 'NKController@product')->name('frontend.product');
+    Route::get('cau-hoi-thuong-gap/{value?}', 'NKController@question')->name('frontend.question');
+
+
+    Route::get('sitemap_index.xml', 'NKController@sitemap');
+
+    foreach (config('system.sitemap.'.env('DB_DATABASE')) as $content) {
+        Route::get('sitemap_'.$content.'.xml', 'NKController@sitemap_'.$content);
+    }
+
+
+
+    Route::get('/ajaxStore', 'NKController@ajaxStore')->name('frontend.ajaxStore');
+    Route::get('{value}', 'NKController@main')->name('frontend.main');
 }

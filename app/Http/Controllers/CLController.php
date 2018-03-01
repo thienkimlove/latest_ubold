@@ -217,6 +217,8 @@ class CLController extends Controller
                 'content' => $data['content'],
                 'status' => 0
             ]);
+        } else {
+            \Log::info($data);
         }
 
 

@@ -1,0 +1,26 @@
+server {
+    listen 80;
+
+    root /var/www/html/v2_latest/public;
+    index index.php index.html index.htm;
+
+    server_name newkien.antim.vn;
+    access_log /var/log/nginx/newkien_access.log;
+    error_log /var/log/nginx/newkien_error.log;
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location ~ \.php$ {
+        try_files $uri /index.php =404;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param DB_DATABASE newkien;
+        fastcgi_param GOOGLE_CALLBACK http://newkien.antim.vn/callback;
+        include fastcgi_params;
+        fastcgi_read_timeout 300000;
+    }
+
+}

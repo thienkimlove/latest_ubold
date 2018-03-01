@@ -54,6 +54,21 @@ return [
             'engine' => null,
         ],
 
+        'newkien' => [
+            'driver' => 'mysql',
+            'host' => 'localhost',
+            'port' => '3306',
+            'database' => 'newkien',
+            'username' => 'root',
+            'password' => 'tieungao',
+            'unix_socket' => '',
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
+        ],
+
         'static' => [
             'driver' => 'mysql',
             'host' => 'localhost',

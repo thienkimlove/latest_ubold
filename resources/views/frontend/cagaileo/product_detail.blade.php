@@ -57,16 +57,34 @@
                             <p>Dược sỹ tư vấn: <span class="phone">0912571190</span></p>
                             <p class="enter-number">Ngại gọi điện? Vui lòng nhập số điện thoại.</p>
                             <p>
-                                {!! Form::open(array('url' => 'saveContact', 'id' => 'form_contact_page')) !!}
                                 <input id="send_phone_value" type="number" placeholder="Số điện thoại" class="get-phone">
-                                <input id="contact_email" type="hidden" />
-                                <input id="contact_phone" type="hidden" />
-                                <input id="contact_name" type="hidden" />
-                                <input id="contact_title" type="hidden" />
-                                <input id="contact_content" type="hidden" />
                                 <button id="send_phone" class="btn-send">Gửi</button>
-                                {!! Form::close() !!}
                             </p>
+                            <div id="contact" style="display: none">
+                                {!! Form::open(array('url' => 'saveContact', 'id' => 'form_contact_page')) !!}
+                                <div class="form-row">
+                                    <label for="name">Họ và tên</label>
+                                    <input type="text" id="contact_name" name="name" class="txt txt-name" placeholder="Nhập họ và tên"/>
+                                </div>
+                                <div class="form-row">
+                                    <label for="phone">Điện thoại</label>
+                                    <input type="number" id="contact_phone" name="phone" class="txt txt-phone" placeholder="Nhập số điện thoại"/>
+                                </div>
+                                <div class="form-row">
+                                    <label for="email">Email</label>
+                                    <input type="email" id="contact_email" name="email" class="txt txt-email" placeholder="Nhập email"/>
+                                </div>
+                                <div class="form-row">
+                                    <label for="title">Tiêu đề</label>
+                                    <input type="text" id="contact_title" name="title" placeholder="Nhập tiêu đề" required>
+                                </div>
+                                <div class="form-row">
+                                    <label for="content">Nội dung</label>
+                                    <textarea name="content" id="contact_content" class="txt txt-content" placeholder="Nhập nội dung" cols="30" rows="10"></textarea>
+                                </div>
+
+                                {!! Form::close() !!}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -156,8 +174,8 @@
                 $('#contact_email').val('contact@cagaileo.vn');
                 $('#contact_phone').val(phone);
                 $('#contact_name').val('N/A');
-                $('#contact_title').val('Để lại số ĐT trên trang liên hệ');
-                $('#contact_content').val('Để lại số ĐT trên trang liên hệ');
+                $('#contact_title').val('Để lại số ĐT trên trang san pham');
+                $('#contact_content').val('Để lại số ĐT trên trang san pham');
 
                 $('form#form_contact_page').submit();
 

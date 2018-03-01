@@ -18,7 +18,7 @@
                         </a>
                         <h3><a href="{{url('product', $product->slug)}}">{{$product->title}}</a></h3>
                         <p>
-                            {{str_limit($product->desc, 108)}}
+                            {{str_limit($product->seo_desc, 108)}}
                         </p>
                            <div class="panel-product cf">
                                <div class="left-product">

@@ -60,4 +60,77 @@ INSERT into cagaileo.posts (`id`,`title`, `slug`, `seo_title`, `seo_desc`, `desc
       select product_id, tag_id from caleo.product_tag;
 
 ``` 
- 
+
+### Create new instance
+
+* Create new database `mysql -e "Create database newkien"`
+
+* Copy `CLController` to `NKController` and replace `cagaileo` with `newkien`
+
+* Add in `routes/web.php`
+
+```textmate
+else if (env('DB_DATABASE') == 'newkien') {
+    Route::get('/', 'NKController@index')->name('frontend.index');
+    Route::get('lien-he', 'NKController@contact')->name('frontend.contact');
+    Route::get('video/{value?}', 'NKController@video')->name('frontend.video');
+    Route::get('phan-phoi/{slug?}', 'NKController@delivery')->name('frontend.delivery');
+
+    Route::post('saveContact', 'NKController@saveContact')->name('frontend.saveContact');
+    Route::post('saveOrder', 'NKController@saveOrder')->name('frontend.saveOrder');
+    Route::get('tag/{value}', 'NKController@tag')->name('frontend.tag');
+    Route::get('search', 'NKController@search')->name('frontend.search');
+    Route::get('product/{value?}', 'NKController@product')->name('frontend.product');
+    Route::get('cau-hoi-thuong-gap/{value?}', 'NKController@question')->name('frontend.question');
+
+
+    Route::get('sitemap_index.xml', 'NKController@sitemap');
+
+    foreach (config('system.sitemap.'.env('DB_DATABASE')) as $content) {
+        Route::get('sitemap_'.$content.'.xml', 'NKController@sitemap_'.$content);
+    }
+
+
+
+    Route::get('/ajaxStore', 'NKController@ajaxStore')->name('frontend.ajaxStore');
+    Route::get('{value}', 'NKController@main')->name('frontend.main');
+}
+```
+
+* Add in `config/database.php`
+
+```textmate
+  'newkien' => [
+            'driver' => 'mysql',
+            'host' => 'localhost',
+            'port' => '3306',
+            'database' => 'newkien',
+            'username' => 'root',
+            'password' => 'tieungao',
+            'unix_socket' => '',
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
+        ],
+``` 
+* Add in `config/system.php`
+
+* Add in `app/Providers/AppServiceProvider.php`
+
+* Create file `deploy/newkien.antim.vn` and link
+
+`ln -s /var/www/html/v2_latest/deploy/newkien.antim.vn /etc/nginx/sites-enabled/local.newkien.vn`
+
+* Copy in public `cp -r public/frontend/cagaileo public/frontend/newkien`
+
+* Copy in resources `cp -r resources/view/frontend/cagaileo  resources/view/frontend/newkien`
+
+* Replace `cagaileo` with `newkien` in `resources/view/frontend/newkien`
+
+but keep in `resources/view/frontend/newkien/frontend.blade.php` 
+
+```textmate
+ <link rel="stylesheet" href="{{url('frontend/newkien/css/cagaileo.css')}}" type="text/css"/>
+```
