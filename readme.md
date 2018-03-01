@@ -123,6 +123,8 @@ else if (env('DB_DATABASE') == 'newkien') {
 
 `ln -s /var/www/html/v2_latest/deploy/newkien.antim.vn /etc/nginx/sites-enabled/local.newkien.vn`
 
+* go to `Google Console` to add `http://newkien.antim.vn/callback` to API List
+
 * Copy in public `cp -r public/frontend/cagaileo public/frontend/newkien`
 
 * Copy in resources `cp -r resources/view/frontend/cagaileo  resources/view/frontend/newkien`
