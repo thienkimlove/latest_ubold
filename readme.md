@@ -37,35 +37,43 @@ TRUNCATE TABLE cagaileo.posts;
 INSERT into cagaileo.posts (`id`,`title`, `slug`, `seo_title`, `seo_desc`, `desc`, `content`, `category_id`, `status`, `views`, `image`,  `created_at`, `updated_at`)
   select id, `title`, `slug`, `seo_title`, null, `desc`, `content`, `category_id`, `status`, `views`, `image`,`created_at`, `updated_at` from caleo.posts
   
-  TRUNCATE TABLE cagaileo.products;
+TRUNCATE TABLE cagaileo.products;
   
   
-  INSERT into cagaileo.products (`id`,`title`, `slug`, `seo_title`, `seo_desc`, `image`, `status`, `views`, `content`, `content_tab1`, `content_tab2`, `content_tab3`, `additions`,`created_at`, `updated_at`)
-    select id, `title`, `slug`, `seo_title`, null, `image`, 1, 0, null, `content_tab1`, `content_tab2`, `content_tab3`, null, `created_at`, `updated_at` from caleo.products
+INSERT into cagaileo.products (`id`,`title`, `slug`, `seo_title`, `seo_desc`, `image`, `status`, `views`, `content`, `content_tab1`, `content_tab2`, `content_tab3`, `additions`,`created_at`, `updated_at`)
+select id, `title`, `slug`, `seo_title`, null, `image`, 1, 0, null, `content_tab1`, `content_tab2`, `content_tab3`, null, `created_at`, `updated_at` from caleo.products
+
+TRUNCATE TABLE cagaileo.questions;
     
-    TRUNCATE TABLE cagaileo.questions;
     
-    
-    INSERT into cagaileo.questions (`id`,`title`, `slug`, `seo_title`, `seo_desc`,`question`, `answer`, `short_answer`, `person`,  `image`, `status`, `views`, `created_at`, `updated_at`)
-      select id, `title`, `slug`, `seo_title`, null, `question`, `answer`, null, `ask_person`, `image`, 1, 0, `created_at`, `updated_at` from caleo.questions
-      
-      TRUNCATE  table cagaileo.tags;
-      
-      insert into cagaileo.tags (id, name, slug, seo_name, seo_desc, created_at, updated_at)
-      select id, name, slug, seo_name, null, created_at, updated_at from caleo.tags;
-      
-      TRUNCATE  table cagaileo.product_tag;
-      
-      insert into cagaileo.product_tag (product_id, tag_id)
-      select product_id, tag_id from caleo.product_tag;
+INSERT into cagaileo.questions (`id`,`title`, `slug`, `seo_title`, `seo_desc`,`question`, `answer`, `short_answer`, `person`,  `image`, `status`, `views`, `created_at`, `updated_at`)
+  select id, `title`, `slug`, `seo_title`, null, `question`, `answer`, null, `ask_person`, `image`, 1, 0, `created_at`, `updated_at` from caleo.questions
+  
+TRUNCATE  table cagaileo.tags;
+  
+insert into cagaileo.tags (id, name, slug, seo_name, seo_desc, created_at, updated_at)
+  select id, name, slug, seo_name, null, created_at, updated_at from caleo.tags;
+  
+TRUNCATE  table cagaileo.product_tag;
+  
+insert into cagaileo.product_tag (product_id, tag_id)
+select product_id, tag_id from caleo.product_tag;
 
 ``` 
 
-### Create new instance
+### Create new instance from `cagaileo` instance
 
-* Create new database `mysql -e "Create database newkien"`
+* Create new database
+
+```textmate
+mysql -e "Create database newkien"
+mysqldump -uroot -p cagaileo > /tmp/cagaileo.sql
+mysql -uroot -p newkien < /tmp/cagaileo.sql
+```
 
 * Copy `CLController` to `NKController` and replace `cagaileo` with `newkien`
+
+and `class CLController` with `class NKController`
 
 * Add in `routes/web.php`
 
