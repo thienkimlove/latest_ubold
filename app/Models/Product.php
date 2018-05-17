@@ -54,6 +54,40 @@ class Product extends \Eloquent
         $query->where('status', true);
     }
 
+    public function getRelatedPostsAttribute()
+    {
+        $limit = 5;
+
+        $post_tag = $this->tags()->pluck('id')->all();
+
+        $relatedPosts = Post::where('status', true)
+            ->whereHas('tags', function($q) use ($post_tag){
+                $q->whereIn('id', $post_tag);
+            })
+            ->orderBy('updated_at', 'desc')
+            ->limit($limit)
+            ->get();
+
+        $additionPosts = null;
+
+        if ($relatedPosts->count() < $limit) {
+            $categoryLimit = $limit - $relatedPosts->count();
+            $additionPosts = Post::where('status', true)
+                ->orderBy('updated_at', 'desc')
+                ->limit($categoryLimit)
+                ->get();
+        }
+        if ($additionPosts) {
+            foreach ($additionPosts as $post) {
+                if (!in_array($post->id, $relatedPosts->pluck('id')->all())) {
+                    $relatedPosts->push($post);
+                }
+            }
+        }
+
+        return $relatedPosts;
+    }
+
 
     public static function getDataTables($request)
     {

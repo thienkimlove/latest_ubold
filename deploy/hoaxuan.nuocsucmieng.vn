@@ -1,0 +1,35 @@
+server {
+    listen 80;
+    server_name www.vtpcompany.vn;
+
+    return 301 http://vtpcompany.vn$request_uri;
+}
+
+
+server {
+    listen 80;
+    
+    root /var/www/html/v2_latest/public;
+    index index.php index.html index.htm;
+
+    server_name vtpcompany.vn;
+    client_max_body_size 500M;
+    access_log /var/log/nginx/hoaxuan_access.log;
+    error_log /var/log/nginx/hoaxuan_error.log;
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location ~ \.php$ {
+        try_files $uri /index.php =404;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param DB_DATABASE hoaxuan;
+        fastcgi_param GOOGLE_CALLBACK http://vtpcompany.vn/callback;
+        include fastcgi_params;
+        fastcgi_read_timeout 300000;
+    }
+
+}

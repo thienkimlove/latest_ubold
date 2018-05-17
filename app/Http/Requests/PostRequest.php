@@ -112,9 +112,21 @@ class PostRequest extends FormRequest
             $data['image'] = $filename;
         }
 
+        $originUpdatedAt = null;
+
+        if ($post->status) {
+            $originUpdatedAt = $post->updated_at;
+        }
+
         $before = json_encode($post->toArray(), true);
         $post->update($data);
         $post->tags()->sync($tagIds);
+
+        if ($originUpdatedAt) {
+            \DB::table('posts')->where('id', $post->id)->update([
+                'updated_at' => $originUpdatedAt
+            ]);
+        }
 
         Event::create([
             'content' => 'posts',

@@ -77,7 +77,7 @@ class Category extends \Eloquent
         return Post::whereIn('id', $top1IndexPostIds)
             ->whereIn('category_id', $categoryIds)
             ->publish()
-            ->limit(3)
+            ->limit(6)
             ->get();
     }
 
@@ -126,6 +126,9 @@ class Category extends \Eloquent
 
     public static function getDataTables($request)
     {
+
+        $user = \Sentinel::getUser();
+
         $category = static::select('*')->with('parent');
 
         $modules = Module::where('content', 'categories')->get();
@@ -141,13 +144,26 @@ class Category extends \Eloquent
                     $query->where('status', $request->get('status'));
                 }
             })
-            ->addColumn('action', function ($category) use ($modules) {
-                $response = '<a class="table-action-btn" title="Chỉnh sửa Category" href="' . route('categories.edit', $category->id) . '"><i class="fa fa-pencil text-success"></i></a>';
+            ->addColumn('action', function ($category) use ($modules, $user) {
+
+                $response = null;
+
+                if ($user->hasAccess(['categories.edit'])) {
+                    $response .= '<a class="table-action-btn" title="Chỉnh sửa Category" href="' . route('categories.edit', $category->id) . '"><i class="fa fa-pencil text-success"></i></a>';
+                }
+
+                $response .= '<a class="table-action-btn" title="View Category" target="_blank" href="' . route('frontend.main', $category->slug) . '"><i class="fa fa-signing text-warning"></i></a>';
+
+                if ($user->hasAccess(['categories.destroy'])) {
+                    $response .= '<a class="table-action-btn" id="btn-delete-'.$category->id.'" title="Remove Category" data-url="' . route('categories.destroy', $category->id) . '"><i class="fa fa-remove text-danger"></i></a>';
+                }
 
                 $i = 0;
 
                 foreach (Helpers::getModules('categories') as $key => $value) {
                     $i ++;
+
+
                     $inModule = false;
 
                     foreach ($modules as $module) {
@@ -155,8 +171,6 @@ class Category extends \Eloquent
                             $inModule = true;
                         }
                     }
-
-
 
                     if ($inModule) {
                         $response .= '<a class="table-action-btn" data-type="'.$key.'" data-content="categories" data-value="'.$category->id.'" data-url="' . route('modules.remove') . '" id="btn-module-'.$i.'-' . $category->id . '"  title="Off '.$value.'" href="javascript:;"><i class="fa fa-unlock text-danger"></i></a>';

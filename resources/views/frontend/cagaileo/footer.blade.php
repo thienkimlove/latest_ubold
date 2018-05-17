@@ -19,16 +19,16 @@
                 <div class="list-contact">
                     <p>
                         <strong>Tại Hà Nội</strong> <br>
-                        ĐT: 04.62824344 <br>
-                        Fax: 04.62824263 <br>
-                        Đường dây nóng: 0912571190. <br>
+                        ĐT: 024.62824344 <br>
+                        Fax: 024.62824263 <br>
+                        Đường dây nóng: 1800.1190. <br>
                     </p>
                     <p>
                     <br>
                         <strong>Chi nhánh TP. HCM</strong> <br>
-                        ĐT: 083.9797779 <br>
-                        Fax: 086.2646832 <br>
-                        Đường dây nóng: 0912571190. <br>
+                        ĐT: 0283.9797779 <br>
+                        Fax: 0286.2646832 <br>
+                        Đường dây nóng: 1800.1190. <br>
                     </p>
                 </div>
             </div>

@@ -115,10 +115,24 @@ class QuestionRequest extends FormRequest
             $data['image'] = $filename;
         }
 
+        $originUpdatedAt = null;
+
+        if ($question->status) {
+            $originUpdatedAt = $question->updated_at;
+        }
+
         $before = json_encode($question->toArray(), true);
+
+
 
         $question->update($data);
         $question->tags()->sync($tagIds);
+
+        if ($originUpdatedAt) {
+            \DB::table('questions')->where('id', $question->id)->update([
+                'updated_at' => $originUpdatedAt
+            ]);
+        }
 
         Event::create([
             'content' => 'questions',

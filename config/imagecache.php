@@ -116,6 +116,13 @@ return array(
         '93x93' => function($image) {
             return $image->fit(93, 93);
         },
+        '344x234' => function($image) {
+            return $image->fit(344, 234);
+        },
+
+        '310x530' => function($image) {
+            return $image->fit(310, 530);
+        },
 
         //cagaileo
     ),

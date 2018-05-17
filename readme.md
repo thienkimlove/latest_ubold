@@ -27,7 +27,7 @@
  - Reject : Event user roles have this permissions, user not have.
  
  - Grant : User roles do not have this permission but user have.
- 
+
 ### Transfer database
 
 ```$xslt
@@ -36,30 +36,30 @@ TRUNCATE TABLE cagaileo.posts;
 
 INSERT into cagaileo.posts (`id`,`title`, `slug`, `seo_title`, `seo_desc`, `desc`, `content`, `category_id`, `status`, `views`, `image`,  `created_at`, `updated_at`)
   select id, `title`, `slug`, `seo_title`, null, `desc`, `content`, `category_id`, `status`, `views`, `image`,`created_at`, `updated_at` from caleo.posts
-  
+
 TRUNCATE TABLE cagaileo.products;
-  
-  
+
+
 INSERT into cagaileo.products (`id`,`title`, `slug`, `seo_title`, `seo_desc`, `image`, `status`, `views`, `content`, `content_tab1`, `content_tab2`, `content_tab3`, `additions`,`created_at`, `updated_at`)
 select id, `title`, `slug`, `seo_title`, null, `image`, 1, 0, null, `content_tab1`, `content_tab2`, `content_tab3`, null, `created_at`, `updated_at` from caleo.products
 
 TRUNCATE TABLE cagaileo.questions;
-    
-    
+
+
 INSERT into cagaileo.questions (`id`,`title`, `slug`, `seo_title`, `seo_desc`,`question`, `answer`, `short_answer`, `person`,  `image`, `status`, `views`, `created_at`, `updated_at`)
   select id, `title`, `slug`, `seo_title`, null, `question`, `answer`, null, `ask_person`, `image`, 1, 0, `created_at`, `updated_at` from caleo.questions
-  
+
 TRUNCATE  table cagaileo.tags;
-  
+
 insert into cagaileo.tags (id, name, slug, seo_name, seo_desc, created_at, updated_at)
   select id, name, slug, seo_name, null, created_at, updated_at from caleo.tags;
-  
+
 TRUNCATE  table cagaileo.product_tag;
-  
+
 insert into cagaileo.product_tag (product_id, tag_id)
 select product_id, tag_id from caleo.product_tag;
 
-``` 
+```
 
 ### Create new instance from `cagaileo` instance
 
@@ -71,39 +71,11 @@ mysqldump -uroot -p cagaileo > /tmp/cagaileo.sql
 mysql -uroot -p newkien < /tmp/cagaileo.sql
 ```
 
-* Copy `CLController` to `NKController` and replace `cagaileo` with `newkien`
+* Important
 
-and `class CLController` with `class NKController`
+if it same as `cagaileo`, we no need to do anything
 
-* Add in `routes/web.php`
-
-```textmate
-else if (env('DB_DATABASE') == 'newkien') {
-    Route::get('/', 'NKController@index')->name('frontend.index');
-    Route::get('lien-he', 'NKController@contact')->name('frontend.contact');
-    Route::get('video/{value?}', 'NKController@video')->name('frontend.video');
-    Route::get('phan-phoi/{slug?}', 'NKController@delivery')->name('frontend.delivery');
-
-    Route::post('saveContact', 'NKController@saveContact')->name('frontend.saveContact');
-    Route::post('saveOrder', 'NKController@saveOrder')->name('frontend.saveOrder');
-    Route::get('tag/{value}', 'NKController@tag')->name('frontend.tag');
-    Route::get('search', 'NKController@search')->name('frontend.search');
-    Route::get('product/{value?}', 'NKController@product')->name('frontend.product');
-    Route::get('cau-hoi-thuong-gap/{value?}', 'NKController@question')->name('frontend.question');
-
-
-    Route::get('sitemap_index.xml', 'NKController@sitemap');
-
-    foreach (config('system.sitemap.'.env('DB_DATABASE')) as $content) {
-        Route::get('sitemap_'.$content.'.xml', 'NKController@sitemap_'.$content);
-    }
-
-
-
-    Route::get('/ajaxStore', 'NKController@ajaxStore')->name('frontend.ajaxStore');
-    Route::get('{value}', 'NKController@main')->name('frontend.main');
-}
-```
+if it have something news or override , we must add new function and new routes to `FrontendController` and `routes/web.php`
 
 * Add in `config/database.php`
 
@@ -122,7 +94,7 @@ else if (env('DB_DATABASE') == 'newkien') {
             'strict' => true,
             'engine' => null,
         ],
-``` 
+```
 * Add in `config/system.php`
 
 * Add in `app/Providers/AppServiceProvider.php`
@@ -130,17 +102,53 @@ else if (env('DB_DATABASE') == 'newkien') {
 * Create file `deploy/newkien.antim.vn` and link
 
 `ln -s /var/www/html/v2_latest/deploy/newkien.antim.vn /etc/nginx/sites-enabled/local.newkien.vn`
+`ln -s /var/www/html/v2_latest/deploy/hoaxuan.nuocsucmieng.vn /etc/nginx/sites-enabled/hoaxuan.nuocsucmieng.vn`
 
 * go to `Google Console` to add `http://newkien.antim.vn/callback` to API List
 
 * Copy in public `cp -r public/frontend/cagaileo public/frontend/newkien`
 
-* Copy in resources `cp -r resources/view/frontend/cagaileo  resources/view/frontend/newkien`
+* Copy in resources `cp -r resources/views/frontend/cagaileo  resources/views/frontend/newkien`
 
 * Replace `cagaileo` with `newkien` in `resources/view/frontend/newkien`
 
-but keep in `resources/view/frontend/newkien/frontend.blade.php` 
+but keep in `resources/view/frontend/newkien/frontend.blade.php`
 
 ```textmate
  <link rel="stylesheet" href="{{url('frontend/newkien/css/cagaileo.css')}}" type="text/css"/>
 ```
+
+#### Site Estrogen
+
+This site like `viemgan.com.vn` but using new admin system
+
+Old structure put product as posts in category `San pham`
+
+New structure put product in `Product`.
+
+* Create database
+
+```
+mysql -uroot -ptieungao -e "create database estrogen"
+mysqldump -uroot -ptieungao cagaileo > /tmp/cagaileo.sql
+mysql -uroot -ptieungao estrogen < /tmp/cagaileo.sql
+```
+
+* Edit `/var/www/html/v2_latest/.env` to change `DB_DATABASE=estrogen` and run migration `php artisan migrate` to apply latest migrations.
+
+* Insert old database from `viemgan` for testing.
+
+```
+TRUNCATE table estrogen.categories;
+TRUNCATE table estrogen.posts;
+TRUNCATE table estrogen.post_tag;
+
+
+insert into estrogen.categories (id, name, slug, parent_id) select id, name, slug, parent_id from viemgan.categories
+
+insert into estrogen.posts (id, `title`, slug, category_id, `desc`, `content`, `image`) select id, `title`, slug, category_id, `desc`, `content`, `image` from viemgan.posts
+```
+
+* Copy image files
+`cp -r /var/www/html/new_viemgan/public/files/* /var/www/html/v2_latest/public/files/`
+

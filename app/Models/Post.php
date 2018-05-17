@@ -52,6 +52,7 @@ class Post extends \Eloquent
         return $this->belongsToMany(Tag::class);
     }
 
+
     public function getTagListAttribute()
     {
         return $this->tags()->pluck('name')->all();

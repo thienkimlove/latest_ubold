@@ -80,6 +80,13 @@
                         <ul class="submenu">
                             <li><a href="{{ url('/positions')}}">Vị trí Banners</a></li>
                             <li><a href="{{ url('/settings')}}">Thiết lập Frontend</a></li>
+                            @if (env('ENABLE_SHARING') == 1)
+                                <li><a href="{{ url('/shares')}}">Chia sẻ Người dùng</a></li>
+                            @endif
+
+                            @if (env('ENABLE_COMMENT') == 1)
+                                <li><a href="{{ url('/comments')}}">Bình luận</a></li>
+                            @endif
                         </ul>
                     </li>
 

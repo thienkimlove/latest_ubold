@@ -3,16 +3,69 @@
 namespace App\Lib;
 
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\District;
 use App\Models\Module;
 use App\Models\Position;
+use App\Models\Post;
 use App\Models\Product;
+use App\Models\Question;
 use App\Models\Role;
+use App\Models\Share;
 use App\Models\Tag;
+use App\Models\Video;
 use Carbon\Carbon;
 
 
 class Helpers {
+
+    /* For convert from viemgan to new site */
+
+    public static function getLatestNormalPosts()
+    {
+        return Post::where('status', true)->latest('created_at')->limit(5)->get();
+    }
+
+    public static function getRightIndexSharePosts()
+    {
+        return self::getContentByModule('posts', 'index_right_share', 4);
+    }
+
+    public static function getSharingIndex()
+    {
+        return Share::where('status', true)->latest('created_at')->limit(15)->get();
+    }
+
+    public static function getRightIndexPosts()
+    {
+        return self::getContentByModule('posts', 'index_right', 4);
+    }
+
+    public static function getRightIndexQuestions()
+    {
+        return self::getContentByModule('questions', 'index_right', 3);
+    }
+
+    public static function getRightIndexVideos()
+    {
+        return self::getContentByModule('videos', 'index_right', 3);
+    }
+
+    public static function getIndexCategoryPosts($category, $limit = 4)
+    {
+
+        $subCategoryIds = Category::where('parent_id', $category->id)->pluck('id')->all();
+        $categoryIds = ($subCategoryIds) ? $subCategoryIds : [$category->id];
+
+        return Post::where('status', true)->latest('created_at')->whereIn('category_id', $categoryIds)->limit($limit)->get();
+    }
+
+    public static function getIndexSubCategory($category, $limit = 3)
+    {
+        return Category::where('parent_id', $category->id)->limit($limit)->get();
+    }
+
+    /* For convert from viemgan to new site */
 
     public static function getProductDetails($product, $detail)
     {
@@ -204,4 +257,96 @@ class Helpers {
         return preg_replace('/<br\s?\/?>/ius', "\n", str_replace("\n", "", str_replace("\r", "", htmlspecialchars_decode($input))));
     }
 
+    public static function getContentByModule($content, $module_type, $limit = null)
+    {
+        $contentIds = Module::where('type', $module_type)->where('content', $content)->pluck('value');
+
+        if ($contentIds) {
+
+
+
+            if ($content == 'posts') {
+                if ($limit) {
+                    return Post::whereIn('id', $contentIds)->where('status', true)->limit($limit)->get();
+                } else {
+                    return Post::whereIn('id', $contentIds)->where('status', true)->get();
+                }
+
+            }
+
+            if ($content == 'categories') {
+
+                if ($limit) {
+                    return Category::whereIn('id', $contentIds)->where('status', true)->limit($limit)->get();
+                } else {
+                    return Category::whereIn('id', $contentIds)->where('status', true)->get();
+                }
+
+            }
+
+            if ($content == 'shares') {
+                if ($limit) {
+                    return Share::whereIn('id', $contentIds)->where('status', true)->limit($limit)->get();
+                } else {
+                    return Share::whereIn('id', $contentIds)->where('status', true)->get();
+                }
+            }
+
+            if ($content == 'questions') {
+                if ($limit) {
+                    return Question::whereIn('id', $contentIds)->where('status', true)->limit($limit)->get();
+                } else {
+                    return Question::whereIn('id', $contentIds)->where('status', true)->get();
+                }
+            }
+
+            if ($content == 'videos') {
+                if ($limit) {
+                    return Video::whereIn('id', $contentIds)->where('status', true)->limit($limit)->get();
+                } else {
+                    return Video::whereIn('id', $contentIds)->where('status', true)->get();
+                }
+            }
+        }
+
+        return null;
+
+    }
+
+    public static function getCommentByContentId($id, $type)
+    {
+        return Comment::where('content_type', $type)->where('content_id', $id)->where('status', 1)->get();
+    }
+
+
+    public static function getLatestNews()
+    {
+        return Post::where('status', true)
+            ->latest('created_at')
+            ->limit(8)
+            ->get();
+    }
+
+    public static function getYoutubeEmbedUrl($code)
+    {
+        // Extract video url from embed code
+        $youtubeVideoId = preg_replace_callback('/<iframe\s+.*?\s+src=(".*?").*?<\/iframe>/', function ($matches) {
+            // Remove quotes
+            $youtubeUrl = $matches[1];
+            $youtubeUrl = trim($youtubeUrl, '"');
+            $youtubeUrl = trim($youtubeUrl, "'");
+            // Extract id
+            preg_match("/^(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user)\/))([^\?&\"'>]+)/", $youtubeUrl, $videoId);
+            return $youtubeVideoId = isset($videoId[1]) ? $videoId[1] : "";
+        }, $code);
+
+        return $youtubeVideoId ;
+    }
+
+    public static function getYoutubeImage($url)
+    {
+        preg_match("/^(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user)\/))([^\?&\"'>]+)/", $url, $videoId);
+        $youtubeVideoId = isset($videoId[1]) ? $videoId[1] : "";
+        return 'https://img.youtube.com/vi/'.$youtubeVideoId.'/0.jpg';
+    }
 }

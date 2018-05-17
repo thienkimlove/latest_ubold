@@ -87,57 +87,43 @@ Route::group(['middleware' => 'acl'], function() {
     Route::get('settings.dataTables', ['uses' => 'SettingsController@dataTables', 'as' => 'settings.dataTables']);
     Route::resource('settings', 'SettingsController');
 
+
+    Route::get('shares.dataTables', ['uses' => 'SharesController@dataTables', 'as' => 'shares.dataTables']);
+    Route::resource('shares', 'SharesController');
+
+    Route::get('comments.dataTables', ['uses' => 'CommentsController@dataTables', 'as' => 'comments.dataTables']);
+    Route::resource('comments', 'CommentsController');
+
 });
 
 
 #frontend
 
-if (env('DB_DATABASE') == 'cagaileo') {
-    Route::get('/', 'CLController@index')->name('frontend.index');
-    Route::get('lien-he', 'CLController@contact')->name('frontend.contact');
-    Route::get('video/{value?}', 'CLController@video')->name('frontend.video');
-    Route::get('phan-phoi/{slug?}', 'CLController@delivery')->name('frontend.delivery');
 
-    Route::post('saveContact', 'CLController@saveContact')->name('frontend.saveContact');
-    Route::post('saveOrder', 'CLController@saveOrder')->name('frontend.saveOrder');
-    Route::get('tag/{value}', 'CLController@tag')->name('frontend.tag');
-    Route::get('search', 'CLController@search')->name('frontend.search');
-    Route::get('product/{value?}', 'CLController@product')->name('frontend.product');
-    Route::get('cau-hoi-thuong-gap/{value?}', 'CLController@question')->name('frontend.question');
+Route::get('/', 'FrontendController@index')->name('frontend.index');
+Route::get('lien-he', 'FrontendController@contact')->name('frontend.contact');
+Route::get('video/{value?}', 'FrontendController@video')->name('frontend.video');
+Route::get('phan-phoi/{slug?}', 'FrontendController@delivery')->name('frontend.delivery');
 
+Route::post('saveContact', 'FrontendController@saveContact')->name('frontend.saveContact');
 
-    Route::get('sitemap_index.xml', 'CLController@sitemap');
+Route::post('saveComment', 'FrontendController@saveComment')->name('frontend.saveComment');
 
-    foreach (config('system.sitemap.'.env('DB_DATABASE')) as $content) {
-        Route::get('sitemap_'.$content.'.xml', 'CLController@sitemap_'.$content);
-    }
+Route::post('saveOrder', 'FrontendController@saveOrder')->name('frontend.saveOrder');
+Route::get('tag/{value}', 'FrontendController@tag')->name('frontend.tag');
+Route::get('search', 'FrontendController@search')->name('frontend.search');
+Route::get('product/{value?}', 'FrontendController@product')->name('frontend.product');
+Route::get('cau-hoi-thuong-gap/{value?}', 'FrontendController@question')->name('frontend.question');
 
 
 
-    Route::get('/ajaxStore', 'CLController@ajaxStore')->name('frontend.ajaxStore');
-    Route::get('{value}', 'CLController@main')->name('frontend.main');
-} else if (env('DB_DATABASE') == 'newkien') {
-    Route::get('/', 'NKController@index')->name('frontend.index');
-    Route::get('lien-he', 'NKController@contact')->name('frontend.contact');
-    Route::get('video/{value?}', 'NKController@video')->name('frontend.video');
-    Route::get('phan-phoi/{slug?}', 'NKController@delivery')->name('frontend.delivery');
+Route::get('sitemap_index.xml', 'FrontendController@sitemap');
 
-    Route::post('saveContact', 'NKController@saveContact')->name('frontend.saveContact');
-    Route::post('saveOrder', 'NKController@saveOrder')->name('frontend.saveOrder');
-    Route::get('tag/{value}', 'NKController@tag')->name('frontend.tag');
-    Route::get('search', 'NKController@search')->name('frontend.search');
-    Route::get('product/{value?}', 'NKController@product')->name('frontend.product');
-    Route::get('cau-hoi-thuong-gap/{value?}', 'NKController@question')->name('frontend.question');
-
-
-    Route::get('sitemap_index.xml', 'NKController@sitemap');
-
-    foreach (config('system.sitemap.'.env('DB_DATABASE')) as $content) {
-        Route::get('sitemap_'.$content.'.xml', 'NKController@sitemap_'.$content);
-    }
-
-
-
-    Route::get('/ajaxStore', 'NKController@ajaxStore')->name('frontend.ajaxStore');
-    Route::get('{value}', 'NKController@main')->name('frontend.main');
+foreach (config('system.sitemap.'.env('DB_DATABASE')) as $content) {
+    Route::get('sitemap_'.$content.'.xml', 'FrontendController@sitemap_'.$content);
 }
+
+Route::get('/ajaxStore', 'FrontendController@ajaxStore')->name('frontend.ajaxStore');
+Route::get('{value}', 'FrontendController@main')->name('frontend.main');
+
+# if other website is different we need add more function and routes.

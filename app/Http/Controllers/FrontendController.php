@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Lib\Helpers;
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Contact;
 use App\Models\Order;
 use App\Models\Post;
@@ -17,10 +18,14 @@ use App\Models\Video;
 use Illuminate\Http\Request;
 use Watson\Sitemap\Facades\Sitemap;
 
-class NKController extends Controller
+class FrontendController extends Controller
 {
+    public $logo;
 
-    public $logo = '/frontend/newkien/images/logo.png';
+    public function __construct()
+    {
+        $this->logo = url('/frontend/'.env('DB_DATABASE').'/images/logo.png');
+    }
 
     private function getSetting($key)
     {
@@ -80,7 +85,7 @@ class NKController extends Controller
             ->get();
 
         
-        return view('frontend.newkien.index', compact(
+        return view('frontend.'.env('DB_DATABASE').'.index', compact(
             'topIndexCategory',
             'secondIndexCategory',
             'thirdIndexCategory',
@@ -100,7 +105,7 @@ class NKController extends Controller
         $meta['meta_url'] =route('frontend.contact');
 
 
-        return view('frontend.newkien.contact', compact('page'))->with($meta);
+        return view('frontend.'.env('DB_DATABASE').'.contact', compact('page'))->with($meta);
     }
 
     /**
@@ -120,9 +125,9 @@ class NKController extends Controller
         $meta['meta_url'] =route('frontend.video');
 
         $mainVideo = null;
-        $videos = Video::paginate(6);
+        $videos = Video::latest('updated_at')->paginate(6);
         $latestVideos = Video::latest('updated_at')->limit(5)->get();
-        if ($videos->count() > 0) {
+        if ($videos->count() > 0 && env('DB_DATABASE') != 'samtonu') {
             $mainVideo = $videos->first();
         }
 
@@ -145,7 +150,7 @@ class NKController extends Controller
             }
         }
 
-        return view('frontend.newkien.video', compact('videos', 'mainVideo', 'latestVideos', 'page'))->with($meta);
+        return view('frontend.'.env('DB_DATABASE').'.video', compact('videos', 'mainVideo', 'latestVideos', 'page'))->with($meta);
 
     }
 
@@ -167,7 +172,7 @@ class NKController extends Controller
             if ($province) {
                 $meta['meta_title'] = $province->name;
                 $meta['meta_url'] =route('frontend.delivery', $slug);
-                return view('frontend.newkien.detail_delivery', compact('province', 'page'))->with($meta);
+                return view('frontend.'.env('DB_DATABASE').'.detail_delivery', compact('province', 'page'))->with($meta);
             } else {
                 return redirect('/');
             }
@@ -183,7 +188,7 @@ class NKController extends Controller
                 session()->forget('success_delivery_form_message');
             }
 
-            return view('frontend.newkien.new_phanphoi', compact('provinces', 'page', 'deliveryProducts', 'success_delivery_form_message'))->with($meta);
+            return view('frontend.'.env('DB_DATABASE').'.new_phanphoi', compact('provinces', 'page', 'deliveryProducts', 'success_delivery_form_message'))->with($meta);
         }
 
     }
@@ -192,7 +197,7 @@ class NKController extends Controller
     {
         $districtId = $request->input('district_id');
         $stores = Store::where('district_id', $districtId)->get();
-        $html = view('frontend.newkien.store_list', compact('stores'))->render();
+        $html = view('frontend.'.env('DB_DATABASE').'.store_list', compact('stores'))->render();
 
         return response()->json(['html' => $html]);
     }
@@ -218,7 +223,39 @@ class NKController extends Controller
                 'status' => 0
             ]);
         } else {
-            \Log::info($data);
+            //\Log::info($data);
+        }
+
+
+        if ($redirectUrl) {
+            session()->put('success_delivery_form_message', true);
+            return redirect()->to($redirectUrl);
+        }
+
+        return redirect('/');
+
+    }
+
+    public function saveComment(Request $request)
+    {
+        $data = $request->all();
+        $redirectUrl = null;
+
+        if (isset($data['redirect_url'])) {
+            $redirectUrl = $data['redirect_url'];
+            unset($data['redirect_url']);
+        }
+
+        if (!empty($data['name']) && !empty($data['email']) && !empty($data['content']) ) {
+
+            Comment::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'content' => $data['content'],
+                'content_id' => $data['content_id'],
+                'content_type' => $data['content_type'],
+                'status' => 0
+            ]);
         }
 
 
@@ -291,7 +328,7 @@ class NKController extends Controller
             $meta['meta_image'] = $this->logo;
             $meta['meta_url'] =route('frontend.tag', $value);
 
-            return view('frontend.newkien.tag', compact('posts', 'tag', 'page'))->with($meta);
+            return view('frontend.'.env('DB_DATABASE').'.tag', compact('posts', 'tag', 'page'))->with($meta);
         } else {
             redirect('/');
         }
@@ -314,7 +351,7 @@ class NKController extends Controller
             $meta['meta_url'] = route('frontend.search');
 
 
-            return view('frontend.newkien.search', compact('posts', 'keyword', 'page'))->with($meta);
+            return view('frontend.'.env('DB_DATABASE').'.search', compact('posts', 'keyword', 'page'))->with($meta);
         } else {
             return redirect('/');
         }
@@ -357,7 +394,7 @@ class NKController extends Controller
                     ->latest('updated_at')
                     ->limit(5)
                     ->get();
-                return view('frontend.newkien.product_detail', compact(
+                return view('frontend.'.env('DB_DATABASE').'.product_detail', compact(
                     'product',
                     'page',
                     'hotProducts'
@@ -367,7 +404,7 @@ class NKController extends Controller
             }
         } else {
           $products = Product::paginate(9);
-          return view('frontend.newkien.product', compact('products', 'page'))->with($meta);
+          return view('frontend.'.env('DB_DATABASE').'.product', compact('products', 'page'))->with($meta);
         }
 
     }
@@ -406,13 +443,13 @@ class NKController extends Controller
                 $meta['meta_image'] = url('img/cache/120x120/'.$mainQuestion->image);
                 $meta['meta_url'] = route('frontend.question', $mainQuestion->slug);
 
-                return view('frontend.newkien.detail_question', compact('mainQuestion', 'page', 'success_delivery_form_message'))->with($meta);
+                return view('frontend.'.env('DB_DATABASE').'.detail_question', compact('mainQuestion', 'page', 'success_delivery_form_message'))->with($meta);
             } else {
                 return redirect('/');
             }
         }
-        $questions = Question::publish()->paginate(10);
-        return view('frontend.newkien.question', compact('questions', 'mainQuestion', 'page', 'success_delivery_form_message'))->with($meta);
+        $questions = Question::publish()->latest('updated_at')->paginate(10);
+        return view('frontend.'.env('DB_DATABASE').'.question', compact('questions', 'mainQuestion', 'page', 'success_delivery_form_message'))->with($meta);
     }
 
     public function main($value)
@@ -441,7 +478,7 @@ class NKController extends Controller
                 $meta['meta_image'] = url('img/cache/120x120/'.$post->image);
                 $meta['meta_url'] = route('frontend.main', $post->slug.'.html');
 
-                return view('frontend.newkien.post', compact('post', 'latestNews', 'page'))->with($meta);
+                return view('frontend.'.env('DB_DATABASE').'.post', compact('post', 'latestNews', 'page'))->with($meta);
             } else {
                 return redirect('/');
             }
@@ -450,11 +487,19 @@ class NKController extends Controller
 
             if ($category) {
                 if ($category->children->count() == 0) {
+
+                    if (Post::publish()->where('category_id', $category->id)->count() == 1) {
+                        $postOnly = Post::publish()->where('category_id', $category->id)->first();
+                        return redirect(url($postOnly->slug.'.html'));
+                    }
+
                     //child categories
                     $posts = Post::publish()
                         ->where('category_id', $category->id)
                         ->latest('updated_at')
                         ->paginate(10);
+
+
 
                 } else {
                     //parent categories
@@ -475,7 +520,7 @@ class NKController extends Controller
                 $meta['meta_image'] = $this->logo;
                 $meta['meta_url'] = route('frontend.main', $category->slug);
 
-                return view('frontend.newkien.category', compact(
+                return view('frontend.'.env('DB_DATABASE').'.category', compact(
                     'category', 'posts', 'page'
                 ))->with($meta);
             } else {
@@ -539,4 +584,8 @@ class NKController extends Controller
         }
         return Sitemap::render();
     }
+
+    #======================================== END OF CAGAILEO.VN ============================================
+    # if other website is different we need add more function and routes.
+
 }

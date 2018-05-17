@@ -114,9 +114,21 @@ class VideoRequest extends FormRequest
             $data['image'] = $filename;
         }
 
+        $originUpdatedAt = null;
+
+        if ($video->status) {
+            $originUpdatedAt = $video->updated_at;
+        }
+
         $before = json_encode($video->toArray(), true);
         $video->update($data);
         $video->tags()->sync($tagIds);
+
+        if ($originUpdatedAt) {
+            \DB::table('videos')->where('id', $video->id)->update([
+                'updated_at' => $originUpdatedAt
+            ]);
+        }
 
         Event::create([
             'content' => 'videos',
