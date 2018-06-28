@@ -20,7 +20,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $parentCategories = Category::whereNull('parent_id')->get();
+        if (env('ENABLE_SORT_MENU')) {
+            $parentCategories = Category::whereNull('parent_id')->orderBy('sort_menu', 'asc')->get();
+        } else {
+            $parentCategories = Category::whereNull('parent_id')->get();
+        }
+
         $rightNormalQuestionIds = Helpers::getModuleValues('questions', 'right_normal');
         $rightNormalQuestions = Question::whereIn('id', $rightNormalQuestionIds)
             ->publish()

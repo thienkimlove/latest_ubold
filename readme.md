@@ -117,38 +117,3 @@ but keep in `resources/view/frontend/newkien/frontend.blade.php`
 ```textmate
  <link rel="stylesheet" href="{{url('frontend/newkien/css/cagaileo.css')}}" type="text/css"/>
 ```
-
-#### Site Estrogen
-
-This site like `viemgan.com.vn` but using new admin system
-
-Old structure put product as posts in category `San pham`
-
-New structure put product in `Product`.
-
-* Create database
-
-```
-mysql -uroot -ptieungao -e "create database estrogen"
-mysqldump -uroot -ptieungao cagaileo > /tmp/cagaileo.sql
-mysql -uroot -ptieungao estrogen < /tmp/cagaileo.sql
-```
-
-* Edit `/var/www/html/v2_latest/.env` to change `DB_DATABASE=estrogen` and run migration `php artisan migrate` to apply latest migrations.
-
-* Insert old database from `viemgan` for testing.
-
-```
-TRUNCATE table estrogen.categories;
-TRUNCATE table estrogen.posts;
-TRUNCATE table estrogen.post_tag;
-
-
-insert into estrogen.categories (id, name, slug, parent_id) select id, name, slug, parent_id from viemgan.categories
-
-insert into estrogen.posts (id, `title`, slug, category_id, `desc`, `content`, `image`) select id, `title`, slug, category_id, `desc`, `content`, `image` from viemgan.posts
-```
-
-* Copy image files
-`cp -r /var/www/html/new_viemgan/public/files/* /var/www/html/v2_latest/public/files/`
-

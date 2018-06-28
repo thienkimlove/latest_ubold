@@ -52,6 +52,7 @@
              ],
              'posts' => [
                  'top_index' => 'Hiện thị ở Block Top Trang Chủ',
+                 'hot_index' => 'Hiện thị ở Block Tin Nổi Bật Trang chủ',
                  'index_right' => 'Hiện thị Block bên phải Trang chủ',
                  'index_right_share' => 'Hiện thị phần chia sẻ cột phải trang trong',
              ],

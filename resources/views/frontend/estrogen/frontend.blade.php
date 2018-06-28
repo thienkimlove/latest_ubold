@@ -1,8 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-
-
     <meta charset="UTF-8">
     <meta content='GCL' name='generator'/>
     <title>{{$meta_title}}</title>
@@ -13,7 +11,7 @@
     <meta property="og:url" content="{{$meta_url}}">
     <meta property="og:image" content="{{$meta_image}}">
     <meta property="og:site_name" content="Estrogen">
-    <meta property="fb:app_id" content="1718537594891325" />
+    <meta property="fb:app_id" content="2084164801908023" />
 
     <meta name="twitter:card" content="Card">
     <meta name="twitter:url" content="{{$meta_url}}">
@@ -53,7 +51,6 @@
 
 </head>
 <body>
-
 <div class="wrapper home pr">
     @include('frontend.estrogen.header')
      @yield('content')
@@ -64,7 +61,7 @@
 <script>
     window.fbAsyncInit = function() {
         FB.init({
-            appId      : '1718537594891325',
+            appId      : '2084164801908023',
             xfbml      : true,
             version    : 'v2.12'
         });

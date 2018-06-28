@@ -1,10 +1,7 @@
 @extends('frontend.estrogen.frontend')
-
 @section('content')
-
     <section class="body pr">
         <div class="fixCen">
-
             @php
                 $indexTopPosts = \App\Lib\Helpers::getContentByModule('posts', 'top_index')->slice(0, 5);
             @endphp
@@ -39,11 +36,15 @@
                 @endif
             </div>
             <div class="groups">
-
-
+                @foreach (['index_block_1'] as $keyType)
+                    @include('frontend.estrogen.index_block_1', [
+                    'category' => \App\Lib\Helpers::getContentByModule('categories', $keyType)->first(),
+                    'key_type' => $keyType
+                    ])
+                @endforeach
 
                 <div class="left-content">
-                    @foreach (['index_block_1', 'index_block_2'] as $keyType)
+                    @foreach (['index_block_2'] as $keyType)
                         @include('frontend.estrogen.index_block_1', [
                         'category' => \App\Lib\Helpers::getContentByModule('categories', $keyType)->first(),
                         'key_type' => $keyType
@@ -59,13 +60,39 @@
                         </div>
 
                     <div class="block-4">
-                        @foreach (['index_block_3', 'index_block_4'] as $keyType)
+                        @foreach (['index_block_3'] as $keyType)
                             @include('frontend.estrogen.index_block_2', [
                             'category' => \App\Lib\Helpers::getContentByModule('categories', $keyType)->first(),
                              'key_type' => $keyType
                              ])
 
                         @endforeach
+
+
+                            <div class="cam-nang">
+                                <h2>TIN NỔI BẬT</h2>
+                                @if ($posts = \App\Lib\Helpers::getContentByModule('posts', 'hot_index'))
+                                    <div class="post">
+                                        @if ($firstPost = $posts->shift())
+                                            <a href="{{url($firstPost->slug.'.html')}}" class="thumbs" style="background-image: url({{url('files', $firstPost->image)}})">
+                                                <img src="{{url('files', $firstPost->image)}}" alt="" width="326" height="203">
+                                            </a>
+                                            <h4><a href="{{url($firstPost->slug.'.html')}}" class="title"
+                                                   title="{{$firstPost->title}}">{{str_limit($firstPost->title, 50)}}</a>
+                                            </h4>
+                                            <div class="sumary">{{str_limit($firstPost->desc, 120)}}</div>
+
+                                            <div class="related-news">
+                                                @foreach ($posts as $post)
+                                                    <a href="{{url($post->slug.'.html')}}"
+                                                       title="{{$post->title}}">{{str_limit($post->title, 120)}}</a>
+                                                @endforeach
+                                            </div>
+                                        @endif
+                                    </div>
+                                @endif
+                            </div>
+
                     </div>
                 </div>
                 @include('frontend.estrogen.right_content')

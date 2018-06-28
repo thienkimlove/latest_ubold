@@ -1,24 +1,4 @@
-﻿<div class="widget-wrap">
-    <div class="hide-form-phone">
-        <p>Đăng ký nhận tư vấn miễn phí</p>
-    </div>
-    <div class="show-form-phone">
-        <h4>Đăng ký nhận tư vấn miễn phí</h4>
-        <div class="box-show">
-            <p>Chỉ cần đặt câu hỏi, chuyên gia sẽ gọi lại tư vấn cụ thể cho bạn</p>
-            <form id="getQues" action="{{url('saveContact')}}" method="POST">
-                <input type="number" name="phone" id="box_phone" placeholder="Số điện thoại của bạn">
-                <input type="hidden" value="Box Trượt" name="name"/>
-                <input type="hidden" name="_token" value="{{csrf_token()}}"/>
-                <textarea name="content" id="box_content" placeholder="Tình trạng của bạn"></textarea>
-                <input type="text" name="email" id="box_email" placeholder="Tên/ Email của bạn">
-                <button id="box_submit">Gửi đi</button>
-            </form>
-            <p id="box_message" style="display: none"></p>
-        </div>
-    </div>
-</div>
-<div class="banner-ads left">
+﻿<div class="banner-ads left">
     @foreach ($headerIndexBanners as $banner)
         <a href="{{$banner->link}}" title="" target="_blank">
             <img src="{{url('files', $banner->image)}}" alt="" width="171" height="454">
@@ -26,9 +6,9 @@
     @endforeach
 </div>
 <div class="btn-group-fix banner-ads">
-    <a href="https://www.facebook.com/viemgan.com.vn" title="Fanpage"><img
+    <a href="https://www.facebook.com/estrogen.vn" title="Fanpage"><img
                 src="{{url('frontend/estrogen/images/fb-icon.png')}}" alt="Fanpage" width="63" height="63"></a>
-    <a href="tel: 18001190" title="Gọi tư vấn"><img src="{{url('frontend/estrogen/images/call-icon.png')}}"
+    <a href="" title="Gọi tư vấn"><img src="{{url('frontend/estrogen/images/call-icon.png')}}"
                                                     alt="Gọi tư vấn" width="63" height="63"></a>
     <a href="{{url('phan-phoi')}}" title="Mua hàng"><img src="{{url('frontend/estrogen/images/cart-icon.png')}}"
                                                          alt="Giỏ hàng" width="63" height="63"></a>
@@ -41,12 +21,12 @@
         <a href="javascript:void(0)" class="miniMenu-btn pa open-main-nav" data-menu="#main-nav"></a>
     </div>
     <div class="fixCen head-info">
-        <h1 class="rs"><a href="{{url('/')}}" class="logo" title="Viêm gan">
-                <img src="{{url('frontend/estrogen/images/logo.png')}}" alt="Viêm gan" width="170" height="99" class="imgFull">
+        <h1 class="rs"><a href="{{url('/')}}" class="logo" title="estrogen">
+                <img src="{{url('frontend/estrogen/images/logo.png')}}" alt="estrogen" width="170" height="99" class="imgFull">
             </a></h1>
         <span class="slogan">
-                    CỔNG THÔNG TIN VỀ BỆNH VIÊM GAN - XƠ GAN
-                    <i class="small">BẢO TRỢ BỞI HỘI GAN MẬT VIỆT NAM</i>
+                    Chuyên trang thông tin về nội tiết tố nữ estrogen
+                    <i class="small"></i>
                 </span>
         <div class="icon-header">
             <img src="{{url('frontend/estrogen/images/icon.png')}}" alt="" class="imgFull" width="67" height="71">

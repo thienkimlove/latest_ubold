@@ -158,7 +158,7 @@
                 </div>
 
                 <div class="news-home" id="tab-comment" style="display: block">
-                    @foreach (\App\Models\Share::all()->splice(0, 6) as $sharing)
+                    @foreach (\App\Models\Share::all()->splice(0, 9) as $sharing)
                         <article class="item-products">
                             <a href="#" title="" class="thumbs">
                                 <img src="{{url('img/cache/310x530/'.$sharing->image)}}" width="310" height="530" alt=""/>

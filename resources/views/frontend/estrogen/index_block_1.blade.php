@@ -1,5 +1,5 @@
 @if ($subCategories = ($key_type == 'index_block_1') ? \App\Lib\Helpers::getIndexSubCategory($category) : \App\Lib\Helpers::getIndexSubCategory($category, 2))
-<div class="{{($key_type == 'index_block_1') ? 'block-2 pr' : 'block-2 block-3 pr'}}">
+<div class="{{($key_type == 'index_block_1') ? 'block-2 pr special' : 'block-2 block-3 pr'}}">
     <ul class="tabs rs">
         <li class="tab-1 tab active" data-content="#tab-{{($key_type == 'index_block_1')? '1' : '5'}}">
             <h3 class="rs">

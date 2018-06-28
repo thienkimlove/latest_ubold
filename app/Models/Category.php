@@ -30,7 +30,8 @@ class Category extends \Eloquent
         'seo_desc',
         'slug',
         'parent_id',
-        'status'
+        'status',
+        'sort_menu',
     ];
 
     public function parent()

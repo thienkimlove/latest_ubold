@@ -1,21 +1,24 @@
 server {
     listen 80;
-    server_name samtonu.vn;
-
-    return 301 http://www.samtonu.vn$request_uri;
-}
-
-
-
-server {
-    listen 80;
 
     root /var/www/html/v2_latest/public;
     index index.php index.html index.htm;
 
-    server_name www.samtonu.vn;
+    server_name www.samtonu.vn samtonu.vn;
     access_log /var/log/nginx/samtonu.vn_access.log;
     error_log /var/log/nginx/samtonu.vn_error.log;
+
+
+    # Maintenance
+    if (-f /var/www/servers/$server_name/down.html) {
+        return 503;
+    }
+    error_page 503 @maintenance;
+    location @maintenance {
+        root   /var/www/servers/$server_name;
+        rewrite ^(.*)$ /down.html break;
+    }
+
     location / {
         try_files $uri $uri/ /index.php?$query_string;
     }

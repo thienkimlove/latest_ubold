@@ -34,24 +34,23 @@
             <img src="{{url('frontend/estrogen/images/diem-ban-2.png')}}" alt="Điểm bán sản phẩm" width="317" height="76">
         </a>
     </div>
-    <div class="most-readed cf">
-        <h3 class="global-title">
-            <a href="#">BÀI VIẾT NỔI BẬT</a>
-        </h3>
-        <div class="box-bd boxHot">
-            @foreach (\App\Lib\Helpers::getRightIndexPosts() as $rightIndexPost)
-            <div class="item cf">
-                <a href="#" class="thumb">
-                    <img src="{{url('files', $rightIndexPost->image)}}" alt="hot" width="120" height="84">
-                </a>
-                <h4>
-                    <a href="{{url($rightIndexPost->slug.'.html')}}">{{$rightIndexPost->title}}</a>
-                </h4>
-            </div>
-            @endforeach
-        </div>
-    </div>
     <div class="Social">
-        <div class="fb-page" data-href="https://www.facebook.com/viemgan.com.vn" data-width="300" data-hide-cover="false" data-show-facepile="true" data-show-posts="false"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/viemgan.com.vn"><a href="https://www.facebook.com/viemgan.com.vn">PHÒNG BỆNH GAN</a></blockquote></div></div>
+        <div class="fb-page" data-href="https://www.facebook.com/Chuyên-gia-nội-tiết-tố-nữ-estrogen-902648509907211" data-width="300" data-hide-cover="false" data-show-facepile="true" data-show-posts="false"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/Chuyên-gia-nội-tiết-tố-nữ-estrogen-902648509907211"><a href="https://www.facebook.com/Chuyên-gia-nội-tiết-tố-nữ-estrogen-902648509907211">Chuyên gia nội tiết tố nữ estrogen</a></blockquote></div></div>
     </div>
+    @if ($rightQuestions = \App\Lib\Helpers::getRightIndexQuestions())
+        <div class="box-usual-ques">
+            <h3 class="global-title">
+                <a href="{{url('cau-hoi-thuong-gap')}}"> CÂU HỎI THƯỜNG GẶP</a>
+            </h3>
+            <div class="box-bd">
+                @foreach ($rightQuestions as $question)
+                    <div class="item cf item-r">
+                        <h3>
+                            <a href="{{url('cau-hoi-thuong-gap', $question->slug)}}">{{$question->title}}</a>
+                        </h3>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    @endif
 </div>

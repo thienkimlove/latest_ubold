@@ -81,6 +81,18 @@
                             </div>
                         </div>
 
+                        @if (env('ENABLE_SORT_MENU') == 1)
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Thứ tự Menu </label>
+                            <div class="col-md-9">
+                                {!! Form::number('sort_menu', 0, ['id' => 'sort_menu', 'class' => 'form-control', 'placeholder' => 'Thứ tự Menu']) !!}
+                            </div>
+                        </div>
+
+                        @endif
+
+
                         <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right"></label>
                             <div class="col-sm-9">
