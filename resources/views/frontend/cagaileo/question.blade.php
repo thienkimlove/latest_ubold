@@ -12,17 +12,14 @@
                 <div class="box-intro">
                     <div class="some-intro">
                         <div class="pro-img">
-                            <img src="http://www.giaidocgan.vn/frontend/images/bs-img.jpg" alt="" width="206" height="199">
+                            <img src="{{url('frontend/cagaileo/images/bs-img.jpg')}}" alt="" width="206" height="199">
                         </div>
                         <div class="text">
-                            Ban bảo trợ chuyên môn do GS.TS Nguyễn Văn Mùi làm trưởng ban cùng PGS.TS Trịnh Thị Xuân Hòa, Ts.Bs Đinh Quý Lan sẽ giải đáp giúp bạn những thắc mắc về vấn đề gan mật nói chung cũng như bệnh viêm gan virus nói riêng, từ đó cho bạn cái nhìn chuẩn xác nhất về bệnh cũng như phương pháp điều trị hiệu quả. 
-Làm sao để đặt câu hỏi với ban chuyên môn và được giải đáp ?
-                            <br>
-                            Cách 1: Gọi đến tổng đài tư vấn miễn cước: 1800.1190<br>
-                            Cách 2: Gửi câu hỏi cho Thầy thuốc nhân dân, GS.TS Nguyễn Văn Mùi để được chuyên gia trả lời các thắc mắc của bạn theo form dưới đây<br>
-                            Cách 3: Để lại số điện thoại, đội ngũ cố vấn sẽ liên hệ lại cho bạn!.
-                            <br>
-                        </div>
+                            <strong>BẠN HỎI GIẢO SƯ TRẢ LỜI: </strong><br>Vui lòng để lại lời nhắn để được đội ngữ tư vấn giàu kinh nghiệm tư vấn trực tiếp.<br>
+                              Để mua sản phẩm tại hiệu thuốc gần chỗ bạn nhất, vui lòng xem <a href="http://www.cagaileo.vn/phan-phoi">TẠI ĐÂY.</a><br>
+                              Để mua hàng online – giao hàng, thu tiền tại nhà <a href="http://www.cagaileo.vn/phan-phoi"> ĐẶT HÀNG NGAY TẠI ĐÂY.</a>
+                              <br>
+                      </div>
                     </div>
                 </div>
                 <div id="contact">
@@ -87,7 +84,7 @@ Làm sao để đặt câu hỏi với ban chuyên môn và được giải đá
                                     </div>
                                     <span class="answer">Trả lời</span>
                                     <div class="answer-faq">
-                                        <img src="http://www.giaidocgan.vn/frontend/images/bs-img.jpg" alt="" width="58" height="58" class="faq-icon">
+                                        <img src="{{url('frontend/cagaileo/images/bs-img.jpg')}}" alt="" width="58" height="58" class="faq-icon">
                                         <div class="text">
                                             {{$question->answer}}
                                         </div>

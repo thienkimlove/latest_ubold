@@ -39,10 +39,12 @@
                 <div class="clear"></div>
             </div><!--//box-media-->
         </div><!--//col-left-->
-        @include('frontend.cagaileo.right')
+
+
+            @include('frontend.cagaileo.right')
+            <div class="clear"></div>
+        </div><!--//layout-home-->
         <div class="clear"></div>
-    </div><!--//layout-home-->
-    <div class="clear"></div>
-</section>
+    </section>
 
 @endsection

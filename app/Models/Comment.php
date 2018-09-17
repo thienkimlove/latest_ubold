@@ -8,7 +8,7 @@ use DataTables;
 class Comment extends \Eloquent
 {
 
-    protected $fillable = [       
+    protected $fillable = [
         'name',
         'content_id',
         'content_type',
@@ -58,12 +58,19 @@ class Comment extends \Eloquent
                 $url = null;
 
                 if ($comment->content_type == 'posts') {
-                    $slug = Post::find($comment->content_id)->slug;
-                    $url = route('frontend.main', $slug).'.html';
+                    $tempContent = Post::find($comment->content_id);
+                    if ($tempContent) {
+                        $slug = $tempContent->slug;
+                        $url = route('frontend.main', $slug).'.html';
+                    }
+
                 }
                 if ($comment->content_type == 'questions') {
-                    $slug = Question::find($comment->content_id)->slug;
-                    $url = route('frontend.question', $slug);
+                    $tempContent = Question::find($comment->content_id);
+                    if ($tempContent) {
+                        $slug = $tempContent->slug;
+                        $url = route('frontend.question', $slug);
+                    }
                 }
 
                 $response .= '<a class="table-action-btn" title="View post" target="_blank" href="' . $url . '"><i class="fa fa-signing text-warning"></i></a>';
@@ -91,14 +98,14 @@ class Comment extends \Eloquent
                 return $histories;
             })
             ->addColumn('content_name', function($comment) {
-               if ($comment->content_type == 'posts') {
-                   return Post::find($comment->content_id)->title;
-               }
-                if ($comment->content_type == 'questions') {
-                    return Question::find($comment->content_id)->title;
+                if (($comment->content_type == 'posts') && ($tempContent = Post::find($comment->content_id))) {
+                    return $tempContent->title;
+                }
+                if (($comment->content_type == 'questions') && ($tempContent = Question::find($comment->content_id))) {
+                    return $tempContent->title;
                 }
             })
-           ->editColumn('status', function ($comment) {
+            ->editColumn('status', function ($comment) {
                 return config('system.comment_content_status.'.$comment->status);
             })
             ->rawColumns(['action', 'status', 'histories'])

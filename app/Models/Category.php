@@ -64,6 +64,14 @@ class Category extends \Eloquent
             ->get();
     }
 
+    public function getListNewPostAttribute()
+    {
+      return Post::where('category_id', $this->id)->orderBy('id', 'desc')
+            ->publish()
+            ->limit(6)
+            ->get();
+    }
+
     public function getListPostTop1Attribute()
     {
         $categoryIds = [$this->id];

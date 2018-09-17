@@ -3,7 +3,7 @@
         <h3 class="global-title">
             <a href="#">BÀI VIẾT NỔI BẬT</a>
         </h3>
-        @if (!in_array($page, ['video', 'lien-he', 'phan-phoi']))
+        @if (!in_array($page, []))
             <div class="box-bd boxHot">
                 @foreach ($rightNormalPosts as $post)
                     <div class="item cf">

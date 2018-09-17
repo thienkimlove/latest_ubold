@@ -71,7 +71,7 @@
                 <div class="box-hots">
                     <div class="title">
                         <h3 class="global-title">
-                            <a href="{{url('product')}}"><span>Sản phẩm hot</span></a>
+                            <a href="{{url('product')}}"><span>Sản phẩm từ cà gai leo </span></a>
                         </h3>
                     </div>
                     <div class="slide-hots">

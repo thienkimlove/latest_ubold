@@ -47,18 +47,6 @@
                 <div class="boxPaging">
                     @include('frontend.cagaileo.pagination', ['paginate' => $products])
                 </div><!--//news-list-->
-                <ul class="listAdv cf">
-                    <li>
-                        <a href="{{url('phan-phoi')}}">
-                            <img src="{{url('frontend/cagaileo/images/btn01.jpg')}}" alt="">
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{url('lien-he')}}">
-                            <img src="{{url('frontend/cagaileo/images/btn02.jpg')}}" alt="">
-                        </a>
-                    </li>
-                </ul>
                 @foreach ($middleIndexBanner as $banner)
                 <div class="adv">
                     <a href="{{$banner->url}}">

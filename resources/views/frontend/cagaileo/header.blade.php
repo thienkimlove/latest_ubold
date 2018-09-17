@@ -1,4 +1,4 @@
-<div class="hotLine sp">
+﻿<div class="hotLine sp">
     <img src="{{url('frontend/cagaileo/images/hot.png')}}" alt="">
   </div><header class="header">
     <div class="header-mid">
@@ -10,12 +10,9 @@
             </h1>
             <div class="box-slogan">
                 <span>
-                    DƯỢC LIỆU CÀ GAI LEO TUỆ LINH
-                </span>
+                    CÀ GAI LEO - DƯỢC LIỆU QUÝ</span>
                 <span>
-                    Dược liệu sạch cho mọi nhà
-                </span>
-            </div>
+                     CHO BỆNH VIÊM GAN VIRUS VÀ XƠ GAN</span>            </div>
             <div class="box-tk">
                 {!! Form::open(array('url' => 'search', 'method' => 'get')) !!}
                     <input type="text" value="{{ request()->filled('q') ? request()->get('q') : '' }}" placeholder="Từ khóa tìm kiếm" name="q" class="txt"/>

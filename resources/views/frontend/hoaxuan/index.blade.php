@@ -4,6 +4,49 @@
 
     <section class="section fix">
         <div class="layout-home">
+
+            <div class="box-news cf">
+                <div class="title-panel cf">
+                    <div class="title">
+                        <h3 class="global-title">
+                            <a href="{{url($news_category->slug)}}"><span>{{$news_category->name}}</span></a>
+                        </h3>
+                    </div>
+                    <div class="menu-tabs">
+                        <div class="menu-tabs">
+                            <ul class="news-type">
+                                @foreach ($news_category->children as $k=>$sub)
+                                    <li>
+                                        <a href="javascript:void(0)" rel="nofollow" data-type="tab" data-content="tab-{{$k}}" data-parent="news-type" data-reset="news-home" title="{{$sub->name}}">
+                                            {{$sub->name}}
+                                        </a>
+                                    </li>
+                                    @if ($k < ($news_category->children->count() - 1))
+                                        <li class="line">|</li>
+                                    @endif
+                                @endforeach
+                            </ul><!--//news-type-->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="news-home" id="tab-categories" style="display: block">
+                    @foreach ($news_category->list_new_post->splice(0, 6) as $post)
+                        <article class="item-products">
+                            <a href="{{url($post->slug.'.html')}}" title="" class="thumbs">
+                                <img src="{{url('img/cache/310x230/'.$post->image)}}" width="310" height="230" alt=""/>
+                            </a>
+                            <h3>
+                                <a href="{{url($post->slug.'.html')}}" title="">{{str_limit($post->title, 60)}}</a>
+                            </h3>
+                            <p>
+                                {{str_limit($post->desc, 140)}}
+                            </p>
+                        </article>
+                    @endforeach
+                </div>
+
+            </div>
           
             <div class="box-news cf">
                 <div class="title-panel cf">

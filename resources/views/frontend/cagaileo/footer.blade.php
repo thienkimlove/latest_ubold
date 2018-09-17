@@ -5,7 +5,7 @@
             <div class="col-03">
                 <h3>Hỗ trợ khách hàng</h3>
                 <ul class="list-support">
-                    <li><a href="{{ route('frontend.delivery') }}" target="_blank">Hệ thống cửa hàng</a></li>
+                    <li><a href="{{ route('frontend.delivery') }}" target="_blank">Các bệnh về gan</a></li>
                     <li><a href="{{ route('frontend.question') }}" target="_blank">Những câu hỏi thường gặp</a></li>
                     <li><a href="{{ url('phuong-thuc-thanh-toan.html') }}" target="_blank">Phương thức thanh toán</a></li>
                     <li><a href="{{ url('cach-dat-hang-truc-tuyen.html') }}" target="_blank">Hướng dẫn đặt hàng</a></li>
@@ -36,8 +36,8 @@
             <div class="col-03">
                 <div class="reg-sale">
                     <h3>
-                        Đăng ký nhận khuyến mại:
-                        <p>Điền ngay email của bạn để nhận những thông tin khuyến mại của chúng tôi</p>
+                        Đăng ký nhận tin
+                        <p>Điền ngay email của bạn để nhận những thông tin hữu ích của chúng tôi</p>
                     </h3>
                     {!! Form::open(array('url' => 'saveContact')) !!}
                         <input type="text" name="email" placeholder="Nhập địa chỉ email">
@@ -76,8 +76,8 @@
     </div>
     <div class="copyRight">
         <div class="container">
-            <p class="copy">Hỗ trợ điều trị viêm gan vi rút, điều trị men gan cao, xơ gan<br />
-          © 2016 Cà gai leo Tuệ Linh. Vui lòng ghi rõ nguồn khi sử dụng nội dung từ website này.</p>
+            <p class="copy">HỖ TRỢ ĐIỀU TRỊ VIÊM GAN VI RÚT, ĐIỀU TRỊ MEN GAN CAO, XƠ GAN<br />
+            © 2016 VUI LÒNG GHI RÕ NGUỒN KHI SỬ DỤNG NỘI DUNG TỪ WEBSITE NÀY.</p>
       </div>
     </div>
 </footer>

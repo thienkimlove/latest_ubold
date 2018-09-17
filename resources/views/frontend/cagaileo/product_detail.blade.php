@@ -51,10 +51,10 @@
                             </select>
                         </p>
                         <p class="buy-product">
-                            <a href="https://docs.google.com/forms/d/e/1FAIpQLSchHSToVoSGwbqz9SM1rZHhh_8m17edRTIkEdu_U8ahIBKW-g/viewform" target="_blank" class="btn-buy">Mua ngay</a>
+                            <a href="{{url('phan-phoi')}}" target="_blank" class="btn-buy">Mua ngay</a>
                             <a class="guide">Hướng dẫn mua hàng</a>                        </p>
                         <div class="consult">
-                            <p>Dược sỹ tư vấn: <span class="phone">0912571190</span></p>
+                            <p>Dược sỹ tư vấn: <a href="tel: 0912571190">0912571190</a></p>
                             <p class="enter-number">Ngại gọi điện? Vui lòng nhập số điện thoại.</p>
                             <p>
                                 <input id="send_phone_value" type="number" placeholder="Số điện thoại" class="get-phone">
@@ -96,11 +96,11 @@
                         </li>
                         <li>
                             <a href="javascript:void(0)" rel="nofollow" data-type="tab" data-content="tab-research01" data-parent="news-type" data-reset="news-home" title="Nghiên cứu lâm sàng">
-                                Nhận biết bao bì</a>
+                                Bằng chứng khoa học </a>
                         </li>
                         <li>
                             <a href="javascript:void(0)" rel="nofollow" data-type="tab" data-content="tab-video" data-parent="news-type" data-reset="news-home" title="Video">
-                                Hướng dẫn sử dụng
+                                Cảm nhận khách hàng
                             </a>
                         </li>
                     </ul><!--//news-type-->

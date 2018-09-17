@@ -46,6 +46,9 @@ class FrontendController extends Controller
         $meta['meta_image'] = $this->logo;
         $meta['meta_url'] = url('/');
 
+        $news_category = Category::findBySlug('tin-tuc');
+       
+
 
         $topModuleCategoryIds = Helpers::getModuleValues('categories', 'index_1');
 
@@ -89,6 +92,7 @@ class FrontendController extends Controller
             'topIndexCategory',
             'secondIndexCategory',
             'thirdIndexCategory',
+            'news_category',
             'page',
             'hotProducts'))->with($meta);
     }
@@ -125,7 +129,7 @@ class FrontendController extends Controller
         $meta['meta_url'] =route('frontend.video');
 
         $mainVideo = null;
-        $videos = Video::latest('updated_at')->paginate(6);
+        $videos = Video::latest('updated_at')->paginate(12);
         $latestVideos = Video::latest('updated_at')->limit(5)->get();
         if ($videos->count() > 0 && env('DB_DATABASE') != 'samtonu') {
             $mainVideo = $videos->first();

@@ -49,9 +49,7 @@
 <body class="home">
 <div class="wrapper" id="wrapper">
     @include('frontend.cagaileo.header')
-
     @yield('content')
-
     @include('frontend.cagaileo.footer')
     <div class="overlay" id="overlay"></div>
     @include('frontend.cagaileo.mobile_menu')
