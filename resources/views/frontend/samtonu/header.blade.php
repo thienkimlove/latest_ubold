@@ -1,7 +1,7 @@
-<header class="pr">
+﻿<header class="pr">
     <div class="fixCen">
         <h1 class="logo pa">
-            <a href="{{url('product/sam-to-nu')}}" title="Sâm tố nữ">
+            <a href="{{url('product/sam-nhung-to-nu')}}" title="Sâm tố nữ">
                 <img src="{{url('frontend/samtonu/images/logo.png')}}" alt="">
             </a>
         </h1>
@@ -29,14 +29,12 @@
             </div>
             <div class="right pr">
                 <ul class="rs">
-                    <li><a href="{{ url('danh-gia-tac-dung') }}"  title="Đánh giá tác dụng">Đánh giá tác dụng</a>
+                    <li><a href="{{ url('cau-hoi-thuong-gap') }}"  title="Câu hỏi thường gặp">Câu hỏi thường gặp</a>
                         <ul class="subMenu pr">
-                            <li><a href="{{url('trai-nghiem-nguoi-dung')}}" title="Trải nghiệm người dùng" >Trải nghiệm người dùng</a></li>
-                            <li><a href="{{url('y-kien-chuyen-gia')}}" title="Ý kiến chuyên gia" >Ý kiến chuyên gia</a></li>
-                            <li><a href="{{url('cau-hoi-thuong-gap')}}" title="Hỏi đáp" >Hỏi đáp</a></li>
+                            <li><a href="{{url('hoi-dap')}}" title="Hỏi đáp" >Hỏi đáp</a></li>
                         </ul>
                     </li>
-                    <li><a href="{{ url('su-kien-nhan-hang') }}" title="Sự kiện nhãn hàng">Sự kiện nhãn hàng</a>
+                    <li><a href="{{ url('su-kien-nhan-hang') }}" title="Sự kiện nhãn hàng">Tin sự kiện</a>
                         <ul class="subMenu pr">
                             <li><a href="{{url('tin-tuc')}}" title="Tin tức">Tin tức</a></li>
                             <li><a href="{{url('video')}}" title="Video">Video</a></li>

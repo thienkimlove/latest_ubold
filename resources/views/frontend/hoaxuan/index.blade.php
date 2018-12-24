@@ -40,7 +40,7 @@
                                 <a href="{{url($post->slug.'.html')}}" title="">{{str_limit($post->title, 60)}}</a>
                             </h3>
                             <p>
-                                {{str_limit($post->desc, 140)}}
+                                {{str_limit($post->desc, 120)}}
                             </p>
                         </article>
                     @endforeach

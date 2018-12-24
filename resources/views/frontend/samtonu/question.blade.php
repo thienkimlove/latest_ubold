@@ -8,7 +8,7 @@
                     <div class="steps">
                         <h2 class="rs"><a href="{{url('/')}}" title="Trang chủ">Trang chủ</a></h2>
                         <span>|</span>
-                        <h3 class="rs"><a href="{{url('cau-hoi-thuong-gap')}}" title="Hỏi đáp">Hỏi đáp</a></h3>
+                        <h3 class="rs"><a href="{{url('cau-hoi-thuong-gap')}}" title="Câu hỏi thường gặp">Câu hỏi thường gặp</a></h3>
                     </div>
                     <div class="contact-content">
                         <div class="box-intro">
@@ -17,10 +17,8 @@
                                     <img src="{{url('frontend/samtonu/images/img-chuyengia.png')}}" alt="" width="206" height="199">
                                 </div>
                                 <div class="text">
-                                    Vui lòng gọi điện đến tổng đài tư vấn miễn cước 1800 1190 để được các Dược sĩ nhiều
-                                    năm kinh nghiệm tư vấn trực tiếp.
-                                    <br>
-                                    Hoặc gửi câu hỏi cho ThS. BSCK II. Lê Thanh Thúy - Nguyên phó giám đốc bệnh viện Phụ Sản Hà Nội để được chuyên gia trả lời các thắc mắc của bạn <br>
+                                    Vui lòng gọi điện đến tổng đài tư vấn miễn cước 1800 1190 để được các tư vấn viên nhiều
+                                    năm kinh nghiệm tư vấn trực tiếp.<br>
                                     Việc đọc trước những câu hỏi sẽ tiết kiệm thời gian cho bạn. <br>
                                     Ngại gọi điện? Vui lòng để lại số điện thoại, chúng tôi sẽ liên lạc lại cho bạn.
                                     <br>

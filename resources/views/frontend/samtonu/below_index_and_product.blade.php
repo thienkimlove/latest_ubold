@@ -1,6 +1,6 @@
 <div class="block6">
     <div class="fixCen">
-        <h2 class="globalPattern">Chuyên gia đánh giá</h2>
+        <h2 class="globalPattern">Hỏi đáp về nội tiết tố nữ</h2>
         <div class="content">
             <div class="left">
                 <img src="{{url('frontend/samtonu/images/img-chuyengia.png')}}" alt="">
@@ -21,7 +21,7 @@
 </div>
 <div class="block7">
     <div class="fixCen">
-        <h2 class="globalPattern">Chia sẻ người dùng</h2>
+        <h2 class="globalPattern">Các dược quý</h2>
         <div class="content" id="block7_slider">
             @foreach (\App\Lib\Helpers::getContentByModule('shares', 'below_index')->slice(0, 7) as $index => $indexShare)
                 <div class="item">

@@ -376,7 +376,12 @@ class FrontendController extends Controller
 
 
         if ($value) {
-            $product = Product::findBySlug($value);
+            if (strpos($value, 'sam-to-nu')!== FALSE) {
+                $product = Product::where('status', true)->first();
+            } else {
+                $product = Product::findBySlug($value);
+            }
+
 
             if ($product) {
 

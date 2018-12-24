@@ -1,4 +1,4 @@
-@extends('frontend.samtonu.frontend')
+﻿@extends('frontend.samtonu.frontend')
 
 @section('content')
     <div class="body pr">
@@ -53,7 +53,7 @@
                             </div>
                             <div class="fb-cmt-content cmtContent active">
                                 <div class="title">Ý kiến của bạn</div>
-                                <div class="fb-comments" data-href="{{url($post->slug.'.html')}}" data-numposts="2" data-width="100%"></div>
+                                <div class="fb-comments" data-href="{{url($post->slug.'.html')}}" data-numposts="2" data-width="450px, 100%"></div>
                             </div>
                             <div class="default-comments cmtContent">
                                 <div class="title">Bình luận về bài viết</div>
@@ -81,7 +81,7 @@
                             </div>
                         </div>
                         <div class="block16 pr onsubPage">
-                            <h3 class="globalTitle">Tin xem thêm</h3>
+                            <h3 class="globalTitle">Tin liên quan</h3>
                             <div class="content" id="block16_slider">
                                 @foreach ($latestNews as $index => $rPost)
                                     <div class="item item{{$index+1}}">

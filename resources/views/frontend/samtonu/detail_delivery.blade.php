@@ -1,4 +1,4 @@
-@extends('frontend.samtonu.frontend')
+﻿@extends('frontend.samtonu.frontend')
 
 @section('content')
     <div class="body pr">
@@ -23,7 +23,7 @@
                         <div class="pp-chitiet-content">
                             <div class="title">
                                 <a href="{{url('phan-phoi')}}" title="Điểm bán hàng">ĐIỂM BÁN HÀNG</a> <br>
-                                <span>Mời Quý khách chọn Quận/ Huyện để xem điểm bán Giải Độc Gan</span>
+                                <span>Mời Quý khách chọn Quận/ Huyện để xem điểm bán Sâm nhung tố nữ Tuệ Linh</span>
                             </div>
                             <div class="choose-dis">
                                 <select name="district_id" id="district_id">

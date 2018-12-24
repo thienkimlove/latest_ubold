@@ -8,7 +8,7 @@ use DataTables;
 class Comment extends \Eloquent
 {
 
-    protected $fillable = [
+    protected $fillable = [       
         'name',
         'content_id',
         'content_type',
@@ -98,14 +98,14 @@ class Comment extends \Eloquent
                 return $histories;
             })
             ->addColumn('content_name', function($comment) {
-                if (($comment->content_type == 'posts') && ($tempContent = Post::find($comment->content_id))) {
-                    return $tempContent->title;
-                }
+               if (($comment->content_type == 'posts') && ($tempContent = Post::find($comment->content_id))) {
+                   return $tempContent->title;
+               }
                 if (($comment->content_type == 'questions') && ($tempContent = Question::find($comment->content_id))) {
                     return $tempContent->title;
                 }
             })
-            ->editColumn('status', function ($comment) {
+           ->editColumn('status', function ($comment) {
                 return config('system.comment_content_status.'.$comment->status);
             })
             ->rawColumns(['action', 'status', 'histories'])

@@ -35,7 +35,7 @@
                     <a href="tel:18001190">
                         <img src="{{url('frontend/estrogen/images/hotline.png')}}" alt="" width="166" height="56" class="imgFull">
                     </a>
-                    <form action="{{url('tim-kiem')}}" method="GET" class="search-on-top">
+                    <form action="{{url('search')}}" method="GET" class="search-on-top">
                         <input type="text" name="q" placeholder="Tìm kiếm">
                     </form>
                 </span>

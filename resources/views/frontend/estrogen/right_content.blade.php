@@ -25,12 +25,12 @@
     </div>
     @endif
     <div class="box-adv">
-        <a href="tel:18001190">
+        <a href="http://estrogen.vn/he-lo-bi-thuat-hoi-xuan-800-nam-cua-phu-nu-thai-lan.html" target="_blank">
             <img src="{{url('frontend/estrogen/images/tu-van-2.png')}}" alt="Tư vấn miễn phí" width="317" height="76">
         </a>
     </div>
     <div class="box-adv">
-        <a href="{{url('phan-phoi')}}">
+        <a href="http://estrogen.vn/vu-khi-bi-mat-giup-phu-nu-viet-giu-gin-nhan-sac-vuot-thoi-gian.html" target="_blank">
             <img src="{{url('frontend/estrogen/images/diem-ban-2.png')}}" alt="Điểm bán sản phẩm" width="317" height="76">
         </a>
     </div>

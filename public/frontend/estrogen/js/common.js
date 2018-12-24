@@ -87,11 +87,11 @@ function menu(btnClick) {
         var menu = $(this).data('menu');
         if (click == 0) {
             $(menu).addClass('transX0');
-            $(this).css({'background': 'url("http://www.duoclieutuelinh.vn/frontend/images/menu-close.png")'});
+            $(this).css({'background': 'url("http://shop.duoclieutuelinh.vn/frontend/images/menu-close.png")'});
             click++;
         } else {
             $(menu).removeClass('transX0');
-            $(this).css({'background': 'url("http://www.duoclieutuelinh.vn/frontend/images/menu-open.png")'});
+            $(this).css({'background': 'url("http://shop.duoclieutuelinh.vn/frontend/images/menu-open.png")'});
             click--;
         }
     });

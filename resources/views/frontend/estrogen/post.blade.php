@@ -1,4 +1,4 @@
-@extends('frontend.estrogen.frontend')
+﻿@extends('frontend.estrogen.frontend')
 
 @section('content')
     <section class="body pr">
@@ -122,7 +122,7 @@
                         <g:plusone size="tall"></g:plusone>
                         </div>
                         <div class="comment-post">
-                            <div class="fb-comments" data-href="{{url($post->slug.'.html')}}" data-numposts="2" data-width="100%"></div>
+                            <div class="fb-comments" data-href="{{url($post->slug.'.html')}}" data-numposts="5" data-width='450px; 100%'></div><span class="fb-comments-count" data-href="{{url($post->slug.'.html')}}"></span>
                         </div>
                     </div>
                 </div>

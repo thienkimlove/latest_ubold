@@ -12,6 +12,7 @@
     <meta property="og:image" content="{{$meta_image}}">
     <meta property="og:site_name" content="Estrogen">
     <meta property="fb:app_id" content="2084164801908023" />
+    <meta property="fb:admins" content="10201032801257933"/>
 
     <meta name="twitter:card" content="Card">
     <meta name="twitter:url" content="{{$meta_url}}">
@@ -45,37 +46,105 @@
     <link rel="stylesheet" href="{{url('frontend/estrogen/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{url('frontend/estrogen/css/owl.carousel.css')}}">
     <link rel="stylesheet" href="{{url('frontend/estrogen/css/common.css')}}">
-
+    <link rel="stylesheet" type="text/css" href="{{url('frontend/estrogen/css/font-awesome.min.css')}}" media="all">
     <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-570f69bb385fe2f2"></script>
+
+<!-- Eclick Tracking Code -->
+<script type="text/javascript">
+(function () {
+var _eclickq = window._eclickq || (window._eclickq = []);
+if (!_eclickq.loaded) {
+var eclickTracking = document.createElement('script');
+            eclickTracking.async = true;
+            eclickTracking.src = ('https:'==document.location.protocol?'https:':'http:')+'//s.eclick.vn/delivery/retargeting.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(eclickTracking, s);
+            _eclickq.loaded = true;
+                                                                                                            
+}
+_eclickq.push(['addPixelId', 15854
+]);
+})();
+window._eclickq = window._eclickq || [];
+window._eclickq.push(['track', 'PixelInitialized', {}]); 
+</script>
+
+<script type="text/javascript">
+(function () {
+var _eclickq = window._eclickq || (window._eclickq = []);
+if (!_eclickq.loaded) {
+var eclickTracking = document.createElement('script');
+            eclickTracking.async = true;
+            eclickTracking.src = ('https:'==document.location.protocol?'https:':'http:')+'//s.eclick.vn/delivery/retargeting.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(eclickTracking, s);
+            _eclickq.loaded = true;
+                                                                                                            
+}
+_eclickq.push(['addPixelId', 15853
+]);
+})();
+window._eclickq = window._eclickq || [];
+window._eclickq.push(['track', 'PixelInitialized', {}]); 
+</script>
 
 
 </head>
 <body>
+<!-- Load Facebook SDK for JavaScript -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<!-- Your customer chat code -->
+<div class="fb-customerchat"
+  attribution=setup_tool
+  page_id="215329132575996"
+  logged_in_greeting="Chào bạn, bạn cần tư vấn ?"
+  logged_out_greeting="Chào bạn, bạn cần tư vấn ?">
+</div>
 <div class="wrapper home pr">
     @include('frontend.estrogen.header')
      @yield('content')
    @include('frontend.estrogen.footer')
 </div>
 </body>
-<div id="fb-root"></div>
+<!-- Facebook Code Comment-->
 <script>
     window.fbAsyncInit = function() {
         FB.init({
             appId      : '2084164801908023',
             xfbml      : true,
-            version    : 'v2.12'
+            version    : 'v2.6'
         });
-        FB.AppEvents.logPageView();
     };
 
     (function(d, s, id){
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) {return;}
         js = d.createElement(s); js.id = id;
-        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        js.src = "//connect.facebook.net/en_US/sdk.js";
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
 </script>
+
+<div id="fb-root"></div>
+<script>
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6&appId=2084164801908023";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+<!-- Facebook Code Comment-->
+
 
 <script src="{{url('frontend/estrogen/js/jquery-1.11.1.min.js')}}" type="text/javascript"></script>
 <script src="{{url('frontend/estrogen/js/angular.min.js')}}"></script>
@@ -84,17 +153,32 @@
 <script src="{{url('frontend/estrogen/js/jquery.easing.min.js')}}" type="text/javascript"></script>
 <script src="{{url('frontend/estrogen/js/common.js')}}" type="text/javascript"></script>
 
-
-<script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-    ga('create', 'UA-84352576-1', 'auto');
-    ga('send', 'pageview');
-
+<!-- Admicro Tracking Code -->
+<script type="text/javascript">
+(function () {
+	var a = ["//static.amcdn.vn/core/analytics.js", "//static.amcdn.vn/cpa/amc-core.min.js"];
+	for (var i in a) {var b = document.createElement("script");b.type = "text/javascript"; b.async = !0; b.src = a[i];
+	var c = document.getElementsByTagName("script")[0]; c.parentNode.insertBefore(b, c);}
+	window.admicro_analytics_q = window.admicro_analytics_q || [];
+	window.admicro_analytics_q.push({event: "pageviews", domain: "estrogen.vn", id: 2197});
+	window.admicro_cpa_q = window.admicro_cpa_q || [];
+	window.admicro_cpa_q.push(		
+		{event: "retargeting", id: 5548}
+	);
+})();
 </script>
+<!-- End Admicro Tracking Code -->
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-126894104-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-126894104-1');
+</script>
+
 </body>
 <!-- Google Code dành cho Thẻ tiếp thị lại -->
 <script type="text/javascript">

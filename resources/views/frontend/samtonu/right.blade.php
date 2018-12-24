@@ -101,7 +101,7 @@
 
         <div class="most-readed share-exp" id="sidebar">
         <h3 class="globalTitle">
-            <a href="{{url('danh-gia-tac-dung')}}">Đánh giá tác dụng</a>
+            <a href="{{url('danh-gia-tac-dung')}}">Bài đọc nhiều nhất</a>
         </h3>
         <div class="box-bd boxHot">
 
